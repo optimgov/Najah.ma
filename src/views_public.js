@@ -15,7 +15,7 @@ route('/concours', () => {
         </div>
         <div class="grid g3">${fams.map(f => `
           <a class="card card-hover card-link" href="#/concours/${f.id}">
-            <div class="row-between"><span style="font-size:1.5rem">${f.icon}</span>${f.live ? badge('Ouvert', 'good') : badge('Bientôt', 'outline')}</div>
+            <div class="row-between"><span style="color:var(--brand-700)">${icon(f.icon, 28)}</span>${f.live ? badge('Ouvert', 'good') : badge('Bientôt', 'outline')}</div>
             <h3 style="margin-top:11px">${esc(f.short)}</h3>
             <p class="small dim" style="margin:5px 0 10px">${esc(f.tagline)}</p>
             <div class="xsmall muted">${f.specialties.length} spécialité${f.specialties.length > 1 ? 's' : ''} · ${f.specialties.filter(s => s.live).length} ouverte${f.specialties.filter(s => s.live).length > 1 ? 's' : ''}</div>
@@ -32,7 +32,7 @@ route('/concours/:id', r => {
   return shellPublic(`<div class="wrap" style="padding:40px 20px 0">
     <div class="small muted" style="margin-bottom:12px"><a href="#/concours" style="text-decoration:none">Concours</a> › ${esc(f.short)}</div>
     ${pagehead(f.name, f.desc, f.live ? badge('Contenu ouvert', 'good') : badge('Ouverture prochaine', 'outline'))}
-    ${f.places ? `<div class="quota" style="margin-bottom:24px">📊 ${esc(f.places)}</div>` : ''}
+    ${f.places ? `<div class="quota" style="margin-bottom:24px">${icon('chart', 17)} ${esc(f.places)}</div>` : ''}
     <div class="grid" style="grid-template-columns:1.6fr 1fr;gap:26px">
       <div>
         <h2 style="font-size:1.2rem;margin-bottom:12px">Spécialités</h2>
@@ -162,7 +162,7 @@ route('/annales', () => {
           ? `<button class="btn btn-sm btn-primary" onclick="toast('Aperçu du PDF — non inclus dans le prototype')">Consulter</button>`
           : `<a class="btn btn-sm btn-ghost" href="#/tarifs">Débloquer avec Premium</a>`}</div>
       </div>`).join('')}</div>`
-      : `<div class="empty"><div class="e-ico">📄</div><p>Aucune annale ne correspond à ces filtres.</p></div>`}
+      : `<div class="empty"><div class="e-ico">${icon('file', 34)}</div><p>Aucune annale ne correspond à ces filtres.</p></div>`}
   </div>`, 'annales');
 });
 
@@ -212,7 +212,7 @@ route('/calendrier', () => shellPublic(`<div class="wrap" style="padding:40px 20
       }).join('')}</tbody>
     </table>
   </div>
-  <div class="disclaimer mt24"><span>⚠️</span><div><b>Vérifiez toujours la source officielle.</b> Les dates affichées reprennent les annonces publiques disponibles. Elles ne se substituent pas aux publications du ministère et des académies régionales.</div></div>
+  <div class="disclaimer mt24"><span>${icon('flag', 17)}</span><div><b>Vérifiez toujours la source officielle.</b> Les dates affichées reprennent les annonces publiques disponibles. Elles ne se substituent pas aux publications du ministère et des académies régionales.</div></div>
 </div>`, 'calendrier'));
 
 /* ---------------- QCM de démonstration (sans compte) ---------------- */
@@ -223,7 +223,7 @@ route('/demo', () => {
     const score = d.ids.filter(id => d.answers[id] === DATA.questions.find(q => q.id === id).correct).length;
     return shellPublic(`<div class="wrap-narrow" style="padding:44px 20px 0">
       <div class="center">
-        <div style="font-size:2.6rem">${score >= 4 ? '🎯' : score >= 3 ? '👍' : '📘'}</div>
+        <div style="font-size:2.6rem">${icon(score >= 4 ? 'target' : score >= 3 ? 'check' : 'book', 40)}</div>
         <h1 style="font-size:1.9rem;margin-top:8px">${score} bonnes réponses sur ${d.ids.length}</h1>
         <p class="muted">Cinq questions ne suffisent pas à établir un profil. Le diagnostic complet couvre chaque macro-compétence et prend vingt minutes.</p>
       </div>
@@ -271,7 +271,7 @@ route('/tarifs', () => shellPublic(`<div class="wrap" style="padding:40px 20px 0
       <span class="muted small">${esc(p.period)}</span></div>
       <div class="col" style="gap:8px;flex:1">
         ${p.features.map(f => `<div class="row small" style="gap:9px;align-items:flex-start">
-          <span style="color:${f.ok ? 'var(--good-ink)' : 'var(--ink-3)'};flex:none;font-weight:700">${f.ok ? '✓' : '—'}</span>
+          <span style="color:${f.ok ? 'var(--good-ink)' : 'var(--ink-3)'};flex:none">${f.ok ? icon('check',15) : '—'}</span>
           <span style="${f.ok ? '' : 'color:var(--ink-3)'}">${esc(f.t)}</span></div>`).join('')}
       </div>
       <a class="btn ${p.tag ? 'btn-primary' : 'btn-ghost'} btn-block mt16" href="#/app/abonnement">${esc(p.cta)}</a>
@@ -286,7 +286,7 @@ route('/tarifs', () => shellPublic(`<div class="wrap" style="padding:40px 20px 0
 /* ---------------- Certification (page publique) ---------------- */
 route('/certification', () => shellPublic(`<div class="wrap" style="padding:40px 20px 0">
   ${pagehead('Certification des acquis', "Une attestation de niveau délivrée par Najah.ma, vérifiable par un lien public. Elle mesure votre maîtrise sur un pilier du référentiel.")}
-  <div class="disclaimer" style="margin-bottom:26px"><span>⚠️</span><div>
+  <div class="disclaimer" style="margin-bottom:26px"><span>${icon('flag', 17)}</span><div>
     <b>Portée de l'attestation.</b> L'attestation Najah.ma est un document privé. Elle n'a aucune valeur officielle au regard des concours publics, ne remplace aucun diplôme et n'engage ni le ministère de l'Éducation nationale ni les académies régionales. Elle atteste uniquement d'un niveau mesuré sur notre référentiel, à une date donnée.
   </div></div>
   <div class="grid g3">
@@ -350,7 +350,7 @@ function doVerify() {
 function certVerified(c) {
   return `<div class="card" style="border-color:var(--good)">
     <div class="row" style="gap:10px;margin-bottom:14px">
-      <span style="width:34px;height:34px;border-radius:10px;background:var(--good-bg);display:grid;place-items:center;color:var(--good-ink);font-weight:800">✓</span>
+      <span style="width:34px;height:34px;border-radius:10px;background:var(--good-bg);display:grid;place-items:center;color:var(--good-ink)">${icon('check',18)}</span>
       <div><b>Attestation valide</b><div class="xsmall muted">Vérifiée le 4 août 2026</div></div>
     </div>
     <table class="table">
@@ -364,14 +364,14 @@ function certVerified(c) {
     <div class="divider"></div>
     <h3 style="font-size:.95rem;margin-bottom:10px">Détail par compétence</h3>
     ${barsChart(c.breakdown.map(b => ({ label: comp(b.comp).short, value: b.score, color: 'var(--series-1)', tip: b.score + '/100' })), { labelW: 140, aria: 'Scores par compétence' })}
-    <div class="disclaimer mt24"><span>⚠️</span><div><b>Portée.</b> Document privé délivré par Najah.ma. Sans valeur officielle au regard des concours publics, ne remplaçant aucun diplôme.</div></div>
+    <div class="disclaimer mt24"><span>${icon('flag', 17)}</span><div><b>Portée.</b> Document privé délivré par Najah.ma. Sans valeur officielle au regard des concours publics, ne remplaçant aucun diplôme.</div></div>
   </div>`;
 }
 
 function certInvalid(code) {
   return `<div class="card" style="border-color:var(--critical)">
     <div class="row" style="gap:10px">
-      <span style="width:34px;height:34px;border-radius:10px;background:var(--crit-bg);display:grid;place-items:center;color:var(--critical);font-weight:800">✕</span>
+      <span style="width:34px;height:34px;border-radius:10px;background:var(--crit-bg);display:grid;place-items:center;color:var(--critical)">${icon('x',17)}</span>
       <div><b>Aucune attestation ne correspond à ce code</b>
       <div class="small muted">Code saisi : <span class="mono">${esc(code || '—')}</span></div></div>
     </div>

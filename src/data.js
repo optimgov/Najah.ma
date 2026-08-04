@@ -17,7 +17,7 @@ DATA.families = [
     tagline: "Centres régionaux des métiers de l'éducation et de la formation",
     desc: "Concours d'accès aux CRMEF pour la formation des enseignants du primaire, du collège et du qualifiant. Épreuves écrites de sciences de l'éducation, de didactique et de spécialité, puis épreuve orale.",
     places: '19 000 places annoncées en 2025 (source ministérielle secondaire)',
-    icon: '🎓',
+    icon: 'cap',
     specialties: [
       { id: 'fr-sq', name: 'Français — secondaire qualifiant', live: true, candidates: '≈ 8 400 candidats/session', items: 412 },
       { id: 'math-sq', name: 'Mathématiques — secondaire qualifiant', live: true, candidates: '≈ 6 900 candidats/session', items: 388 },
@@ -29,49 +29,49 @@ DATA.families = [
   },
   {
     id: 'inspection', group: 'education', live: false,
-    name: "Inspection de l'enseignement", short: 'Inspection', icon: '🔍',
+    name: "Inspection de l'enseignement", short: 'Inspection', icon: 'compass',
     tagline: 'Concours de recrutement des inspecteurs pédagogiques',
     desc: "Accès au cycle de formation des inspecteurs. Épreuves d'expertise pédagogique, d'encadrement et de législation scolaire.",
     specialties: [{ id: 'insp-peda', name: 'Inspection pédagogique', live: false }, { id: 'insp-plan', name: 'Planification et orientation', live: false }]
   },
   {
     id: 'agregation', group: 'education', live: false,
-    name: "Agrégation", short: 'Agrégation', icon: '📚',
+    name: "Agrégation", short: 'Agrégation', icon: 'book',
     tagline: 'Concours national d\'agrégation',
     desc: "Concours de haut niveau disciplinaire ouvrant l'accès aux classes préparatoires et au qualifiant.",
     specialties: [{ id: 'agr-fr', name: 'Agrégation de français', live: false }, { id: 'agr-math', name: 'Agrégation de mathématiques', live: false }]
   },
   {
     id: 'medecine', group: 'postbac', live: false,
-    name: 'Concours de médecine et pharmacie', short: 'Médecine', icon: '🩺',
+    name: 'Concours de médecine et pharmacie', short: 'Médecine', icon: 'stethoscope',
     tagline: 'FMP Rabat, Casablanca, Marrakech, Fès, Oujda, Agadir',
     desc: "Concours national d'accès aux facultés de médecine et de pharmacie. Épreuves de sciences fondamentales et de raisonnement.",
     specialties: [{ id: 'med-nat', name: 'Concours national de médecine', live: false }]
   },
   {
     id: 'ingenieur', group: 'postbac', live: false,
-    name: "Écoles d'ingénieurs", short: 'Ingénieur', icon: '⚙️',
+    name: "Écoles d'ingénieurs", short: 'Ingénieur', icon: 'gear',
     tagline: 'ENSA, ENSAM, EMI, INPT, EHTP',
     desc: "Concours communs d'accès aux écoles nationales d'ingénieurs après baccalauréat ou classes préparatoires.",
     specialties: [{ id: 'ensa', name: 'Concours ENSA', live: false }, { id: 'cnc', name: 'CNC — filière MP/PSI', live: false }]
   },
   {
     id: 'commerce', group: 'postbac', live: false,
-    name: 'Écoles de commerce et de gestion', short: 'Commerce', icon: '📈',
+    name: 'Écoles de commerce et de gestion', short: 'Commerce', icon: 'chart',
     tagline: 'ENCG, ISCAE',
     desc: "Concours d'accès aux écoles nationales de commerce et de gestion.",
     specialties: [{ id: 'tafem', name: 'TAFEM — ENCG', live: false }, { id: 'iscae', name: 'ISCAE', live: false }]
   },
   {
     id: 'administration', group: 'pro', live: false,
-    name: 'Concours administratifs', short: 'Administration', icon: '🏛️',
+    name: 'Concours administratifs', short: 'Administration', icon: 'columns',
     tagline: 'Administrateurs, rédacteurs, techniciens',
     desc: "Concours de recrutement dans la fonction publique : culture générale, droit administratif, note de synthèse.",
     specialties: [{ id: 'admin-2', name: 'Administrateur 2ᵉ grade', live: false }]
   },
   {
     id: 'sante', group: 'pro', live: false,
-    name: 'Professions de santé — ISPITS', short: 'ISPITS', icon: '⚕️',
+    name: 'Professions de santé — ISPITS', short: 'ISPITS', icon: 'shield',
     tagline: 'Instituts supérieurs des professions infirmières',
     desc: "Concours d'accès aux filières infirmières et techniques de santé.",
     specialties: [{ id: 'ispits-inf', name: 'Soins infirmiers', live: false }]
@@ -1022,7 +1022,7 @@ DATA.i18n = {
 /* ------------------------------------------------------------------ */
 DATA.portals = [
   {
-    id: 'education', icon: '🎓', live: true,
+    id: 'education', icon: 'cap', live: true,
     name: "Métiers de l'éducation",
     door: "Devenir enseignant, inspecteur ou agrégé",
     examples: 'CRMEF · Inspection · Agrégation',
@@ -1036,10 +1036,10 @@ DATA.portals = [
       { k: 'Spécialités ouvertes', v: '2' }
     ],
     free: [
-      { icon: '◎', t: 'Testez votre niveau en 10 questions', d: "Sans compte, sans carte bancaire. Vous obtenez un résultat par compétence, pas seulement un score.", cta: 'Commencer le test', route: '#/essai/education', primary: true },
-      { icon: '📄', t: 'Annales corrigées', d: "Les sujets des sessions passées, avec corrigé, source identifiée et année.", cta: 'Consulter les annales', route: '#/annales' },
-      { icon: '📘', t: 'Fiches et méthodes', d: "Législation, didactique, méthodologie de l'oral. Rédigées par des formateurs, sourcées.", cta: 'Lire les fiches', route: '#/ressources' },
-      { icon: '📅', t: 'Calendrier des concours', d: "Dates d'inscription, épreuves et résultats, avec la source de chaque annonce.", cta: 'Voir le calendrier', route: '#/calendrier' }
+      { icon: 'target', t: 'Testez votre niveau en 10 questions', d: "Sans compte, sans carte bancaire. Vous obtenez un résultat par compétence, pas seulement un score.", cta: 'Commencer le test', route: '#/essai/education', primary: true },
+      { icon: 'file', t: 'Annales corrigées', d: "Les sujets des sessions passées, avec corrigé, source identifiée et année.", cta: 'Consulter les annales', route: '#/annales' },
+      { icon: 'book', t: 'Fiches et méthodes', d: "Législation, didactique, méthodologie de l'oral. Rédigées par des formateurs, sourcées.", cta: 'Lire les fiches', route: '#/ressources' },
+      { icon: 'calendar', t: 'Calendrier des concours', d: "Dates d'inscription, épreuves et résultats, avec la source de chaque annonce.", cta: 'Voir le calendrier', route: '#/calendrier' }
     ],
     proof: 'Q007',
     planWords: {
@@ -1055,7 +1055,7 @@ DATA.portals = [
     ]
   },
   {
-    id: 'postbac', icon: '🩺', live: false,
+    id: 'postbac', icon: 'stethoscope', live: false,
     name: 'Concours post-bac',
     door: 'Médecine, ingénieur, commerce',
     examples: 'Médecine · ENSA · ENCG · ISCAE',
@@ -1069,8 +1069,8 @@ DATA.portals = [
       { k: "Sur liste d'attente", v: '340' }
     ],
     free: [
-      { icon: '📅', t: 'Calendrier des concours', d: "Dates des concours post-bac déjà annoncées, mises à jour à chaque publication officielle.", cta: 'Voir le calendrier', route: '#/calendrier' },
-      { icon: '📘', t: 'Fiches méthodologiques', d: "Organisation des révisions, gestion du temps en épreuve, choix de filière.", cta: 'Lire les fiches', route: '#/ressources' }
+      { icon: 'calendar', t: 'Calendrier des concours', d: "Dates des concours post-bac déjà annoncées, mises à jour à chaque publication officielle.", cta: 'Voir le calendrier', route: '#/calendrier' },
+      { icon: 'book', t: 'Fiches méthodologiques', d: "Organisation des révisions, gestion du temps en épreuve, choix de filière.", cta: 'Lire les fiches', route: '#/ressources' }
     ],
     proof: null,
     planWords: {
@@ -1084,7 +1084,7 @@ DATA.portals = [
     ]
   },
   {
-    id: 'pro', icon: '🏛️', live: false,
+    id: 'pro', icon: 'columns', live: false,
     name: 'Concours professionnels',
     door: 'Fonction publique, santé, technique',
     examples: 'Administration · ISPITS · Douane',
@@ -1098,8 +1098,8 @@ DATA.portals = [
       { k: "Sur liste d'attente", v: '120' }
     ],
     free: [
-      { icon: '📅', t: 'Calendrier des concours', d: "Avis de concours et échéances de candidature, avec la source officielle de chaque annonce.", cta: 'Voir le calendrier', route: '#/calendrier' },
-      { icon: '📘', t: 'Fiches de culture administrative', d: "Repères sur le droit administratif, la note de synthèse et la culture générale.", cta: 'Lire les fiches', route: '#/ressources' }
+      { icon: 'calendar', t: 'Calendrier des concours', d: "Avis de concours et échéances de candidature, avec la source officielle de chaque annonce.", cta: 'Voir le calendrier', route: '#/calendrier' },
+      { icon: 'book', t: 'Fiches de culture administrative', d: "Repères sur le droit administratif, la note de synthèse et la culture générale.", cta: 'Lire les fiches', route: '#/ressources' }
     ],
     proof: null,
     planWords: {

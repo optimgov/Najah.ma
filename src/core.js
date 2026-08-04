@@ -284,6 +284,26 @@ function distractorBars(q) {
   }).join('')}</div>`;
 }
 
+/* Apparition au défilement — désactivée si l'utilisateur réduit les animations */
+let REVEAL, REVEAL_FUSE;
+function bindReveal(root) {
+  const els = (root || document).querySelectorAll('.rise');
+  if (!els.length) return;
+  const can = 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!can) { document.documentElement.classList.remove('js-anim'); return; }
+  document.documentElement.classList.add('js-anim');
+  // Filet de sécurité : rien ne doit rester invisible si l'observateur ne se déclenche pas.
+  clearTimeout(REVEAL_FUSE);
+  REVEAL_FUSE = setTimeout(() => els.forEach(e => e.classList.add('seen')), 2500);
+  if (!REVEAL) REVEAL = new IntersectionObserver(en => {
+    en.forEach(x => { if (x.isIntersecting) { x.target.classList.add('seen'); REVEAL.unobserve(x.target); } });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: .05 });
+  els.forEach(e => {
+    if (e.getBoundingClientRect().top < innerHeight * 1.05) e.classList.add('seen');
+    else REVEAL.observe(e);
+  });
+}
+
 function bindViz(root) {
   (root || document).querySelectorAll('.vz').forEach(el => {
     el.style.cursor = 'default';
@@ -322,6 +342,7 @@ function render() {
   const root = document.getElementById('root');
   root.innerHTML = fn ? fn(r) : notFound();
   bindViz(root);
+  bindReveal(root);
   window.scrollTo(0, 0);
   document.querySelectorAll('[data-autofocus]').forEach(e => e.focus());
   S.sidebarOpen = false;
@@ -329,7 +350,7 @@ function render() {
 
 function notFound() {
   return shellPublic(`<div class="wrap" style="padding:80px 20px"><div class="empty">
-    <div class="e-ico">🧭</div><h2>Page introuvable</h2>
+    <div class="e-ico">${icon('compass', 34)}</div><h2>Page introuvable</h2>
     <p class="muted">Cet écran n'existe pas dans le prototype.</p>
     <a class="btn btn-primary mt16" href="#/">Retour à l'accueil</a></div></div>`);
 }
@@ -337,7 +358,7 @@ function notFound() {
 /* ---------------- Enveloppes ---------------- */
 function demobar() {
   return `<div class="demobar">
-    <span>🧪 Prototype de démonstration — données simulées</span>
+    <span>${icon('bolt', 14)} Prototype de démonstration — données simulées</span>
     <label>Rôle
       <select onchange="setPersona(this.value)">
         ${Object.entries(DATA.personas).map(([k, v]) => `<option value="${k}" ${S.persona === k ? 'selected' : ''}>${esc(v.label)}</option>`).join('')}
@@ -362,7 +383,7 @@ function topbar(active) {
     <nav class="navlinks">${links.map(([h, t, k]) => `<a href="${h}" class="${active === k ? 'on' : ''}">${esc(t)}</a>`).join('')}</nav>
     <span class="spacer"></span>
     <button class="iconbtn" onclick="toggleLang()" title="Français / العربية" aria-label="Changer de langue">${S.lang === 'fr' ? 'ع' : 'FR'}</button>
-    <button class="iconbtn" onclick="toggleTheme()" title="Thème clair / sombre" aria-label="Changer de thème">${S.theme === 'light' ? '◐' : '◑'}</button>
+    <button class="iconbtn" onclick="toggleTheme()" title="Thème clair / sombre" aria-label="Changer de thème">${icon(S.theme === 'light' ? 'moon' : 'sun', 17)}</button>
     ${isLogged()
       ? `<a class="btn btn-primary btn-sm" href="#/app">Mon espace</a>`
       : `<a class="btn btn-quiet btn-sm" href="#/app">${esc(T('nav_login'))}</a>
@@ -400,30 +421,30 @@ function shellPublic(html, active) { return topbar(active) + `<main>${html}</mai
 function sidebar(active) {
   const items = [
     ['g', T('g_prepare')],
-    ['#/app', '◉', T('side_home'), 'home'],
-    ['#/app/diagnostic', '◎', T('side_diag'), 'diag'],
-    ['#/app/entrainement', '✎', T('side_train'), 'train'],
-    ['#/app/coach', '☰', T('side_coach'), 'coach'],
-    ['#/app/carnet', '✦', T('side_book'), 'book'],
+    ['#/app', 'grid', T('side_home'), 'home'],
+    ['#/app/diagnostic', 'target', T('side_diag'), 'diag'],
+    ['#/app/entrainement', 'pen', T('side_train'), 'train'],
+    ['#/app/coach', 'chat', T('side_coach'), 'coach'],
+    ['#/app/carnet', 'bookmark', T('side_book'), 'book'],
     ['g', T('g_verify')],
-    ['#/app/redaction', '✍', T('side_open'), 'open'],
-    ['#/app/simulateur', '⏱', T('side_sim'), 'sim'],
-    ['#/app/progression', '▤', T('side_prog'), 'prog'],
-    ['#/app/certification', '✓', T('side_cert'), 'cert'],
+    ['#/app/redaction', 'file', T('side_open'), 'open'],
+    ['#/app/simulateur', 'timer', T('side_sim'), 'sim'],
+    ['#/app/progression', 'chart', T('side_prog'), 'prog'],
+    ['#/app/certification', 'badge', T('side_cert'), 'cert'],
     ['g', T('g_account')],
-    ['#/app/abonnement', '◈', T('side_sub'), 'sub'],
-    ['#/app/parametres', '⚙', T('side_set'), 'set']
+    ['#/app/abonnement', 'card', T('side_sub'), 'sub'],
+    ['#/app/parametres', 'gear', T('side_set'), 'set']
   ];
   return `<aside class="sidebar ${S.sidebarOpen ? 'open' : ''}" id="sidebar">
     ${items.map(it => it[0] === 'g'
       ? `<div class="group">${esc(it[1])}</div>`
-      : `<a href="${it[0]}" class="${active === it[3] ? 'on' : ''}"><span class="ico">${it[1]}</span>${esc(it[2])}</a>`).join('')}
+      : `<a href="${it[0]}" class="${active === it[3] ? 'on' : ''}"><span class="ico">${icon(it[1], 18)}</span>${esc(it[2])}</a>`).join('')}
     <div class="group">${esc(T('lbl_overview'))}</div>
     <div style="padding:0 11px">
       <div class="small dim">${esc(T('lbl_goal'))} — <bdi>${esc(DATA.profile.session)}</bdi></div>
       <div class="strong" style="font-size:.9rem"><bdi>J−${daysUntil(DATA.profile.targetDate)}</bdi> ${esc(T('lbl_before'))}</div>
       <div class="bar bar-thin mt8"><span style="width:${Math.round((1 - daysUntil(DATA.profile.targetDate) / 157) * 100)}%"></span></div>
-      <div class="xsmall muted mt8">${esc(T('lbl_streak').replace('{n}', DATA.profile.streak))} 🔥</div>
+      <div class="xsmall muted mt8">${icon('bolt', 13)} ${esc(T('lbl_streak').replace('{n}', DATA.profile.streak))}</div>
     </div>
   </aside>`;
 }
@@ -431,7 +452,7 @@ function sidebar(active) {
 function shellApp(html, active) {
   return topbar() + `<div class="applayout">${sidebar(active)}
     <main class="appmain">${html}</main></div>
-    <button class="btn btn-primary fab only-mobile" onclick="toggleSidebar()" aria-label="Ouvrir le menu">☰ Menu</button>`;
+    <button class="btn btn-primary fab only-mobile" onclick="toggleSidebar()" aria-label="Ouvrir le menu">${icon('menu', 18)} Menu</button>`;
 }
 
 function pagehead(title, sub, right) {
@@ -442,7 +463,7 @@ function pagehead(title, sub, right) {
 
 function paywall(what) {
   return `<div class="paywall">
-    <div class="lockicon">🔒</div>
+    <div class="lockicon">${icon('lock', 22)}</div>
     <h3>${esc(what)} fait partie de l'offre Premium</h3>
     <p class="muted" style="max-width:46ch;margin:8px auto 0">Les droits sont vérifiés côté serveur : masquer un bouton ne suffit jamais. Cet écran illustre le mur payant tel qu'il apparaîtra au candidat.</p>
     <div class="row" style="justify-content:center;margin-top:18px">

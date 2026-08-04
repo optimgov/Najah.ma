@@ -6,51 +6,138 @@ const portal = id => DATA.portals.find(p => p.id === id);
 
 /* ---------------- Accueil : on n'argumente pas, on oriente ---------------- */
 route('/', () => shellPublic(`
-  <section class="portal"><div class="wrap">
-    <div class="kicker">Plateforme marocaine de préparation aux concours</div>
-    <h1>Préparez votre concours en sachant exactement quoi travailler.</h1>
-    <p class="lede">Najah.ma ne se contente pas de vous dire que vous vous êtes trompé. Elle vous explique <b>pourquoi</b>, ce qu'il faut corriger, et vérifie quelques jours plus tard que l'erreur a disparu.</p>
-
-    <div class="ask">Quel concours préparez-vous ?</div>
-
-    <div class="doors">
-      ${DATA.portals.map(p => `
-        <a class="door ${p.live ? 'on' : 'soon'}" href="#/p/${p.id}">
-          <div class="dbadge">${p.live ? badge('Ouvert', 'good') : badge('Bientôt', 'outline')}</div>
-          <div class="dico">${p.icon}</div>
-          <h3>${esc(p.name)}</h3>
-          <div class="dsub">${esc(p.door)}</div>
-          <div class="dex">${esc(p.examples)}</div>
-          <div class="dgo">${p.live ? 'Entrer' : "Voir l'avancement"} <span class="arw">→</span></div>
-        </a>`).join('')}
-    </div>
-
-    <div class="trust">
-      <div><b>Chaque erreur est expliquée</b><span>La bonne réponse, mais aussi pourquoi chacune des autres est fausse — avec sa source.</span></div>
-      <div><b>Un suivi par compétence</b><span>Pas un score global, mais une carte de ce que vous maîtrisez vraiment.</span></div>
-      <div><b>Français et arabe</b><span>Interface intégralement bilingue, pensée d'abord pour le téléphone.</span></div>
-    </div>
-  </div></section>
-
-  <section class="wrap" style="padding:56px 20px 0">
-    <div class="grid" style="grid-template-columns:.95fr 1.05fr;gap:38px;align-items:center">
-      <div>
-        <h2>Voici à quoi ressemble une correction</h2>
-        <p class="dim" style="margin-top:12px">Sur la plupart des plateformes, l'écran s'arrête à « mauvaise réponse ». C'est là que le nôtre commence : chaque option fausse est justifiée, le piège fréquent est nommé, la source est citée.</p>
-        <p class="dim">C'est notre critère de publication, pas une option. Aucune question n'entre dans la banque sans cela.</p>
-        <a class="btn btn-primary" href="#/p/education">Essayer sur 10 questions</a>
+  <section class="hero3 zel-host">
+    ${zellige('zh', .055)}
+    <div class="wrap hero3-grid">
+      <div class="rise">
+        <div class="eyebrow">${khatam(13)} Plateforme marocaine de préparation aux concours</div>
+        <h1 class="display" style="margin-top:18px">Préparez votre concours en sachant <em>exactement</em> quoi travailler.</h1>
+        <p class="lede3">Najah.ma ne se contente pas de vous dire que vous vous êtes trompé. Elle vous explique pourquoi, corrige la cause, et vérifie quelques jours plus tard que l'erreur a disparu.</p>
+        <div class="row row-wrap mt24">
+          <a class="btn btn-primary btn-lg" href="#/essai/education">${icon('target', 19)} Tester mon niveau</a>
+          <a class="btn btn-ghost btn-lg" href="#doors">Choisir mon concours</a>
+        </div>
+        <div class="hnote">
+          <span>${icon('check', 15)} Sans compte</span>
+          <span>${icon('check', 15)} Sans carte bancaire</span>
+          <span>${icon('globe', 15)} Français et arabe</span>
+        </div>
       </div>
-      <div>${proofCard('Q007')}</div>
+      <div class="mock rise">${heroMock()}</div>
     </div>
   </section>
 
-  <section class="wrap" style="padding:56px 20px 20px">
-    <div class="card center" style="background:linear-gradient(135deg,var(--brand-800),var(--brand-600));color:#fff;border:0;padding:42px 26px">
-      <h2 style="color:#fff">Commencez par savoir où vous en êtes</h2>
-      <p style="opacity:.92;max-width:52ch;margin:12px auto 0">Dix questions, aucun compte, aucune carte bancaire. Vous obtenez un résultat par compétence — pas seulement une note.</p>
-      <a class="btn btn-lg mt24" style="background:#fff;color:var(--brand-800)" href="#/essai/education">Tester mon niveau</a>
+  <section class="wrap" style="padding:44px 20px 0" id="doors">
+    <div class="snum rise"><i>01</i><span></span></div>
+    <div class="row-between rise" style="margin-bottom:20px">
+      <div><h2>Quel concours préparez-vous ?</h2>
+        <div class="ssub muted small">Chaque filière a son contenu, ses annales et son calendrier.</div></div>
+    </div>
+    <div class="doors">
+      ${DATA.portals.map((p, i) => `
+        <a class="door3 zel-host rise ${p.live ? '' : 'soon'}" href="#/p/${p.id}" style="transition-delay:${i * 70}ms">
+          ${zellige('zd' + i, .045)}
+          <div class="dbadge3">${p.live ? badge('Ouvert', 'good') : badge('Bientôt', 'outline')}</div>
+          <div class="dico3">${icon(p.icon, 26)}</div>
+          <h3>${esc(p.name)}</h3>
+          <div class="dsub3">${esc(p.door)}</div>
+          <div class="dtags">${p.examples.split(' · ').map(x => `<span class="dtag">${esc(x)}</span>`).join('')}</div>
+          <div class="dgo3">${p.live ? 'Entrer' : "Voir l'avancement"} ${icon('arrow', 17, 'ic-flip')}</div>
+        </a>`).join('')}
+    </div>
+    <div class="socialbar rise mt24">
+      <div>${icon('users', 17)} <b>2 400</b> candidats inscrits</div>
+      <div>${icon('file', 17)} <b>800</b> questions publiées</div>
+      <div>${icon('shield', 17)} <b>100 %</b> des distracteurs justifiés</div>
+      <div>${icon('mobile', 17)} <b>Mobile</b> d'abord</div>
+    </div>
+  </section>
+
+  <section class="band-tint" style="margin-top:60px;padding:60px 0"><div class="wrap">
+    <div class="snum rise"><i>02</i><span></span></div>
+    <div class="grid rise" style="grid-template-columns:.92fr 1.08fr;gap:44px;align-items:center">
+      <div>
+        <h2>Voici à quoi ressemble une correction</h2>
+        <p class="dim" style="margin-top:14px">Sur la plupart des plateformes, l'écran s'arrête à « mauvaise réponse ». C'est là que le nôtre commence : chaque option fausse est justifiée, le piège fréquent est nommé, la source officielle est citée avec sa date de validité.</p>
+        <p class="dim">C'est notre critère de publication, pas une option. Aucune question n'entre dans la banque sans cela.</p>
+        <div class="row row-wrap mt24">
+          <a class="btn btn-primary" href="#/essai/education">${icon('play', 18)} Essayer sur 10 questions</a>
+        </div>
+      </div>
+      <div>${proofCard('Q007')}</div>
+    </div>
+  </div></section>
+
+  <section class="wrap" style="padding:60px 20px 0">
+    <div class="snum rise"><i>03</i><span></span></div>
+    <div class="rise" style="margin-bottom:22px"><h2>La méthode N.A.J.A.H.</h2>
+      <div class="ssub muted small">Cinq temps, chacun explicable : vous pouvez toujours demander pourquoi.</div></div>
+    <div class="grid g5">
+      ${[['N', 'target', 'Niveau réel', "Votre maîtrise par compétence, avec le nombre de preuves derrière chaque score."],
+         ['A', 'bulb', "Autopsie de l'erreur", "La cause probable est identifiée, pas seulement le résultat faux."],
+         ['J', 'shield', 'Justification sourcée', "La règle, chaque distracteur, et la source officielle avec sa date."],
+         ['A', 'route', 'Action de remédiation', "Une action courte et ciblée, adaptée au temps dont vous disposez."],
+         ['H', 'refresh', 'Habituation', "Une vérification quelques jours plus tard, dans un autre contexte."]
+        ].map(([L, ic, t, d], i) => `<div class="card lift rise step5" style="transition-delay:${i * 60}ms">
+          <span class="letter">${L}</span>
+          <div class="sico">${icon(ic, 20)}</div>
+          <h3 style="font-size:.98rem">${t}</h3>
+          <p class="small dim" style="margin:7px 0 0">${d}</p></div>`).join('')}
+    </div>
+  </section>
+
+  <section class="wrap" style="padding:60px 20px 0">
+    <div class="snum rise"><i>04</i><span></span></div>
+    <div class="rise" style="margin-bottom:22px"><h2>Ce qu'en disent les candidats</h2>
+      <div class="ssub muted small">Témoignages de démonstration — ils seront remplacés par des retours vérifiés.</div></div>
+    <div class="grid g3">
+      ${[["Je savais que j'étais faible en didactique. Je ne savais pas que je me trompais toujours de la même façon. Le carnet d'erreurs me l'a montré en deux semaines.", 'SB', 'Salma B.', 'CRMEF Français, session 2027'],
+         ["Les corrections expliquent pourquoi les autres réponses sont fausses. C'est bête, mais aucun autre site ne le fait vraiment.", 'YA', 'Youssef A.', 'CRMEF Mathématiques'],
+         ["L'examen blanc reproduit exactement le format. Le jour J, je n'ai pas découvert l'épreuve.", 'HM', 'Hind M.', 'CRMEF Français, admise']
+        ].map(([q, ini, n, r], i) => `<div class="testi rise" style="transition-delay:${i * 70}ms">
+          <div class="tq">${icon('quote', 24)}</div>
+          <p>${esc(q)}</p>
+          <div class="tw"><div class="tav">${ini}</div><div class="tn"><b>${n}</b><span>${r}</span></div></div>
+        </div>`).join('')}
+    </div>
+  </section>
+
+  <section class="wrap" style="padding:60px 20px 24px">
+    <div class="card zel-host rise center" style="background:linear-gradient(150deg,#063a2e,#0a5b48 60%,#0d8168);color:#fff;border:0;padding:52px 26px;border-radius:26px">
+      ${zellige('zc', .06)}
+      <div style="position:relative">
+        <h2 style="color:#fff">Commencez par savoir où vous en êtes</h2>
+        <p style="opacity:.9;max-width:54ch;margin:14px auto 0">Dix questions, aucun compte, aucune carte bancaire. Vous obtenez un résultat par compétence — pas seulement une note.</p>
+        <a class="btn btn-lg mt24" style="background:#fff;color:#06392d" href="#/essai/education">${icon('target', 19)} Tester mon niveau</a>
+      </div>
     </div>
   </section>`, 'home'));
+
+/* Maquette produit du héros : de vrais fragments d'interface, pas une image */
+function heroMock() {
+  return `
+    <div class="m1">
+      <div class="mhead">${icon('chart', 14)} Ma maîtrise</div>
+      ${[['Évaluation des apprentissages', 81, 'var(--good)'],
+         ['Analyse littéraire', 55, 'var(--warn)'],
+         ["Obstacles d'apprentissage", 44, 'var(--critical)']
+        ].map(([l, v, c]) => `<div class="mrow"><span class="lbl">${l}</span>
+          <span class="mbar"><i style="width:${v}%;background:${c}"></i></span>
+          <span class="val">${v}</span></div>`).join('')}
+    </div>
+    <div class="m2">
+      <div class="mhead">${icon('check', 14)} Correction</div>
+      <div class="mopt no"><b>D</b> La loi-cadre 51.17</div>
+      <div class="mopt ok"><b>B</b> La Vision stratégique</div>
+      <div class="mbub" style="margin-top:8px"><b>Pourquoi D est faux —</b> elle traduit juridiquement la Vision, elle ne fixe pas les orientations.</div>
+    </div>
+    <div class="m3">
+      <div class="row" style="gap:10px;align-items:flex-start">
+        <span class="mav"></span>
+        <div class="mbub" style="flex:1;min-width:0"><b>Coach —</b> Commence par la didactique : ton score y a baissé de 6 points, et c'est 7 questions sur 20 à l'épreuve.</div>
+      </div>
+    </div>`;
+}
 
 /* Carte de preuve : une correction réelle, en miniature */
 function proofCard(qid) {
@@ -66,7 +153,7 @@ function proofCard(qid) {
         <div class="choice correct"><span class="k">B</span><span class="t small">${esc(q.choices[1].t)}</span><span class="tagend">Correcte</span></div>
       </div>
       <div class="rationale" style="margin-top:14px">
-        <header>✓ Pourquoi D est faux</header>
+        <header>${icon('check', 17)} Pourquoi D est faux</header>
         <div class="body"><div class="rat-item"><p>${md(q.rationales.D)}</p></div></div>
       </div>
     </div>
@@ -80,10 +167,11 @@ route('/p/:id', r => {
   const fams = p.families.map(f => DATA.families.find(x => x.id === f)).filter(Boolean);
 
   return shellPublic(`
-  <section class="dhero"><div class="wrap">
+  <section class="dhero3 zel-host">${zellige('zp', .04)}<div class="wrap" style="position:relative">
     <div class="crumb"><a href="#/">Accueil</a> › ${esc(p.name)}</div>
+    <div class="eyebrow" style="margin-bottom:14px">${khatam(12)} ${esc(p.examples)}</div>
     <div class="row" style="gap:14px;align-items:flex-start">
-      <div class="dico" style="margin:0">${p.icon}</div>
+      <div class="dicoBig">${icon(p.icon, 30)}</div>
       <div style="flex:1;min-width:260px">
         <div class="row" style="gap:9px"><h1 style="font-size:clamp(1.7rem,3.6vw,2.6rem)">${esc(p.name)}</h1>
           ${p.live ? badge('Contenu ouvert', 'good') : badge('Ouverture prochaine', 'outline')}</div>
@@ -93,41 +181,41 @@ route('/p/:id', r => {
           <a class="btn btn-primary btn-lg" href="#/essai/${p.id}">Tester mon niveau — 10 questions</a>
           <a class="btn btn-ghost btn-lg" href="#free">Voir le contenu gratuit</a>
         </div>
-        <div class="row row-wrap mt16 small muted" style="gap:20px"><span>✓ Sans compte</span><span>✓ Sans carte bancaire</span><span>✓ 4 minutes</span></div>`
+        <div class="row row-wrap mt16 small muted" style="gap:20px"><span>${icon('check',14)} Sans compte</span><span>${icon('check',14)} Sans carte bancaire</span><span>${icon('check',14)} 4 minutes</span></div>`
         : `<div class="row row-wrap mt24"><a class="btn btn-primary btn-lg" href="#waitlist">Être prévenu de l'ouverture</a>
            <a class="btn btn-ghost btn-lg" href="#free">Ce qui est déjà disponible</a></div>`}
       </div>
     </div>
-    <div class="statline">
+    <div class="stat3">
       ${p.stats.map(s => `<div><span>${esc(s.k)}</span><b>${esc(s.v)}</b></div>`).join('')}
     </div>
   </div></section>
 
   <div class="wrap">
     <section class="section">
-      <div class="shead"><h2>Les concours de cette filière</h2>
+      <div class="shead"><div class="snum"><i>01</i><span></span></div><h2>Les concours de cette filière</h2>
         <div class="ssub">Nous n'ouvrons un concours qu'une fois son contenu validé par une double révision. Le reste est annoncé sans être promis.</div></div>
       <div class="grid g3">
         ${fams.map(f => f.live
           ? `<a class="card card-hover card-link" href="#/concours/${f.id}">
-              <div class="row-between"><span style="font-size:1.4rem">${f.icon}</span>${badge('Ouvert', 'good')}</div>
+              <div class="row-between"><span style="color:var(--brand-700)">${icon(f.icon, 26)}</span>${badge('Ouvert', 'good')}</div>
               <h3 style="margin-top:11px">${esc(f.short)}</h3>
               <p class="small dim" style="margin:5px 0 10px">${esc(f.tagline)}</p>
               <div class="xsmall muted">${f.specialties.filter(s => s.live).length} spécialité(s) ouverte(s) sur ${f.specialties.length}</div>
               <div class="dgo" style="margin-top:12px">Découvrir <span class="arw">→</span></div></a>`
           : `<div class="card card-flat" style="opacity:.68">
-              <div class="row-between"><span style="font-size:1.4rem">${f.icon}</span>${badge('Bientôt', 'outline')}</div>
+              <div class="row-between"><span style="color:var(--brand-700)">${icon(f.icon, 26)}</span>${badge('Bientôt', 'outline')}</div>
               <h3 style="margin-top:11px">${esc(f.short)}</h3>
               <p class="small dim" style="margin:5px 0 0">${esc(f.tagline)}</p></div>`).join('')}
       </div>
     </section>
 
     <section class="section" id="free">
-      <div class="shead"><h2>Ce qui est gratuit, tout de suite</h2>
+      <div class="shead"><div class="snum"><i>02</i><span></span></div><h2>Ce qui est gratuit, tout de suite</h2>
         <div class="ssub">Sans compte et sans paiement. Ce n'est pas un extrait bridé : c'est du contenu réellement utilisable, qui sert à juger notre travail avant de payer quoi que ce soit.</div></div>
       <div class="grid ${p.free.length > 2 ? 'g2' : 'g2'}">
         ${p.free.map(f => `<div class="freecard ${f.primary ? 'hot' : ''}">
-          <div class="fico">${f.icon}</div>
+          <div class="fico">${icon(f.icon, 20)}</div>
           <div style="flex:1">
             <h4>${esc(f.t)}</h4><p>${esc(f.d)}</p>
             <a class="btn btn-sm ${f.primary ? 'btn-primary' : 'btn-ghost'}" href="${f.route}">${esc(f.cta)}</a>
@@ -159,7 +247,7 @@ route('/p/:id', r => {
               <span class="muted small">${esc(pl.price === 0 ? 'sans carte bancaire' : pl.period)}</span></div>
             <div class="col" style="gap:8px;flex:1">
               ${words.map(w => `<div class="row small" style="gap:9px;align-items:flex-start">
-                <span style="color:var(--good-ink);flex:none;font-weight:700">✓</span><span style="flex:1;min-width:0">${esc(w)}</span></div>`).join('')}
+                <span style="color:var(--good-ink);flex:none">${icon('check',15)}</span><span style="flex:1;min-width:0">${esc(w)}</span></div>`).join('')}
             </div>
             <a class="btn ${pl.tag ? 'btn-primary' : 'btn-ghost'} btn-block mt16" href="${pl.id === 'free' ? '#/app/onboarding' : '#/app/abonnement'}">${esc(pl.cta)}</a>
           </div>`;
@@ -183,7 +271,7 @@ route('/p/:id', r => {
     </section>`}
 
     <section class="section" style="padding-bottom:20px">
-      <div class="shead"><h2>Questions fréquentes</h2></div>
+      <div class="shead"><div class="snum"><i>05</i><span></span></div><h2>Questions fréquentes</h2></div>
       <div class="grid g2">
         ${p.faq.map(([q, a]) => `<details class="card card-pad-sm">
           <summary style="cursor:pointer;font-weight:650;font-size:.94rem">${esc(q)}</summary>
@@ -216,9 +304,9 @@ route('/essai/:id', r => {
       <h1 style="font-size:clamp(1.7rem,3.4vw,2.4rem)">Test de niveau — ${esc(p.name)}</h1>
       <p class="lede">Dix questions issues de la banque réelle, réparties sur les trois piliers de l'épreuve. Aucun compte, aucune carte bancaire.</p>
       <div class="grid g3 mt24">
-        ${[['⏱', '4 minutes', 'Dix questions, sans chronomètre contraignant'],
-           ['▤', 'Résultat par compétence', 'Pas une note, une carte de vos points forts et faibles'],
-           ['🔓', 'Rien à installer', 'Vous pouvez arrêter et reprendre à tout moment']
+        ${[['timer', '4 minutes', 'Dix questions, sans chronomètre contraignant'],
+           ['chart', 'Résultat par compétence', 'Pas une note, une carte de vos points forts et faibles'],
+           ['lock', 'Rien à installer', 'Vous pouvez arrêter et reprendre à tout moment']
         ].map(([i, t, d]) => `<div class="card card-pad-sm"><div style="font-size:1.3rem">${i}</div>
           <b class="small" style="display:block;margin-top:7px">${t}</b><span class="xsmall muted">${d}</span></div>`).join('')}
       </div>

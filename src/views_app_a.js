@@ -32,14 +32,14 @@ function questionBlock(q, opts) {
     ${diffDots(q.diff)}
     <span class="spacer" style="flex:1"></span>
     ${opts.index ? `<span class="xsmall muted mono"><bdi>${opts.index} / ${opts.total}</bdi></span>` : ''}
-    ${opts.onFlag ? `<button class="iconbtn" style="width:30px;height:30px" onclick="${opts.onFlag}" title="Marquer pour y revenir">${opts.flagged ? '★' : '☆'}</button>` : ''}
+    ${opts.onFlag ? `<button class="iconbtn" style="width:30px;height:30px" onclick="${opts.onFlag}" title="Marquer pour y revenir">${icon('star', 16)}</button>` : ''}
   </div>`;
 
   let rationale = '';
   if (reveal) {
     if (opts.limited && !isPremium()) {
       rationale = `<div class="rationale">
-        <header>◐ ${esc(T('rat_partial'))}</header>
+        <header>${icon('eye', 17)} ${esc(T('rat_partial'))}</header>
         <div class="body">
           <div class="rat-item"><div class="rat-head"><span class="rat-key ok">${q.correct}</span> ${esc(T('rat_ok'))}</div>
             <p>${esc((tr ? tr.rationales : q.rationales)[q.correct])}</p></div>
@@ -52,14 +52,14 @@ function questionBlock(q, opts) {
     } else {
       const rats = tr ? tr.rationales : q.rationales;
       rationale = `<div class="rationale">
-        <header>✓ ${esc(T('rat_header'))}</header>
+        <header>${icon('check', 17)} ${esc(T('rat_header'))}</header>
         <div class="body">
           ${q.choices.map(ch => `<div class="rat-item">
             <div class="rat-head"><span class="rat-key ${ch.k === q.correct ? 'ok' : 'no'}">${ch.k}</span>
               ${esc(ch.k === q.correct ? T('rat_ok') : T('rat_no'))}
               ${ch.k === opts.answer && ch.k !== q.correct ? badge(T('rat_yours'), 'crit') : ''}</div>
             <p>${md(rats[ch.k])}</p></div>`).join('')}
-          <div class="rat-trap"><span>⚑</span><div><b>${esc(T('rat_trap'))}</b> ${md(tr ? tr.trap : q.trap)}</div></div>
+          <div class="rat-trap"><span>${icon('flag', 16)}</span><div><b>${esc(T('rat_trap'))}</b> ${md(tr ? tr.trap : q.trap)}</div></div>
           <div class="rat-source">
             <span><b>${esc(T('source'))} :</b> <bdi>${esc(q.source.ref)}</bdi></span>
             <span><b>${esc(T('rat_loc'))} :</b> <bdi>${esc(q.source.loc)}</bdi></span>
@@ -72,8 +72,8 @@ function questionBlock(q, opts) {
               .replace('{p}', Math.round(q.stats.correct * 100))
               .replace('{n}', q.stats.seen.toLocaleString(S.lang === 'ar' ? 'ar-MA' : 'fr-FR')))}</bdi></div>
             <div class="row" style="gap:6px">
-              <button class="btn btn-sm btn-quiet" onclick="addToBook('${q.id}')">✦ ${esc(T('act_book'))}</button>
-              <button class="btn btn-sm btn-quiet" onclick="reportItem('${q.id}')">⚑ ${esc(T('act_report'))}</button>
+              <button class="btn btn-sm btn-quiet" onclick="addToBook('${q.id}')">${icon('bookmark', 15)} ${esc(T('act_book'))}</button>
+              <button class="btn btn-sm btn-quiet" onclick="reportItem('${q.id}')">${icon('flag', 15)} ${esc(T('act_report'))}</button>
             </div>
           </div>
           <details style="margin-top:12px"><summary class="small muted" style="cursor:pointer">${esc(T('act_distrib'))}</summary>
@@ -263,7 +263,7 @@ function diagResult() {
 
     <h2 style="font-size:1.25rem;margin:32px 0 14px">Votre première recommandation</h2>
     <div class="reco">
-      <div class="icon">◎</div>
+      <div class="icon">${icon('target', 20)}</div>
       <div style="flex:1">
         <h4>Commencer par « ${esc(comp(weakest.comp).name)} »</h4>
         <p class="small dim" style="margin:0">Une série de 10 questions ciblées, puis une question ouverte pour vérifier que vous savez rédiger l'analyse et pas seulement la reconnaître.</p>
@@ -280,7 +280,7 @@ function diagResult() {
         const ok = d.answers[id] === q.correct;
         return `<details class="card card-pad-sm">
           <summary style="cursor:pointer;display:flex;gap:10px;align-items:center">
-            <span class="rat-key ${ok ? 'ok' : 'no'}" style="background:${ok ? 'var(--good)' : 'var(--critical)'};color:#fff">${ok ? '✓' : '✕'}</span>
+            <span class="rat-key ${ok ? 'ok' : 'no'}" style="background:${ok ? 'var(--good)' : 'var(--critical)'};color:#fff">${ok ? icon('check',13) : icon('x',13)}</span>
             <span style="flex:1;font-size:.9rem;font-weight:600">${esc(q.stem.slice(0, 84))}…</span>
             ${badge(comp(q.comp).short)}</summary>
           <div style="margin-top:14px">${questionBlock(q, { answer: d.answers[id], reveal: true, limited: true })}</div>
@@ -339,11 +339,11 @@ route('/app', () => {
           <h3 style="font-size:.98rem">Recommandations</h3>
           <div class="col mt16" style="gap:12px">
             ${[
-              ['✎', 'Série ciblée sur DI2', 'Votre score y a baissé de 6 points en deux semaines.', '#/app/entrainement'],
-              ['✦', 'Revoir 3 fiches du carnet', 'Dont l\'accord du participe passé, revue une seule fois.', '#/app/carnet'],
-              ['⏱', 'Examen blanc n°2', 'Le dernier date de 10 jours. Un point de mesure est utile.', '#/app/simulateur']
+              ['pen', 'Série ciblée sur DI2', 'Votre score y a baissé de 6 points en deux semaines.', '#/app/entrainement'],
+              ['bookmark', 'Revoir 3 fiches du carnet', 'Dont l\'accord du participe passé, revue une seule fois.', '#/app/carnet'],
+              ['timer', 'Examen blanc n°2', 'Le dernier date de 10 jours. Un point de mesure est utile.', '#/app/simulateur']
             ].map(([i, t, d, h]) => `<a class="card card-pad-sm card-link card-hover" href="${h}" style="display:flex;gap:11px;align-items:flex-start">
-              <span style="width:30px;height:30px;border-radius:9px;background:var(--brand-100);display:grid;place-items:center;flex:none">${i}</span>
+              <span style="width:30px;height:30px;border-radius:9px;background:var(--brand-100);display:grid;place-items:center;flex:none;color:var(--brand-700)">${icon(i, 17)}</span>
               <span><b class="small" style="display:block">${t}</b><span class="xsmall muted">${d}</span></span></a>`).join('')}
           </div>
         </div>
@@ -416,7 +416,7 @@ route('/app/entrainement', () => {
           <div class="divider"></div>
           <div class="xsmall muted">Ces pourcentages sont configurables par l'équipe pédagogique et journalisés à chaque génération. Aucun modèle prédictif n'intervient à ce stade.</div>
         </div>
-        ${!isPremium() ? `<div class="quota mt16">⏳ Compte gratuit : ${DATA.profile.quotaUsed} questions sur ${DATA.profile.quotaTotal} utilisées aujourd'hui</div>` : ''}
+        ${!isPremium() ? `<div class="quota mt16">${icon('clock', 16)} Compte gratuit : ${DATA.profile.quotaUsed} questions sur ${DATA.profile.quotaTotal} utilisées aujourd'hui</div>` : ''}
       </div>
     </div>`, 'train');
 });
@@ -506,7 +506,7 @@ function serieReport() {
     </div>
 
     ${ko.length ? `<div class="reco" style="margin-bottom:24px">
-      <div class="icon">→</div><div style="flex:1">
+      <div class="icon">${icon('arrow', 20, 'ic-flip')}</div><div style="flex:1">
         <h4>Prochaine action recommandée</h4>
         <p class="small dim" style="margin:0">Ajoutez les ${ko.length} questions ratées à votre carnet, puis relisez la justification de l'option que vous aviez choisie — pas seulement celle de la bonne réponse.</p>
         <div class="why"><b>${esc(T('why'))}</b> Sur vos erreurs de cette série, ${Math.max(1, Math.round(ko.length * 0.6))} portent sur des compétences déjà identifiées comme fragiles. Relire la justification de son propre choix est ce qui déplace une représentation erronée ; relire la bonne réponse seule ne le fait pas.</div>
@@ -523,7 +523,7 @@ function serieReport() {
         const good = ok.includes(id);
         return `<details class="card card-pad-sm" ${good ? '' : 'open'}>
           <summary style="cursor:pointer;display:flex;gap:10px;align-items:center">
-            <span class="rat-key" style="background:${good ? 'var(--good)' : 'var(--critical)'};color:#fff">${good ? '✓' : '✕'}</span>
+            <span class="rat-key" style="background:${good ? 'var(--good)' : 'var(--critical)'};color:#fff">${good ? icon('check',13) : icon('x',13)}</span>
             <span style="flex:1;font-size:.9rem;font-weight:600">${esc(q.stem.slice(0, 80))}…</span>${badge(comp(q.comp).short)}</summary>
           <div style="margin-top:14px">${questionBlock(q, { answer: s.answers[id], reveal: true })}</div></details>`;
       }).join('')}
@@ -562,7 +562,7 @@ route('/app/carnet', () => {
           <button class="btn btn-sm btn-quiet" onclick="toast('Statut mis à jour')">${e.mastered ? 'Remettre à revoir' : 'Marquer comme maîtrisée'}</button>
         </div></div>`;
     }).join('')}</div>`
-      : `<div class="empty"><div class="e-ico">✦</div><h3>Aucune fiche dans cette vue</h3><p class="small">Les questions ratées y sont ajoutées d'un clic depuis l'écran de correction.</p></div>`}
+      : `<div class="empty"><div class="e-ico">${icon('bookmark', 34)}</div><h3>Aucune fiche dans cette vue</h3><p class="small">Les questions ratées y sont ajoutées d'un clic depuis l'écran de correction.</p></div>`}
   `, 'book');
 });
 

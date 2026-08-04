@@ -70,7 +70,7 @@ function startTimer() {
     S.exam.left--;
     const el = document.getElementById('timer');
     if (el) {
-      el.textContent = '⏱ ' + mmss(S.exam.left);
+      const t = el.querySelector('.tv'); if (t) t.textContent = mmss(S.exam.left);
       el.className = 'timer' + (S.exam.left < 300 ? ' low' : '');
     }
     if (S.exam.left <= 0) { clearInterval(EXAM_TIMER); submitExam(true); }
@@ -84,7 +84,7 @@ function examRun() {
   return shellApp(`
     <div class="exambar">
       <b class="small">${esc(bp.name)}</b>
-      <span id="timer" class="timer ${e.left < 300 ? 'low' : ''}">⏱ ${mmss(e.left)}</span>
+      <span id="timer" class="timer ${e.left < 300 ? 'low' : ''}">${icon('timer',16)}<span class="tv">${mmss(e.left)}</span></span>
       <span class="saveind ${e.saving ? 'saving' : ''}"><span class="dot"></span>${esc(e.saving ? T('saving') : T('saved'))}</span>
       <span class="spacer" style="flex:1"></span>
       <span class="small muted mono"><bdi>${answered} / ${e.ids.length}</bdi> ${esc(T("lbl_answered"))}</span>
@@ -101,7 +101,7 @@ function examRun() {
         <div class="row-between mt24">
           <button class="btn btn-ghost" ${e.i === 0 ? 'disabled' : ''} onclick="S.exam.i--;render()">${esc(T('prev'))}</button>
           <div class="row">
-            <button class="btn btn-quiet" onclick="examFlag('${q.id}')">${e.flags[q.id] ? '★ Marquée' : '☆ Marquer'}</button>
+            <button class="btn btn-quiet" onclick="examFlag('${q.id}')">${icon('star', 16)} ${e.flags[q.id] ? 'Marquée' : 'Marquer'}</button>
             <button class="btn btn-primary" ${e.i + 1 >= e.ids.length ? 'disabled' : ''} onclick="S.exam.i++;render()">${esc(T('next'))}</button>
           </div>
         </div>
@@ -171,7 +171,7 @@ function examReport() {
       <div class="stat"><div class="k">Marquées</div><div class="v mono">${Object.values(e.flags).filter(Boolean).length}</div><div class="s">à revoir en priorité</div></div>
     </div>
 
-    <div class="disclaimer" style="margin-bottom:24px"><span>ℹ️</span><div>
+    <div class="disclaimer" style="margin-bottom:24px"><span>${icon('bulb', 17)}</span><div>
       <b>Ce rapport ne prédit rien.</b> Le seuil indiqué est un repère interne, pas un seuil officiel du concours. Nous n'affichons aucune probabilité de réussite : elle serait mal calibrée tant que nous n'avons pas relié nos résultats à ceux des sessions réelles.</div></div>
 
     <div class="grid" style="grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
@@ -221,7 +221,7 @@ route('/app/redaction', () => {
   if (!isPremium()) return shellApp(`${pagehead('Questions ouvertes')}${paywall("L'évaluation des questions rédigées")}`, 'open');
   return shellApp(`
     ${pagehead('Questions ouvertes', "Le QCM vérifie la reconnaissance. La rédaction vérifie la production — c'est ce que l'épreuve réelle demande.")}
-    <div class="disclaimer" style="margin-bottom:22px"><span>🤖</span><div>
+    <div class="disclaimer" style="margin-bottom:22px"><span>${icon('bulb', 17)}</span><div>
       <b>Correction automatique.</b> Ces copies sont évaluées par un modèle de langage contraint par une grille de critères, pas par un correcteur humain. L'évaluation est indicative : elle vous situe sur des critères explicites, elle ne remplace pas le jugement d'un jury.</div></div>
     <div class="col" style="gap:14px">
       ${DATA.openQuestions.map(o => `<div class="card">
@@ -231,8 +231,8 @@ route('/app/redaction', () => {
         <h3 style="font-size:1.05rem">${esc(o.title)}</h3>
         <p class="small dim" style="margin:8px 0 12px;white-space:pre-line">${esc(o.prompt.split('\n')[0])}</p>
         <div class="row small muted" style="gap:18px;margin-bottom:14px">
-          <span>⏱ ${o.minutes} min conseillées</span><span>✎ ${o.words[0]}–${o.words[1]} mots</span>
-          <span>▤ ${o.rubric.length} critères · ${o.rubric.reduce((a, b) => a + b.max, 0)} points</span></div>
+          <span>${icon('clock',15)} ${o.minutes} min conseillées</span><span>${icon('pen',15)} ${o.words[0]}–${o.words[1]} mots</span>
+          <span>${icon('chart',15)} ${o.rubric.length} critères · ${o.rubric.reduce((a, b) => a + b.max, 0)} points</span></div>
         <div class="row">
           <a class="btn btn-primary btn-sm" href="#/app/redaction/${o.id}">${o.scored ? "Revoir l'évaluation" : 'Composer'}</a>
           <button class="btn btn-quiet btn-sm" onclick="showRubric('${o.id}')">Voir la grille</button></div>
@@ -313,7 +313,7 @@ function openResult(o) {
   const p = Math.round(total / max * 100);
   return shellApp(`
     ${pagehead("Évaluation de votre copie", esc(o.title))}
-    <div class="disclaimer" style="margin-bottom:22px"><span>🤖</span><div>
+    <div class="disclaimer" style="margin-bottom:22px"><span>${icon('bulb', 17)}</span><div>
       <b>Cette copie a été évaluée par une machine.</b> L'appréciation ci-dessous applique la grille critère par critère. Elle ne prétend pas reproduire le jugement d'un jury de concours, et vous pouvez la contester : chaque critère porte un bouton de signalement.</div></div>
 
     <div class="grid" style="grid-template-columns:1fr 1.6fr;gap:20px">
@@ -351,7 +351,7 @@ function openResult(o) {
                 <span class="row" style="gap:10px"><span class="bar" style="width:80px"><span style="width:${ratio * 100}%;background:${ratio >= .7 ? 'var(--good)' : ratio >= .5 ? 'var(--warn)' : 'var(--critical)'}"></span></span>
                 <span class="r-score">${s.score} / ${r.max}</span></span></div>
               <div class="r-comment">${esc(s.comment)}</div>
-              <button class="btn btn-sm btn-quiet" style="margin-top:8px" onclick="toast('Contestation transmise à l\\'équipe pédagogique')">⚑ Contester ce critère</button>
+              <button class="btn btn-sm btn-quiet" style="margin-top:8px" onclick="toast('Contestation transmise à l\\'équipe pédagogique')">${icon('flag', 15)} Contester ce critère</button>
             </div>`;
           }).join('')}
         </div>
@@ -362,7 +362,7 @@ function openResult(o) {
         </div>
 
         <div class="reco mt16">
-          <div class="icon">→</div><div style="flex:1">
+          <div class="icon">${icon('arrow', 20, 'ic-flip')}</div><div style="flex:1">
             <h4>Prochaine étape</h4>
             <p class="small dim" style="margin:0">Réécrire le paragraphe d'analyse en explicitant la représentation de l'élève, puis resoumettre.</p>
             <div class="why"><b>${esc(T('why'))}</b> Votre note la plus basse porte sur le critère « Analyse didactique » (3,5/6), et c'est aussi celui qui pèse le plus dans l'épreuve réelle. Les trois autres critères sont au-dessus du seuil : reprendre toute la copie serait inefficace.</div>
@@ -516,7 +516,7 @@ route('/app/certification', () => {
   if (S.cert && S.cert.running) return certExam();
   return shellApp(`
     ${pagehead('Certification des acquis', "Une attestation de niveau, vérifiable publiquement. Elle mesure votre maîtrise sur un pilier — elle ne vaut pas diplôme.")}
-    <div class="disclaimer" style="margin-bottom:24px"><span>⚠️</span><div>
+    <div class="disclaimer" style="margin-bottom:24px"><span>${icon('flag', 17)}</span><div>
       <b>Portée de l'attestation.</b> Document privé délivré par Najah.ma. Sans valeur officielle au regard des concours publics, ne remplaçant aucun diplôme, n'engageant ni le ministère ni les académies régionales. Elle atteste d'un niveau mesuré sur notre référentiel, à une date donnée.</div></div>
 
     <h2 style="font-size:1.15rem;margin-bottom:12px">Attestation obtenue</h2>
@@ -559,7 +559,7 @@ route('/app/certification', () => {
           <p class="small dim" style="margin:0 0 12px">${esc(c.desc)}</p>
           <div class="col" style="gap:7px">
             ${c.requirements.map(r => `<div class="row small" style="gap:9px;align-items:flex-start">
-              <span style="flex:none;font-weight:800;color:${r.done ? 'var(--good-ink)' : 'var(--ink-3)'}">${r.done ? '✓' : '○'}</span>
+              <span style="flex:none;color:${r.done ? 'var(--good-ink)' : 'var(--ink-3)'}">${r.done ? icon('check',15) : '○'}</span>
               <span style="flex:1;${r.done ? '' : 'color:var(--ink-2)'}">${esc(r.t)}</span>
               <span class="xsmall muted">${esc(r.detail)}</span></div>`).join('')}
           </div>
@@ -600,7 +600,7 @@ function startCert(id) {
         <li>Une seule tentative supplémentaire en cas d'échec, après 30 jours</li>
         <li>Toute sortie de la page est enregistrée et signalée sur l'attestation</li>
       </ul></div>
-    <div class="disclaimer mt16"><span>⚠️</span><div class="xsmall">L'attestation délivrée est un document privé, sans valeur officielle au regard des concours publics.</div></div>
+    <div class="disclaimer mt16"><span>${icon('flag', 17)}</span><div class="xsmall">L'attestation délivrée est un document privé, sans valeur officielle au regard des concours publics.</div></div>
     <div class="row mt16" style="justify-content:flex-end"><button class="btn btn-quiet" onclick="closeModal()">Annuler</button>
       <button class="btn btn-primary" onclick="closeModal();S.cert={id:'${id}',running:true,i:0,answers:{},left:${c.duration * 60}};render()">Je commence</button></div>`);
 }
@@ -614,7 +614,7 @@ function certExam() {
     <div class="exambar" style="border-color:var(--brand-600)">
       <b class="small">Épreuve certifiante</b>
       <span class="badge badge-brand">${esc(c.name)}</span>
-      <span class="timer">⏱ ${mmss(S.cert.left)}</span>
+      <span class="timer">${icon('timer',16)} ${mmss(S.cert.left)}</span>
       <span class="spacer" style="flex:1"></span>
       <span class="small mono muted">${S.cert.i + 1} / ${total}</span>
     </div>
@@ -653,7 +653,7 @@ route('/app/abonnement', () => shellApp(`
           <div class="row mt16"><button class="btn btn-ghost btn-sm" onclick="navigate('#/tarifs')">Passer à l'annuel</button>
             <button class="btn btn-quiet btn-sm" onclick="toast('Gestion de l\\'abonnement — hors périmètre du prototype')">Gérer</button></div>
         ` : `
-          <div class="quota" style="margin-bottom:14px">⏳ ${DATA.profile.quotaUsed} questions sur ${DATA.profile.quotaTotal} utilisées aujourd'hui</div>
+          <div class="quota" style="margin-bottom:14px">${icon('clock', 16)} ${DATA.profile.quotaUsed} questions sur ${DATA.profile.quotaTotal} utilisées aujourd'hui</div>
           <p class="small dim">Le compte gratuit donne accès au diagnostic complet et à un volume quotidien limité. Les corrections intégrales, les séries ciblées, le simulateur complet, le coach et la certification relèvent du premium.</p>
           <a class="btn btn-primary" href="#/tarifs">Voir les offres</a>`}
       </div>
@@ -676,7 +676,7 @@ route('/app/abonnement', () => shellApp(`
         ${[['Banque de questions complète', isPremium()], ['Corrections intégrales', isPremium()], ['Séries ciblées', isPremium()],
            ['Simulateurs complets', isPremium()], ['Questions ouvertes évaluées', isPremium()], ['Coach', isPremium()],
            ['Certification', isPremium()], ['Diagnostic', true], ['Contenu public', true]].map(([t, ok]) =>
-          `<div class="row small" style="gap:8px;padding:6px 0"><span style="color:${ok ? 'var(--good-ink)' : 'var(--ink-3)'};font-weight:700">${ok ? '✓' : '✕'}</span>
+          `<div class="row small" style="gap:8px;padding:6px 0"><span style="color:${ok ? 'var(--good-ink)' : 'var(--ink-3)'};font-weight:700">${ok ? icon('check',13) : icon('x',13)}</span>
            <span style="${ok ? '' : 'color:var(--ink-3)'}">${t}</span></div>`).join('')}
       </div>
     </div>

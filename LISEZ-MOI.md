@@ -1,6 +1,6 @@
 # Najah.ma — Prototype frontend
 
-**Version 2 · 4 août 2026 · Aucune installation requise**
+**Version 3 · 4 août 2026 · Aucune installation requise**
 
 ---
 
@@ -31,6 +31,18 @@ Chaque porte est un mini-site autonome : accroche du segment, concours de la fil
 **Le test de niveau gratuit** se lance sans compte depuis n'importe quelle porte : dix questions réparties sur les trois piliers, un résultat par compétence, une de vos erreurs entièrement corrigée en guise de preuve, puis l'invitation à créer un compte pour conserver le résultat.
 
 Le contenu affiché reste illustratif. Les volumes annoncés dans les portes non ouvertes sont des repères de démonstration.
+
+## Ce qui change en version 3 : l'interface
+
+La direction retenue est **éditoriale premium à identité marocaine**, plutôt que l'esthétique générique des plateformes du benchmark.
+
+- **Plus aucun emoji.** Un jeu de 38 icônes vectorielles dessinées sur une grille commune remplace tous les pictogrammes. C'était le signal « prototype bricolé » le plus visible.
+- **Un motif zellige génératif** en filigrane sur le héros, les portes et les bandeaux d'appel. Discret par construction — il signe sans décorer.
+- **De la profondeur.** Ombres en trois couches, bordures dégradées au survol, surfaces vitrées : les cartes se lisent comme des objets, plus comme des aplats.
+- **Une maquette produit vivante** dans le héros — trois vrais fragments d'interface qui flottent, pas une image.
+- **La méthode N.A.J.A.H.** rendue visible en cinq étapes, reprise du document fonctionnel.
+- **Preuve sociale** : compteurs, témoignages, marqueurs de crédibilité.
+- **Animations d'apparition** au défilement, désactivées automatiquement si le système demande de réduire les animations. L'état masqué n'est appliqué que si le script confirme pouvoir le lever : sans JavaScript, tout reste visible.
 
 ## La barre de démonstration
 

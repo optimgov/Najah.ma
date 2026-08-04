@@ -20,6 +20,7 @@ ${p('styles.css')}
 <body>
 <div id="root"></div>
 <script>
+${p('icons.js')}
 ${p('data.js')}
 ${p('core.js')}
 ${p('views_home.js')}
