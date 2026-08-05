@@ -152,3 +152,31 @@
 /* Le chronomètre est le seul élément autorisé à attirer l'œil */
 :root[data-u="exam"] .timer { font-size: 1.15rem; padding: 7px 15px; letter-spacing: .01em; }
 :root[data-u="exam"] .timer.low { animation: none; }
+
+/* ---- Parcours CRMEF : maîtrise, frise, zones ---- */
+.mpill { display: inline-flex; align-items: center; gap: 7px; padding: 4px 12px; border-radius: 999px;
+  font-size: .8rem; font-weight: 650; color: var(--mc); background: color-mix(in srgb, var(--mc) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mc) 34%, transparent); white-space: nowrap; }
+.mpill.sm { font-size: .74rem; padding: 2px 9px; }
+.mpill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--mc); flex: none; }
+
+.frise { display: flex; align-items: flex-start; gap: 0; overflow-x: auto; padding-bottom: 4px; }
+.fstep { flex: 1; min-width: 92px; text-align: center; position: relative; }
+.fstep::before { content: ""; position: absolute; inset-block-start: 11px; inset-inline-start: -50%;
+  width: 100%; height: 2px; background: var(--line); }
+.fstep:first-child::before { display: none; }
+.fstep.done::before, .fstep.partial::before { background: var(--brand-500); }
+.fstep .fdot { position: relative; z-index: 1; width: 24px; height: 24px; border-radius: 50%; display: grid;
+  place-items: center; margin: 0 auto 8px; background: var(--surface-3); border: 2px solid var(--line); color: #fff; }
+.fstep.partial .fdot { background: var(--surface-2); border-color: var(--brand-500); }
+.fstep.done .fdot { background: var(--brand-600); border-color: var(--brand-600); }
+.fstep .flab { font-size: .76rem; color: var(--ink-3); font-weight: 600; }
+.fstep.done .flab, .fstep.partial .flab { color: var(--ink); }
+
+.chip.muted { opacity: .45; }
+
+/* Les tableaux denses défilent plutôt que de déborder */
+@media (max-width: 720px) {
+  .card > .table, .zone .table, .scroll-x > .table { min-width: 520px; }
+  .card:has(> .table) { overflow-x: auto; }
+}

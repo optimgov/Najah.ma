@@ -8,13 +8,16 @@ route('/app/simulateur', () => {
   if (S.exam && !S.exam.submitted) return examRun();
   if (S.exam && S.exam.submitted) return examReport();
   return shellApp(`
-    ${pagehead('Simulateur de concours', "Examens blancs conformes à un blueprint publié : sections, durée, barème et règles de navigation versionnés.")}
+    ${pagehead('Simulateur (ancien prototype)', "Ces blueprints ne reproduisent aucune épreuve officielle. Les simulations conformes au descriptif se trouvent dans **Mon parcours CRMEF**, une par épreuve.")}
+    <div class="disclaimer" style="margin-bottom:20px"><span>${icon('flag', 17)}</span><div>
+      <b>Écrans conservés pour compatibilité.</b> Ils mélangent les trois épreuves officielles dans un même examen, ce que le concours ne fait pas. Ils sont désormais classés comme diagnostic transversal et entraînement de démonstration.
+      <div class="mt8"><a class="btn btn-sm btn-primary" href="#/app/parcours/crmef/simulations">Aller aux simulations par épreuve</a></div></div></div>
     <div class="col" style="gap:14px">
       ${DATA.blueprints.map(b => `<div class="card">
         <div class="row-between" style="margin-bottom:10px">
           <div><h3 style="font-size:1.05rem">${esc(b.name)}</h3>
             <div class="xsmall muted">Blueprint <span class="mono">${esc(b.id)}</span> · ${esc(b.version)}</div></div>
-          ${isPremium() ? badge('Disponible', 'good') : badge('Premium', 'brand')}
+          ${b.official === false ? badge('Non officiel', 'terra') : ''}${isPremium() ? badge('Disponible', 'good') : badge('Premium', 'brand')}
         </div>
         <div class="grid g4" style="gap:10px;margin:14px 0">
           <div class="stat card-pad-sm"><div class="k">Durée</div><div class="v mono" style="font-size:1.3rem">${b.duration}<span style="font-size:.8rem"> min</span></div></div>
@@ -27,6 +30,8 @@ route('/app/simulateur', () => {
           <tbody>${b.sections.map(s => `<tr><td><b class="small">${esc(s.name)}</b></td>
             <td>${s.comps.map(c => badge(comp(c).short)).join(' ')}</td><td class="num strong">${s.count}</td></tr>`).join('')}</tbody>
         </table>
+        ${b.disclaimer ? `<div class="card card-flat card-pad-sm mt16" style="border-inline-start:3px solid var(--sem-trap)">
+          <div class="xsmall"><b>Statut.</b> ${esc(b.disclaimer)}</div></div>` : ''}
         <div class="card card-flat card-pad-sm mt16">
           <div class="xsmall"><b>Navigation.</b> ${esc(b.navigation)}</div>
           <div class="xsmall" style="margin-top:4px"><b>Barème.</b> ${esc(b.scoring)}</div>
@@ -450,7 +455,7 @@ route('/app/progression', () => {
   if (!isPremium()) return shellApp(`${pagehead('Progression')}${paywall('Le tableau de bord détaillé')}`, 'prog');
   const p = DATA.profile;
   const tab = S.filters.progTab || 'comp';
-  const pillarAgg = DATA.pillars.map(pl => {
+  const pillarAgg = progPillars('crmef').map(pl => {
     const rs = p.mastery.filter(m => comp(m.comp).pillar === pl.id);
     return { label: pl.name, short: pl.name.split(' ')[0], score: Math.round(rs.reduce((a, b) => a + b.score, 0) / rs.length), color: `var(--series-${pl.serie})` };
   });

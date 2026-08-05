@@ -1,6 +1,6 @@
 # Najah.ma — Prototype frontend
 
-**Version 6 · 5 août 2026 · Aucune installation requise**
+**Version 7 · 5 août 2026 · Aucune installation requise**
 
 ---
 
@@ -72,6 +72,20 @@ L'univers est déduit automatiquement de la route et de l'état : entrer en épr
 **Sémantique de couleur.** Un rôle par couleur, jamais porté seul : bonne réponse, réponse fausse, piège pédagogique, action de remédiation, avertissement système. Deux corrections mesurées par rapport à la proposition initiale — le safran a été assombri pour atteindre 3,10:1 sur l'ivoire, et la distinction piège/erreur passe par l'icône et le libellé, la mesure ayant montré qu'aucune teinte de terre cuite ne peut s'éloigner suffisamment du rouge.
 
 **Deux nouveaux fichiers source.** `tokens.css` rassemble toutes les valeurs de conception et les trois univers ; `motion.css` définit les durées autorisées et supprime toute animation en mode examen. Plus aucune couleur n'est écrite en dur ailleurs.
+
+## Version 7 — le parcours CRMEF
+
+Le concours porte désormais son intitulé officiel : **Concours d'accès au cycle de qualification des cadres enseignants des CRMEF**, session de novembre 2025. Il n'est plus confondu avec l'agrégation ni avec les Licences d'Éducation.
+
+**Les trois épreuves sont séparées**, conformément au descriptif : sciences de l'éducation (coef 8, 2 h, arabe ou français), didactique de la langue française (coef 12, 2 h), spécialité langue française (coef 20, 4 h). Chacune a ses domaines et ses poids officiels, et sa propre simulation. Aucun examen ne les mélange plus.
+
+**Un seul parcours est ouvert** : Langue française, secondaire collégial et qualifiant — le descriptif officiel couvre les deux cycles. Les quatorze autres spécialités sont visibles en « Contenu en préparation ».
+
+**La Boucle Najah est fonctionnelle** : réponse → certitude déclarée → correction de chaque distracteur → confusion probable présentée comme hypothèse → source → remédiation → question miroir → rappel différé → mise à jour de la maîtrise, du carnet et de la prochaine mission.
+
+**Tout persiste** dans le navigateur : parcours, diagnostic interrompu, réponses, certitudes, carnet, rappels, simulations. Une double soumission ne crée jamais deux tentatives.
+
+**Ce qui n'est pas affiché**, faute de figurer dans le descriptif : nombre de questions par épreuve, barème, règles de navigation, seuil d'admission. Les écrans indiquent « non communiqué par le descriptif ».
 
 ## La barre de démonstration
 

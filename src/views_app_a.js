@@ -235,7 +235,7 @@ function diagResult() {
   })).sort((a, b) => a.score - b.score);
   const total = d.ids.filter(id => d.answers[id] === DATA.questions.find(q => q.id === id).correct).length;
   const weakest = rows[0];
-  const pillarAgg = DATA.pillars.map(p => {
+  const pillarAgg = progPillars('crmef').map(p => {
     const rs = rows.filter(r => comp(r.comp).pillar === p.id);
     return { label: p.name, short: p.name.split(' ')[0], score: rs.length ? Math.round(rs.reduce((a, b) => a + b.score, 0) / rs.length) : 0, color: `var(--series-${p.serie})` };
   });
@@ -255,7 +255,7 @@ function diagResult() {
     <div class="grid" style="grid-template-columns:1fr 1fr;gap:20px">
       <div class="viz"><h3>Vue par pilier</h3><div class="vsub">Moyenne des compétences évaluées dans chaque pilier</div>
         ${radarChart(pillarAgg, { size: 290 })}
-        <div class="legend">${DATA.pillars.map(p => `<span><i style="background:var(--series-${p.serie})"></i>${esc(p.name)}</span>`).join('')}</div></div>
+        <div class="legend">${progPillars('crmef').map(p => `<span><i style="background:var(--series-${p.serie})"></i>${esc(p.name)}</span>`).join('')}</div></div>
       <div class="viz"><h3>Détail par compétence</h3><div class="vsub">Classé du plus fragile au plus solide</div>
         ${barsChart(rows.map(r => ({ label: comp(r.comp).short, value: r.score, color: `var(--series-${pillarOf(r.comp).serie})`, tip: `${r.score}/100 sur ${r.answers} questions` })), { labelW: 150, aria: 'Score par compétence' })}
         <p class="xsmall muted mt16">Étiquettes de valeur affichées directement, la couleur ne portant jamais seule l'information.</p></div>

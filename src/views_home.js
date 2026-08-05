@@ -48,7 +48,7 @@ route('/', () => shellPublic(`
     <div class="socialbar rise mt24">
       <div>${icon('users', 17)} <b>2 400</b> candidats inscrits</div>
       <div>${icon('cap', 17)} <b>2</b> concours ouverts</div>
-      <div>${icon('file', 17)} <b>1 440</b> questions publiées</div>
+      <div>${icon('file', 17)} <b>38</b> questions publiées</div>
       <div>${icon('shield', 17)} <b>100 %</b> des distracteurs justifiés</div>
       <div>${icon('mobile', 17)} <b>Mobile</b> d'abord</div>
     </div>
@@ -198,12 +198,12 @@ route('/p/:id', r => {
         <div class="ssub">Nous n'ouvrons un concours qu'une fois son contenu validé par une double révision. Le reste est annoncé sans être promis.</div></div>
       <div class="grid g3">
         ${fams.map(f => f.live
-          ? `<a class="card card-hover card-link" href="#/concours/${f.id}">
+          ? `<a class="card card-hover card-link" href="${f.id === 'crmef' ? '#/concours/crmef' : '#/concours/' + f.id}">
               <div class="row-between"><span style="color:var(--brand-700)">${icon(f.icon, 26)}</span>${badge('Ouvert', 'good')}</div>
               <h3 style="margin-top:11px">${esc(f.short)}</h3>
               ${f.entry ? `<div class="dtag" style="display:inline-block;margin:7px 0 0">${esc(f.entry)}</div>` : ''}
               <p class="small dim" style="margin:7px 0 10px">${esc(f.tagline)}</p>
-              <div class="xsmall muted">${f.specialties.filter(s => s.live).length} spécialité(s) ouverte(s) sur ${f.specialties.length}</div>
+              <div class="xsmall muted">${f.specialties.filter(s => s.live).length} parcours ouvert(s) sur ${f.specialties.length}</div>
               <div class="dgo" style="margin-top:12px">Découvrir <span class="arw">→</span></div></a>`
           : `<div class="card card-flat" style="opacity:.68">
               <div class="row-between"><span style="color:var(--brand-700)">${icon(f.icon, 26)}</span>${badge('Bientôt', 'outline')}</div>

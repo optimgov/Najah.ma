@@ -24,11 +24,16 @@ ${p('motion.css')}
 <script>
 ${p('icons.js')}
 ${p('data.js')}
+${p('crmef.js')}
+${p('store.js')}
+${p('loop.js')}
 ${p('core.js')}
 ${p('views_home.js')}
 ${p('views_public.js')}
 ${p('views_app_a.js')}
 ${p('views_app_b.js')}
+${p('views_crmef.js')}
+${p('views_crmef_b.js')}
 
 /* ---------------- Démarrage ---------------- */
 window.addEventListener('hashchange', render);

@@ -32,7 +32,8 @@ route('/concours/:id', r => {
   return shellPublic(`<div class="wrap" style="padding:40px 20px 0">
     <div class="small muted" style="margin-bottom:12px"><a href="#/concours" style="text-decoration:none">Concours</a> › ${esc(f.short)}</div>
     ${pagehead(f.name, f.desc, f.live ? badge('Contenu ouvert', 'good') : badge('Ouverture prochaine', 'outline'))}
-    ${f.places ? `<div class="quota" style="margin-bottom:24px">${icon('chart', 17)} ${esc(f.places)}</div>` : ''}
+    ${f.places ? `<div class="quota" style="margin-bottom:24px">${icon('chart', 17)} ${esc(f.places)}</div>`
+      : f.placesNote ? `<div class="card card-flat card-pad-sm" style="margin-bottom:24px"><span class="xsmall muted">${icon('flag', 14)} ${esc(f.placesNote)}</span></div>` : ''}
     <div class="grid" style="grid-template-columns:1.6fr 1fr;gap:26px">
       <div>
         <h2 style="font-size:1.2rem;margin-bottom:12px">Spécialités</h2>
@@ -40,10 +41,10 @@ route('/concours/:id', r => {
           ${f.specialties.map(s => s.live
             ? `<a class="card card-hover card-link card-pad-sm" href="#/concours/${f.id}/${s.id}">
                 <div class="row-between"><div><b>${esc(s.name)}</b>
-                <div class="xsmall muted">${esc(s.candidates || '')} · ${s.items} questions publiées</div></div>
+                <div class="xsmall muted">${esc(s.note || s.candidates || '')}</div></div>
                 ${badge('Ouvert', 'good')}</div></a>`
             : `<div class="card card-flat card-pad-sm" style="opacity:.62">
-                <div class="row-between"><b>${esc(s.name)}</b>${badge('Bientôt', 'outline')}</div></div>`).join('')}
+                <div class="row-between"><b>${esc(s.name)}</b>${badge(s.editorial === 'en_preparation' ? 'Contenu en préparation' : 'Prochainement disponible', 'outline')}</div></div>`).join('')}
         </div>
       </div>
       <div>
@@ -74,7 +75,7 @@ route('/concours/:fam/:spec', r => {
   <section class="hero" style="padding:44px 0 34px"><div class="wrap">
     <div class="small muted" style="margin-bottom:10px"><a href="#/concours" style="text-decoration:none">Concours</a> › <a href="#/concours/${f.id}" style="text-decoration:none">${esc(f.short)}</a> › ${esc(s.name)}</div>
     <h1 style="font-size:clamp(1.7rem,3.4vw,2.5rem);max-width:22ch">${esc(f.short)} ${esc(s.name)} : préparation complète</h1>
-    <p class="lede">${s.items} questions publiées avec justification de chaque option, ${ann.length} annales corrigées, deux simulateurs conformes au blueprint de l'épreuve et un suivi de maîtrise par compétence.</p>
+    <p class="lede">Chaque question publiée justifie chacune de ses options. ${ann.length} annales corrigées, un suivi de maîtrise par sous-domaine officiel et des simulations par épreuve.</p>
     <div class="row mt24"><a class="btn btn-primary btn-lg" href="#/app/onboarding">Commencer gratuitement</a>
     <a class="btn btn-ghost btn-lg" href="#/demo">Voir 5 questions</a></div>
   </div></section>
@@ -121,11 +122,11 @@ route('/concours/:fam/:spec', r => {
         <div class="card" style="position:sticky;top:86px">
           <h3 style="font-size:1rem">En bref</h3>
           <table class="table" style="margin-top:10px">
-            <tr><td class="muted small">Questions</td><td class="num strong">${s.items}</td></tr>
+            <tr><td class="muted small">Questions</td><td class="num strong">${s.items || '—'}</td></tr>
             <tr><td class="muted small">Annales</td><td class="num strong">${ann.length}</td></tr>
             <tr><td class="muted small">Simulateurs</td><td class="num strong">2</td></tr>
             <tr><td class="muted small">Compétences suivies</td><td class="num strong">${DATA.competencies.filter(c => c.prog === (f.prog || 'crmef')).length}</td></tr>
-            <tr><td class="muted small">Candidats/session</td><td class="num strong">${esc((s.candidates || '').replace('≈ ', '').replace(' candidats/session', ''))}</td></tr>
+            <tr><td class="muted small">Candidats/session</td><td class="num strong">${s.candidates ? esc(s.candidates.replace('≈ ', '').replace(' candidats/session', '')) : '—'}</td></tr>
           </table>
           <a class="btn btn-primary btn-block mt16" href="#/app/onboarding">Diagnostic gratuit</a>
           <a class="btn btn-ghost btn-block" style="margin-top:8px" href="#/tarifs">Voir les tarifs</a>

@@ -66,7 +66,10 @@ const S = {
   coach: [],
   openAnswer: {},
   filters: {},
-  toast: null
+  toast: null,
+  loop: null,        // étape courante de la Boucle Najah
+  loopQid: null,     // question traitée hors diagnostic
+  simRun: null       // simulation en cours
 };
 
 const T = k => (DATA.i18n[S.lang] && DATA.i18n[S.lang][k]) || DATA.i18n.fr[k] || k;
@@ -336,10 +339,10 @@ function currentRoute() {
 function universeOf(r) {
   const p = '/' + r.parts.join('/');
   if (!p.startsWith('/app')) return 'public';
-  const inExam = (S.exam && !S.exam.submitted) || (S.cert && S.cert.running);
+  const inExam = (S.exam && !S.exam.submitted) || (S.cert && S.cert.running) || !!S.simRun;
   return inExam ? 'exam' : 'learn';
 }
-function isFocus() { return (S.exam && !S.exam.submitted) || (S.cert && S.cert.running); }
+function isFocus() { return (S.exam && !S.exam.submitted) || (S.cert && S.cert.running) || !!S.simRun; }
 
 function render() {
   const r = currentRoute();
@@ -442,6 +445,7 @@ function sidebar(active) {
   const items = [
     ['g', T('g_prepare')],
     ['#/app', 'grid', T('side_home'), 'home'],
+    ['#/app/parcours/crmef', 'route', 'Mon parcours CRMEF', 'parcours'],
     ['#/app/diagnostic', 'target', T('side_diag'), 'diag'],
     ['#/app/entrainement', 'pen', T('side_train'), 'train'],
     ['#/app/coach', 'chat', T('side_coach'), 'coach'],

@@ -13,19 +13,36 @@ DATA.families = [
   {
     id: 'crmef', group: 'education', live: true,
     entry: 'Après la licence',
-    name: "CRMEF — Cycle de préparation à l'agrégation et à l'enseignement",
-    short: 'CRMEF',
+    name: "Concours d'accès au cycle de qualification des cadres enseignants des CRMEF",
+    short: 'Concours CRMEF',
     tagline: "Centres régionaux des métiers de l'éducation et de la formation",
-    desc: "Concours d'accès aux CRMEF pour la formation des enseignants du primaire, du collège et du qualifiant. Épreuves écrites de sciences de l'éducation, de didactique et de spécialité, puis épreuve orale.",
-    places: '19 000 places annoncées en 2025 (source ministérielle secondaire)',
+    desc: "Concours d'accès au cycle de qualification des cadres enseignants, dans les Centres régionaux des métiers de l'éducation et de la formation. Trois épreuves écrites distinctes : sciences de l'éducation, didactique de la discipline et spécialité.",
+    places: null,
+    placesNote: "Le nombre de places n'est pas communiqué par le descriptif officiel de la session de novembre 2025.",
     icon: 'cap',
     specialties: [
-      { id: 'fr-sq', name: 'Français — secondaire qualifiant', live: true, candidates: '≈ 8 400 candidats/session', items: 412 },
-      { id: 'math-sq', name: 'Mathématiques — secondaire qualifiant', live: true, candidates: '≈ 6 900 candidats/session', items: 388 },
-      { id: 'ar-sc', name: 'Arabe — secondaire collégial', live: false },
-      { id: 'svt-sq', name: 'SVT — secondaire qualifiant', live: false },
-      { id: 'prim', name: 'Enseignement primaire — polyvalent', live: false },
-      { id: 'angl-sq', name: 'Anglais — secondaire qualifiant', live: false }
+      /* Identifiant fr-sq PRÉSERVÉ pour compatibilité. Le descriptif officiel
+         de langue française couvre en réalité les DEUX cycles du secondaire. */
+      { id: 'fr-sq', name: 'Langue française — secondaire collégial et qualifiant', live: true,
+        editorial: 'ouvert', cycles: ['college', 'qualifiant'], prog: 'crmef',
+        candidates: null, items: null,
+        note: "Descriptif officiel commun aux deux cycles du secondaire." },
+      /* Identifiant math-sq PRÉSERVÉ. Aucune taxonomie, aucune banque, aucune
+         validation pédagogique : le parcours ne peut pas être présenté comme opérationnel. */
+      { id: 'math-sq', name: 'Mathématiques', live: false, editorial: 'en_preparation' },
+      { id: 'ar-sc', name: 'Langue arabe', live: false, editorial: 'en_preparation' },
+      { id: 'angl-sq', name: 'Langue anglaise', live: false, editorial: 'en_preparation' },
+      { id: 'svt-sq', name: 'Sciences de la vie et de la Terre', live: false, editorial: 'en_preparation' },
+      { id: 'pc-sq', name: 'Physique-chimie', live: false, editorial: 'en_preparation' },
+      { id: 'info-sq', name: 'Informatique', live: false, editorial: 'en_preparation' },
+      { id: 'philo-sq', name: 'Philosophie', live: false, editorial: 'en_preparation' },
+      { id: 'hg-sq', name: 'Histoire-géographie', live: false, editorial: 'en_preparation' },
+      { id: 'islam-sq', name: 'Éducation islamique', live: false, editorial: 'en_preparation' },
+      { id: 'eps-sq', name: 'Éducation physique et sportive', live: false, editorial: 'en_preparation' },
+      { id: 'techno-sq', name: 'Technologie', live: false, editorial: 'en_preparation' },
+      { id: 'eco-sq', name: 'Économie et gestion', live: false, editorial: 'en_preparation' },
+      { id: 'prim', name: 'Enseignement primaire — bilingue', live: false, editorial: 'en_preparation' },
+      { id: 'prim-amz', name: 'Enseignement primaire — amazighe', live: false, editorial: 'en_preparation' }
     ]
   },
   {
@@ -718,8 +735,10 @@ DATA.openQuestions = [
 /* ------------------------------------------------------------------ */
 DATA.blueprints = [
   {
-    id: 'BP-CRMEF-FR-01', version: 'v3 — publiée le 12/06/2026',
-    name: 'Examen blanc n°1 — Épreuve écrite CRMEF Français',
+    id: 'BP-CRMEF-FR-01', version: 'v3 — prototype, non officiel',
+    kind: 'diagnostic_transversal', official: false,
+    disclaimer: "Ancien blueprint prototype. Il mélange les trois épreuves officielles et ne reproduit AUCUNE épreuve du concours. Conservé comme diagnostic transversal de démonstration.",
+    name: 'Diagnostic transversal (ancien prototype, non officiel)',
     duration: 90, questionCount: 20, pass: 10,
     navigation: 'Retour aux questions précédentes autorisé. Ordre fixe. Validation finale explicite.',
     scoring: 'Une bonne réponse : 1 point. Réponse fausse ou absence de réponse : 0. Pas de points négatifs.',
@@ -730,8 +749,10 @@ DATA.blueprints = [
     ]
   },
   {
-    id: 'BP-CRMEF-FR-02', version: 'v1 — publiée le 03/07/2026',
-    name: 'Examen blanc n°2 — Format renforcé',
+    id: 'BP-CRMEF-FR-02', version: 'v1 — prototype, non officiel',
+    kind: 'entrainement_demo', official: false,
+    disclaimer: "Ancien blueprint prototype, non officiel. Conservé comme entraînement de démonstration. Les simulations conformes se trouvent dans le parcours CRMEF, une par épreuve.",
+    name: 'Entraînement de démonstration (ancien prototype, non officiel)',
     duration: 120, questionCount: 26, pass: 12,
     navigation: 'Retour autorisé. Ordre aléatoire par section. Verrouillage après soumission.',
     scoring: 'Une bonne réponse : 1 point. Pas de points négatifs.',
@@ -1034,9 +1055,9 @@ DATA.portals = [
     families: ['licence-education', 'crmef', 'inspection', 'agregation'],
     stats: [
       { k: 'Concours ouverts', v: '2' },
-      { k: 'Questions publiées', v: '1 440' },
-      { k: 'Compétences suivies', v: '23' },
-      { k: 'Spécialités ouvertes', v: '4' }
+      { k: 'Questions publiées', v: '38' },
+      { k: 'Sous-domaines officiels', v: '25' },
+      { k: 'Parcours ouverts', v: '2' }
     ],
     free: [
       { icon: 'target', t: 'Testez votre niveau en 10 questions', d: "Sans compte, sans carte bancaire. Choisissez votre concours — Licence d'Éducation ou CRMEF — et obtenez un résultat par compétence, pas seulement un score.", cta: 'Commencer le test', route: '#/essai/education', primary: true },
@@ -1047,7 +1068,7 @@ DATA.portals = [
     proof: 'Q007',
     planWords: {
       free: ['Test de niveau complet', '10 questions par jour', 'Aperçu de votre profil de compétences', 'Mini-simulateur', 'Annales sélectionnées'],
-      premium: ['800 questions CRMEF avec chaque distracteur justifié', 'Annales corrigées intégrales', 'Séries ciblées sur vos points faibles', 'Examens blancs conformes au blueprint', "Carnet d'erreurs et suivi par compétence"],
+      premium: ['Banque CRMEF avec chaque distracteur justifié', 'Annales corrigées intégrales', 'Séries ciblées sur vos points faibles', 'Examens blancs conformes au blueprint', "Carnet d'erreurs et suivi par compétence"],
       annual: ['Tout le contenu Premium', "Accès garanti jusqu'après la session", 'Deux mois offerts', 'Priorité sur les nouvelles spécialités']
     },
     faq: [

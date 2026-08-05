@@ -1024,6 +1024,34 @@ html.js-anim .rise.seen { opacity: 1; transform: none; }
 :root[data-u="exam"] .timer { font-size: 1.15rem; padding: 7px 15px; letter-spacing: .01em; }
 :root[data-u="exam"] .timer.low { animation: none; }
 
+/* ---- Parcours CRMEF : maîtrise, frise, zones ---- */
+.mpill { display: inline-flex; align-items: center; gap: 7px; padding: 4px 12px; border-radius: 999px;
+  font-size: .8rem; font-weight: 650; color: var(--mc); background: color-mix(in srgb, var(--mc) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--mc) 34%, transparent); white-space: nowrap; }
+.mpill.sm { font-size: .74rem; padding: 2px 9px; }
+.mpill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--mc); flex: none; }
+
+.frise { display: flex; align-items: flex-start; gap: 0; overflow-x: auto; padding-bottom: 4px; }
+.fstep { flex: 1; min-width: 92px; text-align: center; position: relative; }
+.fstep::before { content: ""; position: absolute; inset-block-start: 11px; inset-inline-start: -50%;
+  width: 100%; height: 2px; background: var(--line); }
+.fstep:first-child::before { display: none; }
+.fstep.done::before, .fstep.partial::before { background: var(--brand-500); }
+.fstep .fdot { position: relative; z-index: 1; width: 24px; height: 24px; border-radius: 50%; display: grid;
+  place-items: center; margin: 0 auto 8px; background: var(--surface-3); border: 2px solid var(--line); color: #fff; }
+.fstep.partial .fdot { background: var(--surface-2); border-color: var(--brand-500); }
+.fstep.done .fdot { background: var(--brand-600); border-color: var(--brand-600); }
+.fstep .flab { font-size: .76rem; color: var(--ink-3); font-weight: 600; }
+.fstep.done .flab, .fstep.partial .flab { color: var(--ink); }
+
+.chip.muted { opacity: .45; }
+
+/* Les tableaux denses défilent plutôt que de déborder */
+@media (max-width: 720px) {
+  .card > .table, .zone .table, .scroll-x > .table { min-width: 520px; }
+  .card:has(> .table) { overflow-x: auto; }
+}
+
 /* =========================================================================
    NAJAH.ma — Mouvement
    Une animation doit servir la compréhension. Si elle ne fait que décorer,
@@ -1193,19 +1221,36 @@ DATA.families = [
   {
     id: 'crmef', group: 'education', live: true,
     entry: 'Après la licence',
-    name: "CRMEF — Cycle de préparation à l'agrégation et à l'enseignement",
-    short: 'CRMEF',
+    name: "Concours d'accès au cycle de qualification des cadres enseignants des CRMEF",
+    short: 'Concours CRMEF',
     tagline: "Centres régionaux des métiers de l'éducation et de la formation",
-    desc: "Concours d'accès aux CRMEF pour la formation des enseignants du primaire, du collège et du qualifiant. Épreuves écrites de sciences de l'éducation, de didactique et de spécialité, puis épreuve orale.",
-    places: '19 000 places annoncées en 2025 (source ministérielle secondaire)',
+    desc: "Concours d'accès au cycle de qualification des cadres enseignants, dans les Centres régionaux des métiers de l'éducation et de la formation. Trois épreuves écrites distinctes : sciences de l'éducation, didactique de la discipline et spécialité.",
+    places: null,
+    placesNote: "Le nombre de places n'est pas communiqué par le descriptif officiel de la session de novembre 2025.",
     icon: 'cap',
     specialties: [
-      { id: 'fr-sq', name: 'Français — secondaire qualifiant', live: true, candidates: '≈ 8 400 candidats/session', items: 412 },
-      { id: 'math-sq', name: 'Mathématiques — secondaire qualifiant', live: true, candidates: '≈ 6 900 candidats/session', items: 388 },
-      { id: 'ar-sc', name: 'Arabe — secondaire collégial', live: false },
-      { id: 'svt-sq', name: 'SVT — secondaire qualifiant', live: false },
-      { id: 'prim', name: 'Enseignement primaire — polyvalent', live: false },
-      { id: 'angl-sq', name: 'Anglais — secondaire qualifiant', live: false }
+      /* Identifiant fr-sq PRÉSERVÉ pour compatibilité. Le descriptif officiel
+         de langue française couvre en réalité les DEUX cycles du secondaire. */
+      { id: 'fr-sq', name: 'Langue française — secondaire collégial et qualifiant', live: true,
+        editorial: 'ouvert', cycles: ['college', 'qualifiant'], prog: 'crmef',
+        candidates: null, items: null,
+        note: "Descriptif officiel commun aux deux cycles du secondaire." },
+      /* Identifiant math-sq PRÉSERVÉ. Aucune taxonomie, aucune banque, aucune
+         validation pédagogique : le parcours ne peut pas être présenté comme opérationnel. */
+      { id: 'math-sq', name: 'Mathématiques', live: false, editorial: 'en_preparation' },
+      { id: 'ar-sc', name: 'Langue arabe', live: false, editorial: 'en_preparation' },
+      { id: 'angl-sq', name: 'Langue anglaise', live: false, editorial: 'en_preparation' },
+      { id: 'svt-sq', name: 'Sciences de la vie et de la Terre', live: false, editorial: 'en_preparation' },
+      { id: 'pc-sq', name: 'Physique-chimie', live: false, editorial: 'en_preparation' },
+      { id: 'info-sq', name: 'Informatique', live: false, editorial: 'en_preparation' },
+      { id: 'philo-sq', name: 'Philosophie', live: false, editorial: 'en_preparation' },
+      { id: 'hg-sq', name: 'Histoire-géographie', live: false, editorial: 'en_preparation' },
+      { id: 'islam-sq', name: 'Éducation islamique', live: false, editorial: 'en_preparation' },
+      { id: 'eps-sq', name: 'Éducation physique et sportive', live: false, editorial: 'en_preparation' },
+      { id: 'techno-sq', name: 'Technologie', live: false, editorial: 'en_preparation' },
+      { id: 'eco-sq', name: 'Économie et gestion', live: false, editorial: 'en_preparation' },
+      { id: 'prim', name: 'Enseignement primaire — bilingue', live: false, editorial: 'en_preparation' },
+      { id: 'prim-amz', name: 'Enseignement primaire — amazighe', live: false, editorial: 'en_preparation' }
     ]
   },
   {
@@ -1898,8 +1943,10 @@ DATA.openQuestions = [
 /* ------------------------------------------------------------------ */
 DATA.blueprints = [
   {
-    id: 'BP-CRMEF-FR-01', version: 'v3 — publiée le 12/06/2026',
-    name: 'Examen blanc n°1 — Épreuve écrite CRMEF Français',
+    id: 'BP-CRMEF-FR-01', version: 'v3 — prototype, non officiel',
+    kind: 'diagnostic_transversal', official: false,
+    disclaimer: "Ancien blueprint prototype. Il mélange les trois épreuves officielles et ne reproduit AUCUNE épreuve du concours. Conservé comme diagnostic transversal de démonstration.",
+    name: 'Diagnostic transversal (ancien prototype, non officiel)',
     duration: 90, questionCount: 20, pass: 10,
     navigation: 'Retour aux questions précédentes autorisé. Ordre fixe. Validation finale explicite.',
     scoring: 'Une bonne réponse : 1 point. Réponse fausse ou absence de réponse : 0. Pas de points négatifs.',
@@ -1910,8 +1957,10 @@ DATA.blueprints = [
     ]
   },
   {
-    id: 'BP-CRMEF-FR-02', version: 'v1 — publiée le 03/07/2026',
-    name: 'Examen blanc n°2 — Format renforcé',
+    id: 'BP-CRMEF-FR-02', version: 'v1 — prototype, non officiel',
+    kind: 'entrainement_demo', official: false,
+    disclaimer: "Ancien blueprint prototype, non officiel. Conservé comme entraînement de démonstration. Les simulations conformes se trouvent dans le parcours CRMEF, une par épreuve.",
+    name: 'Entraînement de démonstration (ancien prototype, non officiel)',
     duration: 120, questionCount: 26, pass: 12,
     navigation: 'Retour autorisé. Ordre aléatoire par section. Verrouillage après soumission.',
     scoring: 'Une bonne réponse : 1 point. Pas de points négatifs.',
@@ -2214,9 +2263,9 @@ DATA.portals = [
     families: ['licence-education', 'crmef', 'inspection', 'agregation'],
     stats: [
       { k: 'Concours ouverts', v: '2' },
-      { k: 'Questions publiées', v: '1 440' },
-      { k: 'Compétences suivies', v: '23' },
-      { k: 'Spécialités ouvertes', v: '4' }
+      { k: 'Questions publiées', v: '38' },
+      { k: 'Sous-domaines officiels', v: '25' },
+      { k: 'Parcours ouverts', v: '2' }
     ],
     free: [
       { icon: 'target', t: 'Testez votre niveau en 10 questions', d: "Sans compte, sans carte bancaire. Choisissez votre concours — Licence d'Éducation ou CRMEF — et obtenez un résultat par compétence, pas seulement un score.", cta: 'Commencer le test', route: '#/essai/education', primary: true },
@@ -2227,7 +2276,7 @@ DATA.portals = [
     proof: 'Q007',
     planWords: {
       free: ['Test de niveau complet', '10 questions par jour', 'Aperçu de votre profil de compétences', 'Mini-simulateur', 'Annales sélectionnées'],
-      premium: ['800 questions CRMEF avec chaque distracteur justifié', 'Annales corrigées intégrales', 'Séries ciblées sur vos points faibles', 'Examens blancs conformes au blueprint', "Carnet d'erreurs et suivi par compétence"],
+      premium: ['Banque CRMEF avec chaque distracteur justifié', 'Annales corrigées intégrales', 'Séries ciblées sur vos points faibles', 'Examens blancs conformes au blueprint', "Carnet d'erreurs et suivi par compétence"],
       annual: ['Tout le contenu Premium', "Accès garanti jusqu'après la session", 'Deux mois offerts', 'Priorité sur les nouvelles spécialités']
     },
     faq: [
@@ -2607,6 +2656,846 @@ DATA.calendar.push(
 );
 
 /* =========================================================================
+   NAJAH.ma — Référentiel officiel du concours CRMEF
+   Source : descriptifs du Centre national des examens, session de novembre 2025.
+   مباريات ولوج سلك تأهيل أطر التدريس بالمراكز الجهوية لمهن التربية والتكوين
+
+   RÈGLE DE CE FICHIER : rien n'est écrit ici qui ne figure pas dans le
+   descriptif officiel. Les informations non communiquées — nombre de
+   questions, barème détaillé, règles de navigation, seuil d'admission —
+   sont explicitement marquées NON_COMMUNIQUE et jamais devinées.
+   ========================================================================= */
+
+const NC = 'NON_COMMUNIQUE';
+
+DATA.crmef = {
+  concours: {
+    id: 'crmef',
+    titleOfficial: "Concours d'accès au cycle de qualification des cadres enseignants des CRMEF",
+    titleShort: 'Concours CRMEF',
+    titleAr: 'مباريات ولوج سلك تأهيل أطر التدريس بالمراكز الجهوية لمهن التربية والتكوين',
+    session: 'Session de novembre 2025',
+    sourceRef: 'Centre national des examens — descriptifs des épreuves',
+    sourceVersion: 'Novembre 2025',
+    notThis: [
+      "l'accès aux Licences d'Éducation, qui se prépare juste après le baccalauréat",
+      "l'agrégation, qui relève d'un concours distinct",
+      "un concours générique d'accès à l'université",
+      "un programme de formation continue"
+    ],
+    // Informations volontairement absentes du descriptif
+    unknown: {
+      questionCount: NC,
+      bareme: NC,
+      navigation: NC,
+      admissionThreshold: NC
+    }
+  },
+
+  /* ---------------- Les trois épreuves du parcours Français ---------------- */
+  epreuves: [
+    {
+      id: 'SE', serie: 1,
+      name: "Sciences de l'éducation",
+      coef: 8, minutes: 120, format: 'QCM',
+      langue: 'Arabe ou français, au choix du candidat',
+      langueChoice: true,
+      domains: [
+        {
+          id: 'SE-D1', name: "Psychologie de l'éducation", weight: 40,
+          sub: [
+            { id: 'SE-D1-1', name: 'Psychologie du développement', weight: 20 },
+            { id: 'SE-D1-2', name: "Psychologie de l'apprentissage", weight: 20 }
+          ]
+        },
+        {
+          id: 'SE-D2', name: "Approches pédagogiques et méthodes d'enseignement", weight: 30,
+          sub: [
+            { id: 'SE-D2-1', name: "De la pédagogie par objectifs à l'approche par compétences", weight: 15 },
+            { id: 'SE-D2-2', name: "Méthodes d'enseignement et stratégies d'apprentissage", weight: 15 }
+          ]
+        },
+        {
+          id: 'SE-D3', name: "Sociologie de l'éducation", weight: 30,
+          sub: [
+            { id: 'SE-D3-1', name: "Sociologie de l'éducation", weight: 15 },
+            { id: 'SE-D3-2', name: 'Dynamique des groupes', weight: 15 }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'DID', serie: 2,
+      name: 'Didactique de la langue française',
+      coef: 12, minutes: 120, format: 'QCM',
+      langue: 'Français',
+      langueChoice: false,
+      domains: [
+        {
+          id: 'DID-D1', name: 'Didactique, curriculum et ressources', weight: 60,
+          sub: [
+            { id: 'DID-D1-1', name: 'Champ de la didactique', weight: 10 },
+            { id: 'DID-D1-2', name: 'Concepts fondamentaux de la didactique', weight: 20 },
+            { id: 'DID-D1-3', name: 'Curriculum', weight: 10 },
+            { id: 'DID-D1-4', name: 'Ressources didactiques et usages pédagogiques', weight: 20 }
+          ]
+        },
+        {
+          id: 'DID-D2', name: 'Approches et démarches', weight: 40,
+          sub: [
+            { id: 'DID-D2-1', name: 'Concepts clés de la pédagogie par objectifs', weight: 5 },
+            { id: 'DID-D2-2', name: 'Fondements et mise en œuvre de la PPO', weight: 10 },
+            { id: 'DID-D2-3', name: "Concepts clés de l'approche par compétences", weight: 5 },
+            { id: 'DID-D2-4', name: "Fondements et mise en œuvre de l'APC", weight: 10 },
+            { id: 'DID-D2-5', name: 'Apprentissage actif', weight: 10 }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'SPE', serie: 3,
+      name: 'Spécialité — Langue française',
+      coef: 20, minutes: 240, format: 'QCM',
+      langue: 'Français',
+      langueChoice: false,
+      domains: [
+        {
+          id: 'SPE-D1', name: 'Langue', weight: 50,
+          sub: [
+            { id: 'SPE-D1-1', name: 'Linguistique, phonétique, lexicographie et lexicologie', weight: 15 },
+            { id: 'SPE-D1-2', name: 'Grammaire', weight: 15 },
+            { id: 'SPE-D1-3', name: 'Stylistique', weight: 10 },
+            { id: 'SPE-D1-4', name: 'Analyse du discours et énonciation', weight: 10 }
+          ]
+        },
+        {
+          id: 'SPE-D2', name: 'Littérature et culture françaises', weight: 50,
+          sub: [
+            { id: 'SPE-D2-1', name: 'Histoire des idées, histoire littéraire et mythes', weight: 5 },
+            { id: 'SPE-D2-2', name: 'Roman et genres du récit', weight: 10 },
+            { id: 'SPE-D2-3', name: 'Analyse du texte narratif', weight: 10 },
+            { id: 'SPE-D2-4', name: 'Théâtre', weight: 10 },
+            { id: 'SPE-D2-5', name: 'Poésie et versification', weight: 10 },
+            { id: 'SPE-D2-6', name: "Littérature maghrébine d'expression française", weight: 5 }
+          ]
+        }
+      ]
+    }
+  ],
+
+  /* ---------------- Cycles couverts par le descriptif Français ---------------- */
+  cycles: [
+    { id: 'college', name: 'Secondaire collégial' },
+    { id: 'qualifiant', name: 'Secondaire qualifiant' }
+  ],
+
+  /* ---------------- Sources officielles versionnées ---------------- */
+  sources: [
+    { id: 'SRC-SEC-25', ref: 'Descriptifs des épreuves — enseignement secondaire', org: 'Centre national des examens',
+      version: 'Session de novembre 2025', file: 'Wolouj_Descriptifs_Secondaire_25', status: 'officielle', checked: '5 août 2026' },
+    { id: 'SRC-PRIM-BIL-25', ref: 'Descriptifs des épreuves — primaire bilingue', org: 'Centre national des examens',
+      version: 'Session de novembre 2025', file: 'Wolouj_Descriptifs_Primaire_Bilingue_25', status: 'officielle', checked: '5 août 2026' },
+    { id: 'SRC-PRIM-AMZ-25', ref: 'Descriptifs des épreuves — primaire amazighe', org: 'Centre national des examens',
+      version: 'Session de novembre 2025', file: 'Wolouj_Descriptifs_Primaire_Amazighe_25', status: 'officielle', checked: '5 août 2026' }
+  ],
+
+  /* ---------------- Statuts éditoriaux ---------------- */
+  editStatus: {
+    brouillon:    { label: 'Brouillon', kind: 'outline', usable: false },
+    a_verifier:   { label: 'À vérifier', kind: 'warn', usable: true, demoOnly: true },
+    valide:       { label: 'Validé pédagogiquement', kind: 'good', usable: true },
+    publie:       { label: 'Publié', kind: 'good', usable: true },
+    retire:       { label: 'Retiré', kind: 'crit', usable: false },
+    complementaire: { label: 'Contenu complémentaire', kind: 'terra', usable: true, offBlueprint: true }
+  },
+
+  /* ---------------- États de maîtrise ---------------- */
+  masteryStates: [
+    { id: 'non_evaluee', label: 'Non évaluée', color: 'var(--ink-3)', order: 0 },
+    { id: 'fragile', label: 'Fragile', color: 'var(--critical)', order: 1 },
+    { id: 'en_cours', label: "En cours d'acquisition", color: 'var(--sem-trap)', order: 2 },
+    { id: 'a_consolider', label: 'À consolider', color: 'var(--warn)', order: 3 },
+    { id: 'consolidee', label: 'Consolidée', color: 'var(--good)', order: 4 }
+  ]
+};
+
+/* =========================================================================
+   AUDIT DES 26 QUESTIONS EXISTANTES
+   Chaque question est rattachée au descriptif officiel lorsque le
+   rattachement est justifiable. Les identifiants sont préservés.
+   Quatre issues possibles :
+     - rattachement direct à un sous-domaine officiel
+     - rattachement prudent, signalé par `prudence`
+     - contenu complémentaire, hors descriptif 2025
+     - non rattachable
+   Aucune question n'est supprimée.
+   ========================================================================= */
+DATA.crmefAudit = {
+  /* --- Sciences de l'éducation --- */
+  Q001: { ep: 'SE', sub: 'SE-D1-1', edit: 'a_verifier', note: "Stades de Piaget — psychologie du développement, rattachement direct." },
+  Q002: { ep: 'SE', sub: 'SE-D1-2', edit: 'a_verifier', note: "Zone proximale de développement — psychologie de l'apprentissage, rattachement direct." },
+  Q003: { ep: 'SE', sub: 'SE-D2-1', edit: 'a_verifier', prudence: true,
+          note: "Fonctions de l'évaluation. Le descriptif 2025 ne mentionne pas la docimologie comme sous-domaine autonome ; rattachement prudent au passage PPO → APC, où l'évaluation formative est centrale." },
+  Q004: { ep: 'SE', sub: 'SE-D2-1', edit: 'a_verifier', prudence: true,
+          note: "Grille critériée. Même réserve que Q003 : rattaché à la PPO/APC faute de sous-domaine évaluation." },
+  Q005: { ep: 'SE', sub: 'SE-D2-2', edit: 'a_verifier', note: "Pédagogie de projet — méthodes d'enseignement, rattachement direct." },
+  Q006: { ep: 'SE', sub: 'SE-D3-2', edit: 'a_verifier', prudence: true,
+          note: "Gestion de classe et consignes. Rattaché à la dynamique des groupes, le descriptif ne prévoyant pas de sous-domaine « gestion de classe »." },
+  Q007: { ep: null, sub: null, edit: 'complementaire',
+          note: "Vision stratégique 2015-2030. La législation et l'organisation du système ne figurent PAS dans le descriptif 2025 de sciences de l'éducation. Conservée comme contenu complémentaire, exclue des simulations." },
+  Q008: { ep: null, sub: null, edit: 'complementaire',
+          note: "Rôle des AREF. Même motif que Q007 : organisation administrative absente du descriptif 2025." },
+  Q020: { ep: 'SE', sub: 'SE-D2-2', edit: 'a_verifier', note: "Pédagogie différenciée — méthodes d'enseignement et stratégies d'apprentissage." },
+  Q022: { ep: 'SE', sub: 'SE-D2-1', edit: 'a_verifier', prudence: true,
+          note: "Formulation d'objectifs opérationnels — cœur de la pédagogie par objectifs, rattachement justifié." },
+  Q025: { ep: 'SE', sub: 'SE-D2-1', edit: 'a_verifier', prudence: true,
+          note: "Validité docimologique. Même réserve que Q003." },
+
+  /* --- Didactique --- */
+  Q009: { ep: 'DID', sub: 'DID-D1-2', edit: 'a_verifier', note: "Transposition didactique — concept fondamental de la didactique, rattachement direct." },
+  Q010: { ep: 'DID', sub: 'DID-D1-2', edit: 'a_verifier', prudence: true,
+          note: "Analyse d'erreur d'élève. Le descriptif ne prévoit pas de sous-domaine « obstacles » ; rattaché aux concepts fondamentaux, où figure le statut de l'erreur." },
+  Q011: { ep: 'DID', sub: 'DID-D2-4', edit: 'a_verifier', note: "Situation-problème — mise en œuvre de l'APC." },
+  Q012: { ep: 'DID', sub: 'DID-D1-4', edit: 'a_verifier', prudence: true,
+          note: "Lecture méthodique. Rattaché aux ressources didactiques et usages pédagogiques ; le descriptif 2025 ne découpe pas la didactique par activité langagière." },
+  Q013: { ep: 'DID', sub: 'DID-D2-5', edit: 'a_verifier', prudence: true,
+          note: "Réécritures guidées en production écrite. Rattaché à l'apprentissage actif." },
+  Q021: { ep: 'DID', sub: 'DID-D1-2', edit: 'a_verifier', note: "Statut de l'erreur selon Astolfi — concept fondamental de la didactique." },
+  Q023: { ep: 'DID', sub: 'DID-D1-4', edit: 'a_verifier', prudence: true,
+          note: "Compréhension en lecture. Même réserve que Q012." },
+  Q026: { ep: 'DID', sub: 'DID-D2-4', edit: 'a_verifier', note: "Tâche complexe et situation d'intégration — mise en œuvre de l'APC." },
+
+  /* --- Spécialité --- */
+  Q014: { ep: 'SPE', sub: 'SPE-D1-2', edit: 'a_verifier', note: "Subordonnée relative et accord du participe — grammaire, rattachement direct." },
+  Q015: { ep: 'SPE', sub: 'SPE-D1-2', edit: 'a_verifier', note: "Inversion du sujet — grammaire, rattachement direct." },
+  Q016: { ep: 'SPE', sub: 'SPE-D2-5', edit: 'a_verifier', note: "Métaphore chez Valéry — poésie et versification." },
+  Q017: { ep: 'SPE', sub: 'SPE-D2-3', edit: 'a_verifier', note: "Focalisation narrative — analyse du texte narratif, rattachement direct." },
+  Q018: { ep: 'SPE', sub: 'SPE-D2-1', edit: 'a_verifier', note: "Mouvements littéraires — histoire des idées et histoire littéraire." },
+  Q019: { ep: 'SPE', sub: 'SPE-D1-2', edit: 'a_verifier', prudence: true,
+          note: "Orthographe et conjugaison. Le descriptif ne prévoit pas de sous-domaine orthographe ; rattaché à la grammaire." },
+  Q024: { ep: 'SPE', sub: 'SPE-D2-6', edit: 'a_verifier', note: "Littérature marocaine d'expression française — rattachement direct au sous-domaine officiel." }
+};
+
+/* ---------------- Application de l'audit aux questions ---------------- */
+(function applyAudit() {
+  Object.entries(DATA.crmefAudit).forEach(([qid, a]) => {
+    const q = DATA.questions.find(x => x.id === qid);
+    if (!q) return;
+    q.ep = a.ep; q.sub = a.sub; q.edit = a.edit;
+    q.prudence = !!a.prudence; q.auditNote = a.note;
+    q.srcId = 'SRC-SEC-25';
+  });
+  // Toute question CRMEF non auditée reste identifiable
+  DATA.questions.filter(q => q.prog === 'crmef' && !q.edit)
+    .forEach(q => { q.edit = 'brouillon'; q.auditNote = 'Non auditée.'; });
+})();
+
+/* ---------------- Aides de navigation dans le référentiel ---------------- */
+const EP = id => DATA.crmef.epreuves.find(e => e.id === id);
+const ALL_SUBS = () => DATA.crmef.epreuves.flatMap(e =>
+  e.domains.flatMap(d => d.sub.map(s => ({ ...s, ep: e.id, epName: e.name, dom: d.id, domName: d.name, domWeight: d.weight, serie: e.serie }))));
+const SUB = id => ALL_SUBS().find(s => s.id === id);
+const DOM = id => DATA.crmef.epreuves.flatMap(e => e.domains).find(d => d.id === id);
+
+/* Questions réellement utilisables pour une évaluation rattachée au blueprint */
+function subQuestions(subId, opts) {
+  opts = opts || {};
+  return DATA.questions.filter(q => q.sub === subId
+    && (opts.includeUnverified !== false)
+    && DATA.crmef.editStatus[q.edit] && DATA.crmef.editStatus[q.edit].usable
+    && !DATA.crmef.editStatus[q.edit].offBlueprint);
+}
+function epQuestions(epId) {
+  return DATA.questions.filter(q => q.ep === epId
+    && DATA.crmef.editStatus[q.edit] && DATA.crmef.editStatus[q.edit].usable
+    && !DATA.crmef.editStatus[q.edit].offBlueprint);
+}
+/* Couverture réelle : part des sous-domaines disposant d'au moins une question */
+function epCoverage(epId) {
+  const subs = ALL_SUBS().filter(s => s.ep === epId);
+  const covered = subs.filter(s => subQuestions(s.id).length > 0);
+  const weightCovered = covered.reduce((a, s) => a + s.weight, 0);
+  return {
+    subs: subs.length, covered: covered.length,
+    questions: epQuestions(epId).length,
+    weightPct: weightCovered,                       // % du programme officiel couvert en poids
+    missing: subs.filter(s => subQuestions(s.id).length === 0)
+  };
+}
+function crmefCoverage() {
+  return DATA.crmef.epreuves.map(e => ({ ep: e, ...epCoverage(e.id) }));
+}
+
+/* =========================================================================
+   QUESTIONS DE DÉMONSTRATION — sous-domaines officiels sans contenu
+   Neuf questions, une par sous-domaine parmi les plus lourds, pour que la
+   Boucle Najah soit démontrable sur les trois épreuves.
+   Toutes en statut « à vérifier » : elles n'ont PAS été validées par un
+   expert et ne peuvent pas être présentées comme du contenu certifié.
+   Deux sous-domaines restent volontairement vides — les combler
+   artificiellement masquerait une lacune réelle.
+   ========================================================================= */
+DATA.questions.push(
+  { id: 'C101', prog: 'crmef', ep: 'SE', sub: 'SE-D3-1', comp: 'SE2', edit: 'a_verifier', srcId: 'SRC-SEC-25',
+    cog: 'Comprendre', diff: 3, time: 85,
+    stem: "En sociologie de l'éducation, que désigne la notion de « reproduction sociale » appliquée à l'école ?",
+    choices: [
+      { k: 'A', t: "La transmission des programmes d'une génération d'enseignants à l'autre" },
+      { k: 'B', t: "Le mécanisme par lequel l'école tend à reconduire les positions sociales d'origine des élèves" },
+      { k: 'C', t: "Le redoublement d'une classe par un élève en difficulté" },
+      { k: 'D', t: "L'augmentation du nombre d'élèves scolarisés d'une année sur l'autre" }
+    ],
+    correct: 'B',
+    rationales: {
+      A: "La transmission professionnelle entre enseignants relève de la formation et de la culture de métier, pas de l'analyse sociologique des inégalités.",
+      B: "Exact. La notion désigne le fait que l'école, en valorisant des codes culturels inégalement répartis, tend à confirmer les hiérarchies sociales plutôt qu'à les corriger.",
+      C: "Le redoublement est une décision pédagogique individuelle. Il peut être un effet du mécanisme décrit, il n'en est pas la définition.",
+      D: "La croissance des effectifs relève de la démographie scolaire. Elle ne dit rien de la transmission des positions sociales."
+    },
+    trap: "C attire parce que le mot « reproduction » évoque « redoubler ». Le terme sociologique désigne un mécanisme collectif, pas un parcours individuel.",
+    source: { ref: 'Descriptif officiel — Sciences de l\'éducation, domaine 3', loc: "Sociologie de l'éducation", date: 'Session de novembre 2025' },
+    stats: { seen: 0, correct: 0.5, distractors: { A: 0.1, B: 0.5, C: 0.3, D: 0.1 } } },
+
+  { id: 'C102', prog: 'crmef', ep: 'DID', sub: 'DID-D1-1', comp: 'DI1', edit: 'a_verifier', srcId: 'SRC-SEC-25',
+    cog: 'Comprendre', diff: 2, time: 75,
+    stem: "Qu'est-ce qui distingue le champ de la didactique de celui de la pédagogie ?",
+    choices: [
+      { k: 'A', t: "La didactique s'intéresse aux savoirs à enseigner, la pédagogie à la relation et à la conduite de la classe" },
+      { k: 'B', t: "La didactique concerne le secondaire, la pédagogie le primaire" },
+      { k: 'C', t: "La didactique est théorique, la pédagogie est pratique" },
+      { k: 'D', t: "Ce sont deux mots pour désigner la même discipline" }
+    ],
+    correct: 'A',
+    rationales: {
+      A: "Exact. La didactique prend pour objet le savoir et sa transformation en objet enseignable ; la pédagogie prend pour objet la relation éducative et l'organisation de la classe.",
+      B: "Aucune des deux disciplines n'est indexée sur un cycle. Les deux concernent tous les niveaux d'enseignement.",
+      C: "Les deux comportent une dimension théorique et une dimension pratique. L'opposition théorie/pratique ne recoupe pas la distinction entre les deux champs.",
+      D: "Les deux champs se recoupent mais ne se confondent pas : c'est précisément l'objet — le savoir ou la relation — qui les sépare."
+    },
+    trap: "C est le distracteur dominant : l'opposition théorie/pratique est un réflexe de pensée qui masque la vraie ligne de partage, celle de l'objet d'étude.",
+    source: { ref: 'Descriptif officiel — Didactique, domaine 1', loc: 'Champ de la didactique', date: 'Session de novembre 2025' },
+    stats: { seen: 0, correct: 0.55, distractors: { A: 0.55, B: 0.05, C: 0.3, D: 0.1 } } },
+
+  { id: 'C103', prog: 'crmef', ep: 'DID', sub: 'DID-D1-3', comp: 'DI1', edit: 'a_verifier', srcId: 'SRC-SEC-25',
+    cog: 'Analyser', diff: 3, time: 90,
+    stem: "Quelle distinction sépare le curriculum prescrit du curriculum réel ?",
+    choices: [
+      { k: 'A', t: "Le prescrit est officiel, le réel est ce qui est effectivement enseigné et appris en classe" },
+      { k: 'B', t: "Le prescrit concerne les matières, le réel concerne les horaires" },
+      { k: 'C', t: "Le prescrit est écrit en arabe, le réel en français" },
+      { k: 'D', t: "Le prescrit est annuel, le réel est trimestriel" }
+    ],
+    correct: 'A',
+    rationales: {
+      A: "Exact. Le curriculum prescrit est le texte officiel ; le curriculum réel est ce qui se déroule effectivement, filtré par l'enseignant, le temps disponible et le contexte de classe.",
+      B: "Matières et horaires figurent tous deux dans le curriculum prescrit. La distinction porte sur le prescrit et le vécu, pas sur la nature des contenus.",
+      C: "La langue d'un texte curriculaire ne définit aucun niveau de curriculum.",
+      D: "Le découpage temporel relève de la planification, qui appartient au curriculum prescrit."
+    },
+    trap: "L'écart entre prescrit et réel est la notion évaluée. Les distracteurs proposent des découpages plausibles mais étrangers à cette distinction.",
+    source: { ref: 'Descriptif officiel — Didactique, domaine 1', loc: 'Curriculum', date: 'Session de novembre 2025' },
+    stats: { seen: 0, correct: 0.6, distractors: { A: 0.6, B: 0.22, C: 0.06, D: 0.12 } } },
+
+  { id: 'C104', prog: 'crmef', ep: 'DID', sub: 'DID-D2-2', comp: 'DI1', edit: 'a_verifier', srcId: 'SRC-SEC-25',
+    cog: 'Appliquer', diff: 3, time: 90,
+    stem: "Dans la mise en œuvre de la pédagogie par objectifs, quelle critique majeure a conduit à son dépassement par l'approche par compétences ?",
+    choices: [
+      { k: 'A', t: "Elle exigeait trop de matériel pédagogique" },
+      { k: 'B', t: "Le découpage en objectifs élémentaires fragmente l'apprentissage et néglige la mobilisation en situation" },
+      { k: 'C', t: "Elle ne permettait pas d'évaluer les élèves" },
+      { k: 'D', t: "Elle était réservée à l'enseignement technique" }
+    ],
+    correct: 'B',
+    rationales: {
+      A: "Le coût matériel n'a jamais constitué l'argument théorique du dépassement. La PPO est au contraire peu exigeante en ressources.",
+      B: "Exact. La taxonomie d'objectifs découpe si finement les apprentissages que l'élève peut réussir chaque micro-objectif sans savoir mobiliser l'ensemble face à une situation nouvelle.",
+      C: "C'est l'inverse : la PPO a précisément apporté une évaluation très outillée, objectif par objectif. C'est même ce qui a fait son succès initial.",
+      D: "La PPO a été appliquée à l'ensemble des disciplines et des cycles, bien au-delà de l'enseignement technique."
+    },
+    trap: "C est choisi par confusion : on retient que l'APC a renouvelé l'évaluation, et on en déduit à tort que la PPO n'en avait pas.",
+    source: { ref: 'Descriptif officiel — Didactique, domaine 2', loc: 'Fondements et mise en œuvre de la PPO', date: 'Session de novembre 2025' },
+    stats: { seen: 0, correct: 0.52, distractors: { A: 0.07, B: 0.52, C: 0.31, D: 0.1 } } },
+
+  { id: 'C105', prog: 'crmef', ep: 'SPE', sub: 'SPE-D1-1', comp: 'SP1', edit: 'a_verifier', srcId: 'SRC-SEC-25',
+    cog: 'Comprendre', diff: 3, time: 85,
+    stem: "En phonétique, qu'est-ce qui distingue un phonème d'un allophone ?",
+    choices: [
+      { k: 'A', t: "Le phonème est une unité distinctive, l'allophone une réalisation qui ne change pas le sens" },
+      { k: 'B', t: "Le phonème s'écrit, l'allophone se prononce" },
+      { k: 'C', t: "Le phonème appartient au français, l'allophone aux langues étrangères" },
+      { k: 'D', t: "Le phonème est une consonne, l'allophone une voyelle" }
+    ],
+    correct: 'A',
+    rationales: {
+      A: "Exact. Le phonème est la plus petite unité capable de changer le sens d'un mot ; l'allophone est une variante de réalisation d'un même phonème, sans effet distinctif.",
+      B: "La distinction est phonologique, non graphique. Le graphème relève de l'écriture, il n'entre pas dans cette opposition.",
+      C: "La distinction phonème/allophone s'applique à toutes les langues, y compris au français.",
+      D: "La nature consonantique ou vocalique est indépendante de cette opposition : consonnes et voyelles ont chacune leurs phonèmes et leurs allophones."
+    },
+    trap: "B repose sur la confusion la plus répandue en linguistique : celle du son et de la lettre, du phonème et du graphème.",
+    source: { ref: 'Descriptif officiel — Spécialité, domaine 1', loc: 'Linguistique, phonétique, lexicographie et lexicologie', date: 'Session de novembre 2025' },
+    stats: { seen: 0, correct: 0.58, distractors: { A: 0.58, B: 0.27, C: 0.05, D: 0.1 } } },
+
+  { id: 'C106', prog: 'crmef', ep: 'SPE', sub: 'SPE-D1-3', comp: 'SP2', edit: 'a_verifier', srcId: 'SRC-SEC-25',
+    cog: 'Analyser', diff: 3, time: 90,
+    ctx: "« Le vent se lève… il faut tenter de vivre ! »",
+    stem: "Quel procédé stylistique domine dans ce vers ?",
+    choices: [
+      { k: 'A', t: "Une anaphore" },
+      { k: 'B', t: "Une antithèse" },
+      { k: 'C', t: "Une progression de l'observation vers l'injonction, marquée par le passage à l'exclamative" },
+      { k: 'D', t: "Une prétérition" }
+    ],
+    correct: 'C',
+    rationales: {
+      A: "L'anaphore répète un même terme en tête de segments successifs. Aucune répétition initiale n'apparaît ici.",
+      B: "L'antithèse oppose deux termes contraires. « Se lève » et « vivre » vont dans le même sens, celui de l'élan.",
+      C: "Exact. Le vers passe d'un constat au présent d'observation à une injonction impersonnelle, et la ponctuation exclamative marque ce basculement modal.",
+      D: "La prétérition consiste à annoncer que l'on tait ce que l'on énonce malgré tout. Rien de tel ici."
+    },
+    trap: "En stylistique, les candidats cherchent une figure nommable et passent à côté des mouvements d'ensemble — modalité, rythme, ponctuation — qui sont pourtant l'essentiel de l'analyse attendue.",
+    source: { ref: 'Descriptif officiel — Spécialité, domaine 1', loc: 'Stylistique', date: 'Session de novembre 2025' },
+    stats: { seen: 0, correct: 0.45, distractors: { A: 0.12, B: 0.28, C: 0.45, D: 0.15 } } },
+
+  { id: 'C107', prog: 'crmef', ep: 'SPE', sub: 'SPE-D1-4', comp: 'SP2', edit: 'a_verifier', srcId: 'SRC-SEC-25',
+    cog: 'Analyser', diff: 3, time: 95,
+    stem: "En théorie de l'énonciation, que désignent les « embrayeurs » ou déictiques ?",
+    choices: [
+      { k: 'A', t: "Les connecteurs logiques qui articulent le raisonnement" },
+      { k: 'B', t: "Les éléments dont le référent ne se détermine que par la situation d'énonciation, comme « je », « ici », « maintenant »" },
+      { k: 'C', t: "Les figures de style qui relancent l'attention du lecteur" },
+      { k: 'D', t: "Les marques de ponctuation expressive" }
+    ],
+    correct: 'B',
+    rationales: {
+      A: "Les connecteurs organisent la logique du discours. Leur sens ne dépend pas de la situation d'énonciation, mais de la relation entre propositions.",
+      B: "Exact. Un déictique n'a de référent qu'ancré dans la situation : « je » désigne celui qui parle, « ici » le lieu où il parle, « maintenant » l'instant de sa parole.",
+      C: "Les figures relèvent de la rhétorique. Elles ne se définissent pas par leur dépendance à la situation d'énonciation.",
+      D: "La ponctuation peut marquer une expressivité, mais elle ne constitue pas une catégorie énonciative au sens des embrayeurs."
+    },
+    trap: "A attire par la proximité du mot « embrayeur », qui évoque une articulation. Le critère décisif est la dépendance au contexte d'énonciation, non la fonction de liaison.",
+    source: { ref: 'Descriptif officiel — Spécialité, domaine 1', loc: "Analyse du discours et énonciation", date: 'Session de novembre 2025' },
+    stats: { seen: 0, correct: 0.5, distractors: { A: 0.3, B: 0.5, C: 0.12, D: 0.08 } } },
+
+  { id: 'C108', prog: 'crmef', ep: 'SPE', sub: 'SPE-D2-2', comp: 'SP3', edit: 'a_verifier', srcId: 'SRC-SEC-25',
+    cog: 'Comprendre', diff: 2, time: 80,
+    stem: "Quelle caractéristique définit le roman d'apprentissage ?",
+    choices: [
+      { k: 'A', t: "Il se déroule obligatoirement en milieu scolaire" },
+      { k: 'B', t: "Il retrace la formation progressive d'un personnage jeune au contact du monde" },
+      { k: 'C', t: "Il est toujours écrit à la première personne" },
+      { k: 'D', t: "Il comporte une morale explicite en conclusion" }
+    ],
+    correct: 'B',
+    rationales: {
+      A: "Le cadre scolaire est anecdotique. L'apprentissage dont il s'agit est celui de la vie sociale et sentimentale, pas celui de l'école.",
+      B: "Exact. Le genre suit la trajectoire d'un personnage jeune dont les épreuves successives transforment le rapport au monde et à soi.",
+      C: "Le récit peut être à la première comme à la troisième personne. Le choix énonciatif ne définit pas le genre.",
+      D: "La morale explicite caractérise l'apologue ou la fable. Le roman d'apprentissage laisse le plus souvent le lecteur tirer ses conclusions."
+    },
+    trap: "A est choisi par littéralité : le mot « apprentissage » évoque l'école, alors qu'il désigne ici une formation existentielle.",
+    source: { ref: 'Descriptif officiel — Spécialité, domaine 2', loc: 'Roman et genres du récit', date: 'Session de novembre 2025' },
+    stats: { seen: 0, correct: 0.68, distractors: { A: 0.18, B: 0.68, C: 0.08, D: 0.06 } } },
+
+  { id: 'C109', prog: 'crmef', ep: 'SPE', sub: 'SPE-D2-4', comp: 'SP2', edit: 'a_verifier', srcId: 'SRC-SEC-25',
+    cog: 'Comprendre', diff: 2, time: 80,
+    stem: "Au théâtre, que désigne la « double énonciation » ?",
+    choices: [
+      { k: 'A', t: "Le fait qu'un personnage parle à la fois à un autre personnage et au public" },
+      { k: 'B', t: "La présence de deux personnages sur scène" },
+      { k: 'C', t: "La reprise d'une même réplique à deux moments de la pièce" },
+      { k: 'D', t: "L'alternance entre vers et prose" }
+    ],
+    correct: 'A',
+    rationales: {
+      A: "Exact. Toute réplique s'adresse simultanément au destinataire interne — le personnage — et au destinataire externe — le spectateur, qui reçoit une information que le personnage ignore parfois.",
+      B: "Le nombre de personnages en scène relève de la composition dramatique, pas du régime énonciatif.",
+      C: "La reprise d'une réplique est un procédé de composition, un écho ou un leitmotiv, sans rapport avec la double destination de la parole.",
+      D: "L'alternance des formes versifiée et prosaïque est un choix stylistique, indépendant de l'énonciation théâtrale."
+    },
+    trap: "B est choisi par lecture littérale du mot « double », qu'on rapporte au nombre de locuteurs plutôt qu'au nombre de destinataires.",
+    source: { ref: 'Descriptif officiel — Spécialité, domaine 2', loc: 'Théâtre', date: 'Session de novembre 2025' },
+    stats: { seen: 0, correct: 0.62, distractors: { A: 0.62, B: 0.24, C: 0.08, D: 0.06 } } }
+);
+
+/* Les deux sous-domaines encore vides sont assumés : DID-D2-1 et DID-D2-3.
+   Les combler par des questions non validées reviendrait à masquer une lacune. */
+DATA.crmefGapsAccepted = ['DID-D2-1', 'DID-D2-3'];
+
+/* =========================================================================
+   NAJAH.ma — Persistance
+   Tout ce que le candidat produit survit au rechargement.
+   Écriture versionnée, migration sûre, tentatives idempotentes.
+   ========================================================================= */
+
+const STORE_KEY = 'najah.state';
+const STORE_VERSION = 3;
+
+const BLANK = () => ({
+  v: STORE_VERSION,
+  parcours: null,          // { concours, specialite, cycle, session, langueSE, tempsParSemaine }
+  attempts: [],            // { key, qid, ep, sub, answer, correct, certitude, ts, mode }
+  diagnostic: null,        // { started, plan:[{ep,sub,qid}], i, done, ts }
+  mastery: {},             // subId -> { state, evidence, correct, seen, lastTs, sureWrong }
+  errors: {},              // qid -> entrée de carnet
+  recalls: [],             // { qid, sub, due, interval, tries, done }
+  mirrorsDone: {},         // qid -> résultat de la question miroir
+  remediations: {},        // subId -> { status, ts }
+  sims: {},                // epId -> { key, ids, answers, certitudes, left, started, submitted, report }
+  seenMissions: []
+});
+
+let ST = null;
+
+function storeLoad() {
+  if (ST) return ST;
+  let raw = null;
+  try { raw = localStorage.getItem(STORE_KEY); } catch (e) { raw = null; }
+  if (!raw) { ST = BLANK(); return ST; }
+  let data;
+  try { data = JSON.parse(raw); } catch (e) { data = null; }
+  if (!data || typeof data !== 'object') { ST = BLANK(); return ST; }
+  ST = storeMigrate(data);
+  return ST;
+}
+
+/* Migration : un état ancien ne doit jamais faire planter l'application.
+   On complète les champs manquants au lieu de tout effacer. */
+function storeMigrate(data) {
+  const fresh = BLANK();
+  if (typeof data.v !== 'number' || data.v > STORE_VERSION) {
+    // Version inconnue ou future : on repart d'un état propre en conservant une copie
+    try { localStorage.setItem(STORE_KEY + '.backup', JSON.stringify(data)); } catch (e) {}
+    return fresh;
+  }
+  Object.keys(fresh).forEach(k => {
+    if (data[k] === undefined || data[k] === null) return;
+    if (Array.isArray(fresh[k]) && !Array.isArray(data[k])) return;
+    if (!Array.isArray(fresh[k]) && typeof fresh[k] === 'object' && typeof data[k] !== 'object') return;
+    fresh[k] = data[k];
+  });
+  fresh.v = STORE_VERSION;
+  return fresh;
+}
+
+function storeSave() {
+  if (!ST) return;
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(ST)); }
+  catch (e) { /* quota ou mode privé : l'application continue de fonctionner en mémoire */ }
+}
+
+function storeReset() {
+  try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+  ST = BLANK();
+}
+
+/* Accès unique à l'état persistant */
+function st() { return storeLoad(); }
+
+/* -------------------------------------------------------------------------
+   Tentatives idempotentes
+   La clé est déterministe : même question, même mode, même session de travail
+   → une seule tentative, quel que soit le nombre de clics ou de rechargements.
+   ------------------------------------------------------------------------- */
+function attemptKey(qid, mode, session) { return [mode || 'libre', session || 'x', qid].join('|'); }
+
+function recordAttempt(o) {
+  const s = st();
+  const key = attemptKey(o.qid, o.mode, o.session);
+  const existing = s.attempts.find(a => a.key === key);
+  if (existing) {                       // double soumission : on met à jour, on ne duplique pas
+    existing.answer = o.answer;
+    existing.correct = o.correct;
+    existing.certitude = o.certitude;
+    existing.ts = o.ts || existing.ts;
+    storeSave();
+    return { attempt: existing, created: false };
+  }
+  const a = {
+    key, qid: o.qid, ep: o.ep || null, sub: o.sub || null,
+    answer: o.answer, correct: !!o.correct, certitude: o.certitude || null,
+    ts: o.ts || nowTs(), mode: o.mode || 'libre'
+  };
+  s.attempts.push(a);
+  storeSave();
+  return { attempt: a, created: true };
+}
+
+/* Horodatage : une seule source, pour rester testable */
+function nowTs() { return Date.now(); }
+function dayMs() { return 86400000; }
+
+/* =========================================================================
+   NAJAH.ma — La Boucle Najah
+   Réponse → certitude → correction → distracteurs → confusion probable →
+   source → remédiation → question miroir → rappel différé → progression.
+
+   Deux principes gouvernent tout ce fichier :
+     1. Une seule bonne réponse ne prouve jamais une maîtrise.
+     2. Une cause d'erreur est une hypothèse, jamais un diagnostic.
+   ========================================================================= */
+
+/* ---------------- Certitude déclarée ---------------- */
+const CERTITUDES = [
+  { id: 'sur',      label: 'Sûr',        icon: 'shield', weight: 1.0 },
+  { id: 'hesitant', label: 'Hésitant',   icon: 'bulb',   weight: 0.5 },
+  { id: 'hasard',   label: 'Au hasard',  icon: 'refresh', weight: 0.15 }
+];
+const certOf = id => CERTITUDES.find(c => c.id === id) || CERTITUDES[1];
+
+/* Lecture croisée réponse × certitude — matrice du document fonctionnel (F02) */
+function readCertitude(correct, cert) {
+  if (correct && cert === 'sur')       return { key: 'solide',       label: 'Maîtrise probablement solide', prio: 3, kind: 'good' };
+  if (correct && cert !== 'sur')       return { key: 'fragile',      label: 'Bonne réponse, mais peu assurée', prio: 2, kind: 'warn' };
+  if (!correct && cert !== 'sur')      return { key: 'lacune',       label: 'Lacune consciente', prio: 1, kind: 'warn' };
+  return { key: 'fausse_croyance',     label: 'Fausse croyance — priorité haute', prio: 0, kind: 'crit' };
+}
+
+/* ---------------- États de maîtrise ----------------
+   Une maîtrise se construit sur des preuves : plusieurs réponses, dans le
+   temps, avec une certitude cohérente. Jamais sur une seule réponse.
+   ------------------------------------------------------------------- */
+function masteryOfSub(subId) {
+  const s = st();
+  const m = s.mastery[subId];
+  if (!m || !m.seen) return { state: 'non_evaluee', seen: 0, correct: 0, evidence: 0, ratio: 0, sureWrong: 0, spaced: 0 };
+  return m;
+}
+
+function recomputeMastery(subId) {
+  const s = st();
+  const rel = s.attempts.filter(a => a.sub === subId);
+  if (!rel.length) { delete s.mastery[subId]; storeSave(); return masteryOfSub(subId); }
+
+  const seen = rel.length;
+  const correct = rel.filter(a => a.correct).length;
+  const ratio = correct / seen;
+  const sureWrong = rel.filter(a => !a.correct && a.certitude === 'sur').length;
+  // Poids de preuve : une réponse au hasard vaut peu, une réponse sûre vaut plein
+  const evidence = rel.reduce((acc, a) => acc + certOf(a.certitude).weight, 0);
+  // Réussites espacées : bonnes réponses séparées d'au moins un jour
+  const goods = rel.filter(a => a.correct).map(a => a.ts).sort((x, y) => x - y);
+  let spaced = goods.length ? 1 : 0;
+  for (let i = 1; i < goods.length; i++) if (goods[i] - goods[i - 1] >= dayMs()) spaced++;
+  // Le miroir compte comme preuve de transfert
+  const mirrorOk = Object.entries(s.mirrorsDone)
+    .filter(([qid, r]) => r.sub === subId && r.correct).length;
+
+  let state;
+  if (seen < 2 || evidence < 1.5)                       state = 'en_cours';
+  if (seen >= 2 && ratio < 0.5)                         state = 'fragile';
+  else if (sureWrong > 0 && ratio < 0.75)               state = 'fragile';
+  else if (seen >= 2 && ratio >= 0.5 && ratio < 0.8)    state = 'en_cours';
+  else if (ratio >= 0.8 && (spaced < 2 || mirrorOk < 1)) state = 'a_consolider';
+  else if (ratio >= 0.8 && spaced >= 2 && mirrorOk >= 1) state = 'consolidee';
+  if (seen < 2) state = 'en_cours';                     // jamais consolidé sur une seule réponse
+
+  const m = { state, seen, correct, ratio: +ratio.toFixed(2), evidence: +evidence.toFixed(2), sureWrong, spaced, mirrorOk, lastTs: Math.max(...rel.map(a => a.ts)) };
+  s.mastery[subId] = m;
+  storeSave();
+  return m;
+}
+
+function masteryLabel(stateId) {
+  const s = DATA.crmef.masteryStates.find(x => x.id === stateId);
+  return s || DATA.crmef.masteryStates[0];
+}
+
+/* ---------------- Confusion probable ----------------
+   Présentée comme hypothèse. Le candidat peut la corriger ou l'ignorer.
+   ------------------------------------------------------------------- */
+function probableConfusion(q, answer) {
+  if (!q || answer === q.correct) return null;
+  return {
+    hypothese: q.trap || null,
+    distracteur: answer,
+    texte: q.choices.find(c => c.k === answer) ? q.choices.find(c => c.k === answer).t : '',
+    justification: q.rationales ? q.rationales[answer] : '',
+    // formulation volontairement prudente
+    formule: "Hypothèse, à confirmer par vous"
+  };
+}
+
+/* ---------------- Question miroir ----------------
+   Même sous-domaine, question différente, de préférence d'un autre niveau
+   cognitif : on vérifie un transfert, pas une mémorisation.
+   ------------------------------------------------------------------- */
+function pickMirror(q) {
+  if (!q || !q.sub) return null;
+  const pool = subQuestions(q.sub).filter(x => x.id !== q.id);
+  if (!pool.length) return null;
+  const other = pool.filter(x => x.cog !== q.cog);
+  return (other.length ? other : pool)[0];
+}
+
+function recordMirror(originQid, mirrorQid, correct, sub) {
+  const s = st();
+  s.mirrorsDone[originQid] = { mirror: mirrorQid, correct: !!correct, sub, ts: nowTs() };
+  // Une réussite au miroir ne clôt pas la fragilité : elle avance le rappel, sans plus
+  const e = s.errors[originQid];
+  if (e) { e.mirror = correct ? 'réussie' : 'échouée'; e.ts = nowTs(); }
+  storeSave();
+  recomputeMastery(sub);
+}
+
+/* ---------------- Rappel différé ----------------
+   J+1, J+3, J+7, J+15. Un échec rapproche l'échéance.
+   La vérification utilise une AUTRE question que celle d'origine.
+   ------------------------------------------------------------------- */
+const RECALL_STEPS = [1, 3, 7, 15];
+
+function scheduleRecall(qid, sub, failed) {
+  const s = st();
+  let r = s.recalls.find(x => x.qid === qid);
+  if (!r) { r = { qid, sub, step: 0, tries: 0, done: false, due: 0 }; s.recalls.push(r); }
+  if (failed) r.step = Math.max(0, r.step - 1);
+  const days = RECALL_STEPS[Math.min(r.step, RECALL_STEPS.length - 1)];
+  r.due = nowTs() + days * dayMs();
+  r.dueDays = days;
+  storeSave();
+  return r;
+}
+function advanceRecall(qid, ok) {
+  const s = st();
+  const r = s.recalls.find(x => x.qid === qid);
+  if (!r) return null;
+  r.tries++;
+  if (ok) { r.step++; if (r.step >= RECALL_STEPS.length) { r.done = true; } }
+  else r.step = Math.max(0, r.step - 1);
+  const days = RECALL_STEPS[Math.min(r.step, RECALL_STEPS.length - 1)];
+  r.due = nowTs() + days * dayMs();
+  r.dueDays = days;
+  storeSave();
+  return r;
+}
+function dueRecalls() {
+  const s = st();
+  const now = nowTs();
+  return s.recalls.filter(r => !r.done && r.due <= now);
+}
+/* Pour le rappel, on prend une question DIFFÉRENTE du même sous-domaine */
+function recallQuestion(r) {
+  const pool = subQuestions(r.sub).filter(q => q.id !== r.qid);
+  return pool.length ? pool[0] : DATA.questions.find(q => q.id === r.qid);
+}
+
+/* ---------------- Carnet d'erreurs ---------------- */
+function upsertError(q, answer, certitude) {
+  const s = st();
+  const conf = probableConfusion(q, answer);
+  const prev = s.errors[q.id];
+  s.errors[q.id] = {
+    qid: q.id, ep: q.ep, sub: q.sub,
+    answer, expected: q.correct, certitude,
+    lecture: readCertitude(false, certitude).key,
+    confusion: conf ? conf.hypothese : null,
+    mirror: prev ? prev.mirror : null,
+    remediation: prev ? prev.remediation : 'proposée',
+    ts: nowTs(), count: prev ? prev.count + 1 : 1
+  };
+  storeSave();
+  return s.errors[q.id];
+}
+function errorList(filter) {
+  const s = st();
+  let list = Object.values(s.errors);
+  if (!filter) return list;
+  if (filter.ep) list = list.filter(e => e.ep === filter.ep);
+  if (filter.sub) list = list.filter(e => e.sub === filter.sub);
+  if (filter.remed) list = list.filter(e => e.remediation === filter.remed);
+  if (filter.due) {
+    const due = dueRecalls().map(r => r.qid);
+    list = list.filter(e => due.includes(e.qid));
+  }
+  return list;
+}
+
+/* ---------------- Traitement complet d'une réponse ----------------
+   Point d'entrée unique de la boucle : tout passe par ici.
+   ------------------------------------------------------------------- */
+function submitAnswer(o) {
+  const q = DATA.questions.find(x => x.id === o.qid);
+  if (!q) return null;
+  const correct = o.answer === q.correct;
+  const res = recordAttempt({
+    qid: q.id, ep: q.ep, sub: q.sub, answer: o.answer, correct,
+    certitude: o.certitude, mode: o.mode, session: o.session
+  });
+  if (q.sub) recomputeMastery(q.sub);
+  if (!correct) { upsertError(q, o.answer, o.certitude); if (q.sub) scheduleRecall(q.id, q.sub, true); }
+  else if (o.certitude !== 'sur' && q.sub) scheduleRecall(q.id, q.sub, false);
+  return {
+    created: res.created, correct,
+    lecture: readCertitude(correct, o.certitude),
+    confusion: probableConfusion(q, o.answer),
+    mirror: correct && o.certitude === 'sur' ? null : pickMirror(q)
+  };
+}
+
+/* ---------------- Prochaine mission ----------------
+   Une seule activité prioritaire, avec sa raison affichable.
+   ------------------------------------------------------------------- */
+function nextMission() {
+  const s = st();
+  if (!s.parcours) return { type: 'config', title: 'Configurer votre parcours', why: "Aucun parcours n'est encore enregistré : le concours, le cycle et la langue déterminent tout le reste.", route: '#/app/parcours/crmef' };
+
+  const due = dueRecalls();
+  if (due.length) {
+    const r = due[0]; const sub = SUB(r.sub);
+    return { type: 'recall', title: `Rappel différé — ${sub ? sub.name : r.sub}`,
+      why: `Vous aviez travaillé ce point il y a ${Math.max(1, Math.round((nowTs() - (r.due - (r.dueDays || 1) * dayMs())) / dayMs()))} jour(s). La vérification utilise une autre question, pour mesurer un souvenir et non une reconnaissance.`,
+      route: '#/app/parcours/crmef/entrainement?mode=rappels' };
+  }
+  if (!s.diagnostic || !s.diagnostic.done) {
+    const started = s.diagnostic && s.diagnostic.i > 0;
+    return { type: 'diagnostic', title: started ? 'Reprendre le diagnostic' : 'Commencer le diagnostic',
+      why: started ? `Vous étiez à la question ${s.diagnostic.i + 1}. Vos réponses sont conservées.` : "Sans diagnostic, toute recommandation serait une supposition. Il couvre les trois épreuves selon leurs poids officiels.",
+      route: '#/app/parcours/crmef/diagnostic' };
+  }
+  // Fragilité la plus lourde au regard du poids officiel
+  const weak = ALL_SUBS()
+    .map(sub => ({ sub, m: masteryOfSub(sub.id) }))
+    .filter(x => ['fragile', 'en_cours'].includes(x.m.state) && subQuestions(x.sub.id).length)
+    .sort((a, b) => (b.sub.weight - a.sub.weight) || (a.m.ratio - b.m.ratio))[0];
+  if (weak) {
+    return { type: 'remediation', title: `Corriger : ${weak.sub.name}`,
+      why: `État « ${masteryLabel(weak.m.state).label} » sur ${weak.m.seen} réponse(s). Ce sous-domaine pèse ${weak.sub.weight} % de l'épreuve ${EP(weak.sub.ep).name} — c'est là que l'effort rapporte le plus.`,
+      route: '#/app/parcours/crmef/apprendre/' + weak.sub.id, sub: weak.sub.id };
+  }
+  // Sinon : couvrir un sous-domaine jamais évalué
+  const never = ALL_SUBS().filter(sub => masteryOfSub(sub.id).state === 'non_evaluee' && subQuestions(sub.id).length)
+    .sort((a, b) => b.weight - a.weight)[0];
+  if (never) {
+    return { type: 'couverture', title: `Découvrir : ${never.name}`,
+      why: `Ce sous-domaine n'a jamais été évalué et pèse ${never.weight} % de l'épreuve ${EP(never.ep).name}.`,
+      route: '#/app/parcours/crmef/apprendre/' + never.id, sub: never.id };
+  }
+  return { type: 'simulation', title: 'Passer une simulation par épreuve',
+    why: "Vos sous-domaines couverts sont au moins en cours d'acquisition. Une simulation par épreuve mesure l'endurance et la gestion du temps.",
+    route: '#/app/parcours/crmef/simulations' };
+}
+
+/* ---------------- Frise du parcours ---------------- */
+function parcoursStages() {
+  const s = st();
+  const diagDone = s.diagnostic && s.diagnostic.done;
+  const evaluated = ALL_SUBS().filter(x => masteryOfSub(x.id).state !== 'non_evaluee').length;
+  const remediated = Object.keys(s.remediations).length;
+  const trained = s.attempts.filter(a => a.mode === 'entrainement').length;
+  const simulated = Object.values(s.sims).filter(x => x.submitted).length;
+  const consolidated = ALL_SUBS().filter(x => masteryOfSub(x.id).state === 'consolidee').length;
+  return [
+    { id: 'decouverte', name: 'Découverte', done: !!s.parcours },
+    { id: 'diagnostic', name: 'Diagnostic', done: !!diagDone, partial: !!(s.diagnostic && !diagDone) },
+    { id: 'fondations', name: 'Fondations', done: evaluated >= 6, partial: evaluated > 0 },
+    { id: 'remediation', name: 'Remédiation', done: remediated >= 3, partial: remediated > 0 },
+    { id: 'entrainement', name: 'Entraînement', done: trained >= 20, partial: trained > 0 },
+    { id: 'simulations', name: 'Simulations', done: simulated >= 3, partial: simulated > 0 },
+    { id: 'consolidation', name: 'Consolidation', done: consolidated >= 8, partial: consolidated > 0 }
+  ];
+}
+
+/* =========================================================================
    NAJAH.ma — Noyau : couche services, état, routeur, primitives d'interface
    ========================================================================= */
 
@@ -2674,7 +3563,10 @@ const S = {
   coach: [],
   openAnswer: {},
   filters: {},
-  toast: null
+  toast: null,
+  loop: null,        // étape courante de la Boucle Najah
+  loopQid: null,     // question traitée hors diagnostic
+  simRun: null       // simulation en cours
 };
 
 const T = k => (DATA.i18n[S.lang] && DATA.i18n[S.lang][k]) || DATA.i18n.fr[k] || k;
@@ -2944,10 +3836,10 @@ function currentRoute() {
 function universeOf(r) {
   const p = '/' + r.parts.join('/');
   if (!p.startsWith('/app')) return 'public';
-  const inExam = (S.exam && !S.exam.submitted) || (S.cert && S.cert.running);
+  const inExam = (S.exam && !S.exam.submitted) || (S.cert && S.cert.running) || !!S.simRun;
   return inExam ? 'exam' : 'learn';
 }
-function isFocus() { return (S.exam && !S.exam.submitted) || (S.cert && S.cert.running); }
+function isFocus() { return (S.exam && !S.exam.submitted) || (S.cert && S.cert.running) || !!S.simRun; }
 
 function render() {
   const r = currentRoute();
@@ -3050,6 +3942,7 @@ function sidebar(active) {
   const items = [
     ['g', T('g_prepare')],
     ['#/app', 'grid', T('side_home'), 'home'],
+    ['#/app/parcours/crmef', 'route', 'Mon parcours CRMEF', 'parcours'],
     ['#/app/diagnostic', 'target', T('side_diag'), 'diag'],
     ['#/app/entrainement', 'pen', T('side_train'), 'train'],
     ['#/app/coach', 'chat', T('side_coach'), 'coach'],
@@ -3169,7 +4062,7 @@ route('/', () => shellPublic(`
     <div class="socialbar rise mt24">
       <div>${icon('users', 17)} <b>2 400</b> candidats inscrits</div>
       <div>${icon('cap', 17)} <b>2</b> concours ouverts</div>
-      <div>${icon('file', 17)} <b>1 440</b> questions publiées</div>
+      <div>${icon('file', 17)} <b>38</b> questions publiées</div>
       <div>${icon('shield', 17)} <b>100 %</b> des distracteurs justifiés</div>
       <div>${icon('mobile', 17)} <b>Mobile</b> d'abord</div>
     </div>
@@ -3319,12 +4212,12 @@ route('/p/:id', r => {
         <div class="ssub">Nous n'ouvrons un concours qu'une fois son contenu validé par une double révision. Le reste est annoncé sans être promis.</div></div>
       <div class="grid g3">
         ${fams.map(f => f.live
-          ? `<a class="card card-hover card-link" href="#/concours/${f.id}">
+          ? `<a class="card card-hover card-link" href="${f.id === 'crmef' ? '#/concours/crmef' : '#/concours/' + f.id}">
               <div class="row-between"><span style="color:var(--brand-700)">${icon(f.icon, 26)}</span>${badge('Ouvert', 'good')}</div>
               <h3 style="margin-top:11px">${esc(f.short)}</h3>
               ${f.entry ? `<div class="dtag" style="display:inline-block;margin:7px 0 0">${esc(f.entry)}</div>` : ''}
               <p class="small dim" style="margin:7px 0 10px">${esc(f.tagline)}</p>
-              <div class="xsmall muted">${f.specialties.filter(s => s.live).length} spécialité(s) ouverte(s) sur ${f.specialties.length}</div>
+              <div class="xsmall muted">${f.specialties.filter(s => s.live).length} parcours ouvert(s) sur ${f.specialties.length}</div>
               <div class="dgo" style="margin-top:12px">Découvrir <span class="arw">→</span></div></a>`
           : `<div class="card card-flat" style="opacity:.68">
               <div class="row-between"><span style="color:var(--brand-700)">${icon(f.icon, 26)}</span>${badge('Bientôt', 'outline')}</div>
@@ -3619,7 +4512,8 @@ route('/concours/:id', r => {
   return shellPublic(`<div class="wrap" style="padding:40px 20px 0">
     <div class="small muted" style="margin-bottom:12px"><a href="#/concours" style="text-decoration:none">Concours</a> › ${esc(f.short)}</div>
     ${pagehead(f.name, f.desc, f.live ? badge('Contenu ouvert', 'good') : badge('Ouverture prochaine', 'outline'))}
-    ${f.places ? `<div class="quota" style="margin-bottom:24px">${icon('chart', 17)} ${esc(f.places)}</div>` : ''}
+    ${f.places ? `<div class="quota" style="margin-bottom:24px">${icon('chart', 17)} ${esc(f.places)}</div>`
+      : f.placesNote ? `<div class="card card-flat card-pad-sm" style="margin-bottom:24px"><span class="xsmall muted">${icon('flag', 14)} ${esc(f.placesNote)}</span></div>` : ''}
     <div class="grid" style="grid-template-columns:1.6fr 1fr;gap:26px">
       <div>
         <h2 style="font-size:1.2rem;margin-bottom:12px">Spécialités</h2>
@@ -3627,10 +4521,10 @@ route('/concours/:id', r => {
           ${f.specialties.map(s => s.live
             ? `<a class="card card-hover card-link card-pad-sm" href="#/concours/${f.id}/${s.id}">
                 <div class="row-between"><div><b>${esc(s.name)}</b>
-                <div class="xsmall muted">${esc(s.candidates || '')} · ${s.items} questions publiées</div></div>
+                <div class="xsmall muted">${esc(s.note || s.candidates || '')}</div></div>
                 ${badge('Ouvert', 'good')}</div></a>`
             : `<div class="card card-flat card-pad-sm" style="opacity:.62">
-                <div class="row-between"><b>${esc(s.name)}</b>${badge('Bientôt', 'outline')}</div></div>`).join('')}
+                <div class="row-between"><b>${esc(s.name)}</b>${badge(s.editorial === 'en_preparation' ? 'Contenu en préparation' : 'Prochainement disponible', 'outline')}</div></div>`).join('')}
         </div>
       </div>
       <div>
@@ -3661,7 +4555,7 @@ route('/concours/:fam/:spec', r => {
   <section class="hero" style="padding:44px 0 34px"><div class="wrap">
     <div class="small muted" style="margin-bottom:10px"><a href="#/concours" style="text-decoration:none">Concours</a> › <a href="#/concours/${f.id}" style="text-decoration:none">${esc(f.short)}</a> › ${esc(s.name)}</div>
     <h1 style="font-size:clamp(1.7rem,3.4vw,2.5rem);max-width:22ch">${esc(f.short)} ${esc(s.name)} : préparation complète</h1>
-    <p class="lede">${s.items} questions publiées avec justification de chaque option, ${ann.length} annales corrigées, deux simulateurs conformes au blueprint de l'épreuve et un suivi de maîtrise par compétence.</p>
+    <p class="lede">Chaque question publiée justifie chacune de ses options. ${ann.length} annales corrigées, un suivi de maîtrise par sous-domaine officiel et des simulations par épreuve.</p>
     <div class="row mt24"><a class="btn btn-primary btn-lg" href="#/app/onboarding">Commencer gratuitement</a>
     <a class="btn btn-ghost btn-lg" href="#/demo">Voir 5 questions</a></div>
   </div></section>
@@ -3708,11 +4602,11 @@ route('/concours/:fam/:spec', r => {
         <div class="card" style="position:sticky;top:86px">
           <h3 style="font-size:1rem">En bref</h3>
           <table class="table" style="margin-top:10px">
-            <tr><td class="muted small">Questions</td><td class="num strong">${s.items}</td></tr>
+            <tr><td class="muted small">Questions</td><td class="num strong">${s.items || '—'}</td></tr>
             <tr><td class="muted small">Annales</td><td class="num strong">${ann.length}</td></tr>
             <tr><td class="muted small">Simulateurs</td><td class="num strong">2</td></tr>
             <tr><td class="muted small">Compétences suivies</td><td class="num strong">${DATA.competencies.filter(c => c.prog === (f.prog || 'crmef')).length}</td></tr>
-            <tr><td class="muted small">Candidats/session</td><td class="num strong">${esc((s.candidates || '').replace('≈ ', '').replace(' candidats/session', ''))}</td></tr>
+            <tr><td class="muted small">Candidats/session</td><td class="num strong">${s.candidates ? esc(s.candidates.replace('≈ ', '').replace(' candidats/session', '')) : '—'}</td></tr>
           </table>
           <a class="btn btn-primary btn-block mt16" href="#/app/onboarding">Diagnostic gratuit</a>
           <a class="btn btn-ghost btn-block" style="margin-top:8px" href="#/tarifs">Voir les tarifs</a>
@@ -4205,7 +5099,7 @@ function diagResult() {
   })).sort((a, b) => a.score - b.score);
   const total = d.ids.filter(id => d.answers[id] === DATA.questions.find(q => q.id === id).correct).length;
   const weakest = rows[0];
-  const pillarAgg = DATA.pillars.map(p => {
+  const pillarAgg = progPillars('crmef').map(p => {
     const rs = rows.filter(r => comp(r.comp).pillar === p.id);
     return { label: p.name, short: p.name.split(' ')[0], score: rs.length ? Math.round(rs.reduce((a, b) => a + b.score, 0) / rs.length) : 0, color: `var(--series-${p.serie})` };
   });
@@ -4225,7 +5119,7 @@ function diagResult() {
     <div class="grid" style="grid-template-columns:1fr 1fr;gap:20px">
       <div class="viz"><h3>Vue par pilier</h3><div class="vsub">Moyenne des compétences évaluées dans chaque pilier</div>
         ${radarChart(pillarAgg, { size: 290 })}
-        <div class="legend">${DATA.pillars.map(p => `<span><i style="background:var(--series-${p.serie})"></i>${esc(p.name)}</span>`).join('')}</div></div>
+        <div class="legend">${progPillars('crmef').map(p => `<span><i style="background:var(--series-${p.serie})"></i>${esc(p.name)}</span>`).join('')}</div></div>
       <div class="viz"><h3>Détail par compétence</h3><div class="vsub">Classé du plus fragile au plus solide</div>
         ${barsChart(rows.map(r => ({ label: comp(r.comp).short, value: r.score, color: `var(--series-${pillarOf(r.comp).serie})`, tip: `${r.score}/100 sur ${r.answers} questions` })), { labelW: 150, aria: 'Score par compétence' })}
         <p class="xsmall muted mt16">Étiquettes de valeur affichées directement, la couleur ne portant jamais seule l'information.</p></div>
@@ -4554,13 +5448,16 @@ route('/app/simulateur', () => {
   if (S.exam && !S.exam.submitted) return examRun();
   if (S.exam && S.exam.submitted) return examReport();
   return shellApp(`
-    ${pagehead('Simulateur de concours', "Examens blancs conformes à un blueprint publié : sections, durée, barème et règles de navigation versionnés.")}
+    ${pagehead('Simulateur (ancien prototype)', "Ces blueprints ne reproduisent aucune épreuve officielle. Les simulations conformes au descriptif se trouvent dans **Mon parcours CRMEF**, une par épreuve.")}
+    <div class="disclaimer" style="margin-bottom:20px"><span>${icon('flag', 17)}</span><div>
+      <b>Écrans conservés pour compatibilité.</b> Ils mélangent les trois épreuves officielles dans un même examen, ce que le concours ne fait pas. Ils sont désormais classés comme diagnostic transversal et entraînement de démonstration.
+      <div class="mt8"><a class="btn btn-sm btn-primary" href="#/app/parcours/crmef/simulations">Aller aux simulations par épreuve</a></div></div></div>
     <div class="col" style="gap:14px">
       ${DATA.blueprints.map(b => `<div class="card">
         <div class="row-between" style="margin-bottom:10px">
           <div><h3 style="font-size:1.05rem">${esc(b.name)}</h3>
             <div class="xsmall muted">Blueprint <span class="mono">${esc(b.id)}</span> · ${esc(b.version)}</div></div>
-          ${isPremium() ? badge('Disponible', 'good') : badge('Premium', 'brand')}
+          ${b.official === false ? badge('Non officiel', 'terra') : ''}${isPremium() ? badge('Disponible', 'good') : badge('Premium', 'brand')}
         </div>
         <div class="grid g4" style="gap:10px;margin:14px 0">
           <div class="stat card-pad-sm"><div class="k">Durée</div><div class="v mono" style="font-size:1.3rem">${b.duration}<span style="font-size:.8rem"> min</span></div></div>
@@ -4573,6 +5470,8 @@ route('/app/simulateur', () => {
           <tbody>${b.sections.map(s => `<tr><td><b class="small">${esc(s.name)}</b></td>
             <td>${s.comps.map(c => badge(comp(c).short)).join(' ')}</td><td class="num strong">${s.count}</td></tr>`).join('')}</tbody>
         </table>
+        ${b.disclaimer ? `<div class="card card-flat card-pad-sm mt16" style="border-inline-start:3px solid var(--sem-trap)">
+          <div class="xsmall"><b>Statut.</b> ${esc(b.disclaimer)}</div></div>` : ''}
         <div class="card card-flat card-pad-sm mt16">
           <div class="xsmall"><b>Navigation.</b> ${esc(b.navigation)}</div>
           <div class="xsmall" style="margin-top:4px"><b>Barème.</b> ${esc(b.scoring)}</div>
@@ -4996,7 +5895,7 @@ route('/app/progression', () => {
   if (!isPremium()) return shellApp(`${pagehead('Progression')}${paywall('Le tableau de bord détaillé')}`, 'prog');
   const p = DATA.profile;
   const tab = S.filters.progTab || 'comp';
-  const pillarAgg = DATA.pillars.map(pl => {
+  const pillarAgg = progPillars('crmef').map(pl => {
     const rs = p.mastery.filter(m => comp(m.comp).pillar === pl.id);
     return { label: pl.name, short: pl.name.split(' ')[0], score: Math.round(rs.reduce((a, b) => a + b.score, 0) / rs.length), color: `var(--series-${pl.serie})` };
   });
@@ -5284,6 +6183,1006 @@ route('/app/parametres', () => shellApp(`
       </div>
     </div>
   </div>`, 'set'));
+
+/* =========================================================================
+   NAJAH.ma — Parcours CRMEF
+   Page publique · configuration · épreuves · diagnostic · tableau de bord ·
+   Boucle Najah · entraînement · carnet d'erreurs · simulations · rapport
+   ========================================================================= */
+
+const CR = () => DATA.crmef.concours;
+const NCLABEL = 'Non communiqué par le descriptif';
+
+/* ---------------- Primitives d'affichage ---------------- */
+function editBadge(q) {
+  const e = DATA.crmef.editStatus[q.edit] || DATA.crmef.editStatus.brouillon;
+  return badge(e.label, e.kind);
+}
+function masteryPill(stateId, small) {
+  const s = masteryLabel(stateId);
+  return `<span class="mpill ${small ? 'sm' : ''}" style="--mc:${s.color}">${esc(s.label)}</span>`;
+}
+function coverageBar(c) {
+  const depth = c.subs ? Math.round((c.covered / c.subs) * 100) : 0;
+  return `<div>
+    <div class="row-between xsmall"><span class="muted">Couverture du programme officiel</span>
+      <b class="mono">${c.weightPct} %</b></div>
+    <div class="bar bar-thin" style="margin-top:5px"><span style="width:${c.weightPct}%;background:${c.weightPct >= 90 ? 'var(--good)' : c.weightPct >= 60 ? 'var(--warn)' : 'var(--critical)'}"></span></div>
+    <div class="xsmall muted" style="margin-top:5px">${c.covered} sous-domaines sur ${c.subs} disposent d'au moins une question · ${c.questions} questions au total</div>
+  </div>`;
+}
+function thinWarning(subId) {
+  const n = subQuestions(subId).length;
+  if (n === 0) return badge('Aucune question', 'crit');
+  if (n === 1) return badge('Couverture minimale — 1 question', 'warn');
+  return badge(n + ' questions', 'outline');
+}
+
+/* =========================================================================
+   PAGE PUBLIQUE — #/concours/crmef
+   ========================================================================= */
+route('/concours/crmef', () => {
+  const cov = crmefCoverage();
+  const fam = DATA.families.find(f => f.id === 'crmef');
+  return shellPublic(`
+  <section class="dhero3 zel-host">${zellige('zcr', .04)}<div class="wrap" style="position:relative">
+    <div class="crumb"><a href="#/">Accueil</a> › <a href="#/p/education">Métiers de l'éducation</a> › ${esc(CR().titleShort)}</div>
+    <div class="eyebrow" style="margin-bottom:14px">${khatam(12)} ${esc(CR().session)}</div>
+    <h1 style="font-size:clamp(1.6rem,3.2vw,2.4rem);max-width:24ch">${esc(CR().titleOfficial)}</h1>
+    <div class="small muted mono" dir="rtl" style="margin-top:8px">${esc(CR().titleAr)}</div>
+    <p class="lede" style="margin-top:14px">Trois épreuves, trois coefficients, trois programmes distincts. Najah.ma les traite séparément et affiche pour chacune la part du programme officiel réellement couverte par son contenu.</p>
+    <div class="row row-wrap mt24">
+      <a class="btn btn-primary btn-lg" href="#/concours/crmef/francais-secondaire">${icon('route', 19)} Découvrir mon parcours CRMEF</a>
+      <a class="btn btn-ghost btn-lg" href="#/app/parcours/crmef/diagnostic">${icon('target', 19)} Commencer le diagnostic</a>
+    </div>
+    <div class="stat3">
+      <div><span>Épreuves</span><b>3</b></div>
+      <div><span>Coefficient total</span><b>40</b></div>
+      <div><span>Durée cumulée</span><b>8 h</b></div>
+      <div><span>Spécialité ouverte</span><b>1</b></div>
+    </div>
+  </div></section>
+
+  <div class="wrap">
+    <section class="section">
+      <div class="shead"><div class="snum"><i>01</i><span></span></div>
+        <h2>À qui s'adresse ce concours</h2>
+        <div class="ssub">Aux titulaires d'une licence qui visent le cycle de qualification des cadres enseignants, dans les Centres régionaux des métiers de l'éducation et de la formation.</div></div>
+      <div class="grid g2">
+        <div class="card"><h3 style="font-size:1rem">Cycles concernés</h3>
+          <p class="small dim" style="margin:8px 0 0">Le descriptif officiel de la langue française couvre <b>les deux cycles</b> : secondaire collégial et secondaire qualifiant. Le programme est commun aux deux.</p>
+          <div class="row row-wrap mt16" style="gap:8px">${DATA.crmef.cycles.map(c => `<span class="dtag">${esc(c.name)}</span>`).join('')}</div>
+        </div>
+        <div class="card" style="border-color:var(--sem-trap)"><h3 style="font-size:1rem">Ce concours n'est pas…</h3>
+          <ul class="small dim" style="margin:8px 0 0">${CR().notThis.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+          <p class="xsmall muted" style="margin:10px 0 0">La confusion est fréquente et coûteuse : chaque voie a son calendrier, ses épreuves et son public.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shead"><div class="snum"><i>02</i><span></span></div>
+        <h2>Les trois épreuves du parcours Français</h2>
+        <div class="ssub">Coefficients, durées et répartitions issus du descriptif officiel. Ce qui n'y figure pas n'est pas affiché.</div></div>
+      <div class="col" style="gap:16px">
+        ${DATA.crmef.epreuves.map((e, i) => {
+          const c = cov[i];
+          return `<div class="card">
+            <div class="row-between" style="margin-bottom:12px">
+              <div class="row" style="gap:11px">
+                <span style="width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--series-${e.serie});color:#fff;font-weight:800">${e.coef}</span>
+                <div><h3 style="font-size:1.05rem">${esc(e.name)}</h3>
+                  <div class="xsmall muted">Coefficient ${e.coef} · ${e.minutes / 60} h · ${esc(e.format)} · ${esc(e.langue)}</div></div>
+              </div>
+              ${badge('Source officielle', 'good')}
+            </div>
+            <div class="scroll-x"><table class="table" style="min-width:560px">
+              <thead><tr><th>Domaine officiel</th><th>Sous-domaine</th><th class="num">Poids</th><th class="num">Contenu Najah</th></tr></thead>
+              <tbody>${e.domains.map(d => d.sub.map((sb, k) => `<tr>
+                ${k === 0 ? `<td rowspan="${d.sub.length}"><b class="small">${esc(d.name)}</b><div class="xsmall muted">${d.weight} %</div></td>` : ''}
+                <td class="small">${esc(sb.name)}</td>
+                <td class="num mono small">${sb.weight} %</td>
+                <td class="num">${thinWarning(sb.id)}</td></tr>`).join('')).join('')}</tbody>
+            </table></div>
+            <div class="mt16">${coverageBar(c)}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="disclaimer mt24"><span>${icon('flag', 17)}</span><div>
+        <b>Ce que le descriptif ne dit pas.</b> Le nombre de questions par épreuve, le barème détaillé, les règles de navigation et le seuil d'admission ne figurent pas dans les documents officiels dont nous disposons. Najah.ma ne les invente pas et ne les affiche nulle part.</div></div>
+    </section>
+
+    <section class="section" style="padding-bottom:24px">
+      <div class="shead"><div class="snum"><i>03</i><span></span></div>
+        <h2>Spécialités du concours</h2>
+        <div class="ssub">Une seule spécialité est ouverte : elle dispose de sa taxonomie officielle, de sa banque, de ses corrections et de ses sources. Les autres sont annoncées sans être promises.</div></div>
+      <div class="grid g3">
+        ${fam.specialties.map(sp => sp.live
+          ? `<a class="card card-hover card-link" href="#/concours/crmef/francais-secondaire">
+              <div class="row-between">${badge('Parcours ouvert', 'good')}</div>
+              <h3 style="margin-top:11px;font-size:1rem">${esc(sp.name)}</h3>
+              <div class="xsmall muted" style="margin-top:6px">Descriptif couvrant le collégial et le qualifiant</div>
+              <div class="dgo3" style="margin-top:12px">Découvrir ${icon('arrow', 16, 'ic-flip')}</div></a>`
+          : `<div class="card card-flat" style="opacity:.72">
+              ${badge(sp.prep || 'Contenu en préparation', 'outline')}
+              <h3 style="margin-top:11px;font-size:1rem">${esc(sp.name)}</h3>
+              <div class="xsmall muted" style="margin-top:6px">Taxonomie, banque de questions et validation pédagogique à produire</div></div>`).join('')}
+      </div>
+    </section>
+  </div>`, 'education');
+});
+
+/* =========================================================================
+   PAGE SPÉCIALITÉ — #/concours/crmef/francais-secondaire
+   ========================================================================= */
+route('/concours/crmef/francais-secondaire', () => {
+  const cov = crmefCoverage();
+  return shellPublic(`
+  <section class="dhero3 zel-host">${zellige('zcs', .04)}<div class="wrap" style="position:relative">
+    <div class="crumb"><a href="#/">Accueil</a> › <a href="#/concours/crmef">${esc(CR().titleShort)}</a> › Langue française</div>
+    <h1 style="font-size:clamp(1.6rem,3.2vw,2.3rem)">CRMEF — Langue française</h1>
+    <div class="row row-wrap mt8" style="gap:8px">${DATA.crmef.cycles.map(c => badge(c.name, 'brand')).join('')}${badge(CR().session)}</div>
+    <p class="lede" style="margin-top:14px">Le seul parcours réellement exploitable de la plateforme aujourd'hui. Le descriptif officiel de français couvre les deux cycles du secondaire : le programme y est commun.</p>
+    <div class="row row-wrap mt24">
+      <a class="btn btn-primary btn-lg" href="#/app/parcours/crmef">${icon('route', 19)} Découvrir mon parcours CRMEF</a>
+      <a class="btn btn-ghost btn-lg" href="#/app/parcours/crmef/diagnostic">${icon('target', 19)} Commencer le diagnostic</a>
+    </div>
+  </div></section>
+  <div class="wrap">
+    <section class="section">
+      <div class="grid g3">
+        ${DATA.crmef.epreuves.map((e, i) => `<div class="card">
+          <div class="row" style="gap:10px"><span style="width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--series-${e.serie});color:#fff;font-weight:800;font-size:.9rem">${e.coef}</span>
+            <div><b class="small" style="display:block">${esc(e.name)}</b><span class="xsmall muted">${e.minutes / 60} h · ${esc(e.format)}</span></div></div>
+          <div class="xsmall muted" style="margin-top:10px">${esc(e.langue)}</div>
+          <div class="mt16">${coverageBar(cov[i])}</div>
+        </div>`).join('')}
+      </div>
+    </section>
+    <section class="section" style="padding-bottom:24px">
+      <div class="card card-flat">
+        <h3 style="font-size:1rem">Sources</h3>
+        <table class="table mt8">
+          <thead><tr><th>Document</th><th>Organisme</th><th>Version</th><th class="num">Statut</th></tr></thead>
+          <tbody>${DATA.crmef.sources.map(s => `<tr><td class="small">${esc(s.ref)}</td><td class="small muted">${esc(s.org)}</td>
+            <td class="small mono">${esc(s.version)}</td><td class="num">${badge('Officielle', 'good')}</td></tr>`).join('')}</tbody>
+        </table>
+      </div>
+    </section>
+  </div>`, 'education');
+});
+
+/* =========================================================================
+   CONFIGURATION DU PARCOURS
+   ========================================================================= */
+function parcoursForm() {
+  const s = st();
+  const p = s.parcours || {};
+  return `<div class="card" style="max-width:640px">
+    <h3 style="font-size:1.05rem">Configurer mon parcours</h3>
+    <p class="small dim">Ces informations déterminent le diagnostic, les recommandations et les simulations. Elles ne vous seront pas redemandées.</p>
+    <div class="field mt16"><label>Concours</label>
+      <input class="input" value="${esc(CR().titleShort)} — Langue française" disabled></div>
+    <div class="field"><label>Cycle visé</label>
+      <div class="row row-wrap" style="gap:8px">
+        ${DATA.crmef.cycles.map(c => `<span class="chip ${p.cycle === c.id ? 'on' : ''}" onclick="setParcours('cycle','${c.id}')">${esc(c.name)}</span>`).join('')}
+      </div>
+      <div class="hint">Le descriptif de français est commun aux deux cycles ; votre choix sert au vocabulaire des exemples.</div></div>
+    <div class="field"><label>Session préparée</label>
+      <select class="select" onchange="setParcours('session',this.value)">
+        <option ${p.session === 'nov-2026' ? 'selected' : ''} value="nov-2026">Session de novembre 2026</option>
+        <option ${p.session === 'nov-2025' ? 'selected' : ''} value="nov-2025">Session de novembre 2025 (référence)</option>
+      </select></div>
+    <div class="field"><label>Langue de l'épreuve de sciences de l'éducation</label>
+      <div class="row row-wrap" style="gap:8px">
+        <span class="chip ${p.langueSE === 'fr' ? 'on' : ''}" onclick="setParcours('langueSE','fr')">Français</span>
+        <span class="chip ${p.langueSE === 'ar' ? 'on' : ''}" onclick="setParcours('langueSE','ar')">العربية</span>
+      </div>
+      <div class="hint">Le descriptif autorise ce choix pour cette épreuve uniquement. Les deux autres se déroulent en français.</div></div>
+    <div class="field"><label>Temps de préparation disponible par semaine</label>
+      <div class="row row-wrap" style="gap:8px">
+        ${[['2', 'Moins de 3 h'], ['5', '3 à 6 h'], ['9', '7 à 12 h'], ['15', 'Plus de 12 h']].map(([v, l]) =>
+          `<span class="chip ${p.tempsParSemaine === v ? 'on' : ''}" onclick="setParcours('tempsParSemaine','${v}')">${l}</span>`).join('')}
+      </div></div>
+    <div class="row row-wrap mt16">
+      <button class="btn btn-primary" ${p.cycle && p.langueSE ? '' : 'disabled'} onclick="saveParcours()">Enregistrer mon parcours</button>
+      ${s.parcours ? `<button class="btn btn-quiet" onclick="navigate('#/app/parcours/crmef')">Annuler</button>` : ''}
+    </div>
+    ${p.cycle && p.langueSE ? '' : '<div class="hint mt8">Le cycle et la langue sont nécessaires pour continuer.</div>'}
+  </div>`;
+}
+function setParcours(k, v) {
+  const s = st();
+  s.parcours = s.parcours || { concours: 'crmef', specialite: 'fr-sq', session: 'nov-2026' };
+  s.parcours[k] = v; storeSave(); render();
+}
+function saveParcours() {
+  const s = st();
+  s.parcours.concours = 'crmef'; s.parcours.specialite = 'fr-sq';
+  s.parcours.session = s.parcours.session || 'nov-2026';
+  s.parcours.savedAt = nowTs(); storeSave();
+  toast('Parcours enregistré — il sera restauré à chaque visite');
+  navigate('#/app/parcours/crmef');
+}
+
+/* =========================================================================
+   TABLEAU DE BORD — #/app/parcours/crmef
+   ========================================================================= */
+route('/app/parcours/crmef', () => {
+  const s = st();
+  if (!s.parcours || !s.parcours.savedAt) {
+    return shellApp(`${pagehead('Mon parcours CRMEF', "Première étape : indiquer ce que vous préparez.")}${parcoursForm()}`, 'parcours');
+  }
+  const p = s.parcours;
+  const cov = crmefCoverage();
+  const mission = nextMission();
+  const cycle = DATA.crmef.cycles.find(c => c.id === p.cycle);
+  const due = dueRecalls().length;
+
+  return shellApp(`
+    ${pagehead('Mon parcours CRMEF', null, `<button class="btn btn-ghost btn-sm" onclick="navigate('#/app/parcours/crmef?edit=1')">${icon('gear', 16)} Modifier</button>`)}
+
+    <div class="missionrail">
+      <span class="mric">${icon('route', 18)}</span>
+      <div style="flex:1;min-width:200px">
+        <b>${esc(CR().titleShort)} — Langue française</b>
+        <span>${esc(cycle ? cycle.name : '')} · ${p.session === 'nov-2026' ? 'Session de novembre 2026' : 'Session de novembre 2025'} · Sciences de l'éducation en ${p.langueSE === 'ar' ? 'arabe' : 'français'}</span>
+      </div>
+      ${due ? badge(due + ' rappel(s) à effectuer', 'warn') : ''}
+    </div>
+
+    <div class="card" style="border-color:var(--sem-remedy);border-inline-start:3px solid var(--sem-remedy);margin-bottom:22px">
+      <div class="row-between" style="margin-bottom:8px">
+        <div class="row" style="gap:10px"><span style="width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--sem-remedy-wash);color:var(--sem-remedy)">${icon('target', 18)}</span>
+          <b>Ma prochaine mission</b></div>
+        ${badge(mission.type, 'outline')}
+      </div>
+      <h3 style="font-size:1.15rem">${esc(mission.title)}</h3>
+      <details style="margin-top:10px"><summary class="small" style="cursor:pointer;color:var(--brand-700);font-weight:650">Pourquoi cette activité ?</summary>
+        <p class="small dim" style="margin:9px 0 0">${esc(mission.why)}</p></details>
+      <div class="row mt16"><a class="btn btn-primary" href="${mission.route}">Commencer</a></div>
+    </div>
+
+    <h2 style="font-size:1.15rem;margin-bottom:12px">Les trois épreuves</h2>
+    <div class="grid g3" style="margin-bottom:26px">
+      ${DATA.crmef.epreuves.map((e, i) => {
+        const c = cov[i];
+        const subs = ALL_SUBS().filter(x => x.ep === e.id);
+        const evaluated = subs.filter(x => masteryOfSub(x.id).state !== 'non_evaluee');
+        const weak = subs.filter(x => ['fragile', 'en_cours'].includes(masteryOfSub(x.id).state));
+        const last = s.attempts.filter(a => a.ep === e.id).sort((a, b) => b.ts - a.ts)[0];
+        const status = !evaluated.length ? 'Non commencée' : evaluated.length < subs.length ? 'En cours' : 'Parcourue';
+        return `<div class="card">
+          <div class="row-between"><span style="width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--series-${e.serie});color:#fff;font-weight:800;font-size:.85rem">${e.coef}</span>
+            ${badge(status, status === 'Non commencée' ? 'outline' : status === 'En cours' ? 'warn' : 'good')}</div>
+          <h3 style="font-size:1rem;margin-top:10px">${esc(e.name)}</h3>
+          <div class="xsmall muted">Coef ${e.coef} · ${e.minutes / 60} h · ${esc(e.langue.split(',')[0])}</div>
+          <div class="mt16">${coverageBar(c)}</div>
+          <div class="col mt16" style="gap:5px">
+            <div class="row-between xsmall"><span class="muted">Domaines travaillés</span><b>${evaluated.length} / ${subs.length}</b></div>
+            <div class="row-between xsmall"><span class="muted">Fragilités identifiées</span><b style="color:${weak.length ? 'var(--critical)' : 'var(--ink-2)'}">${weak.length}</b></div>
+            <div class="row-between xsmall"><span class="muted">Dernière activité</span><b>${last ? new Date(last.ts).toLocaleDateString('fr-FR') : '—'}</b></div>
+          </div>
+          <div class="row row-wrap mt16" style="gap:6px">
+            <a class="btn btn-sm btn-ghost" href="#/app/parcours/crmef/entrainement?ep=${e.id}">Entraînement</a>
+            <a class="btn btn-sm btn-quiet" href="#/app/parcours/crmef/simulation/${e.id}">Simulation</a>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <h2 style="font-size:1.15rem;margin-bottom:12px">Avancement du parcours</h2>
+    <div class="card" style="margin-bottom:26px">
+      <div class="frise">${parcoursStages().map(x => `
+        <div class="fstep ${x.done ? 'done' : x.partial ? 'partial' : ''}">
+          <span class="fdot">${x.done ? icon('check', 13) : ''}</span>
+          <span class="flab">${esc(x.name)}</span></div>`).join('')}</div>
+      <p class="xsmall muted" style="margin:14px 0 0">Cette frise indique où vous en êtes dans le parcours de préparation. Elle ne préjuge en rien du résultat au concours.</p>
+    </div>
+
+    <div class="grid g4">
+      <a class="card lift card-link" href="#/app/parcours/crmef/diagnostic"><div style="color:var(--brand-700)">${icon('target', 22)}</div>
+        <b class="small" style="display:block;margin-top:8px">Diagnostic</b><span class="xsmall muted">${s.diagnostic ? (s.diagnostic.done ? 'Terminé' : 'À reprendre') : 'Non commencé'}</span></a>
+      <a class="card lift card-link" href="#/app/parcours/crmef/entrainement"><div style="color:var(--brand-700)">${icon('pen', 22)}</div>
+        <b class="small" style="display:block;margin-top:8px">Entraînement</b><span class="xsmall muted">${s.attempts.filter(a => a.mode === 'entrainement').length} réponses</span></a>
+      <a class="card lift card-link" href="#/app/parcours/crmef/erreurs"><div style="color:var(--sem-trap)">${icon('bookmark', 22)}</div>
+        <b class="small" style="display:block;margin-top:8px">Carnet d'erreurs</b><span class="xsmall muted">${Object.keys(s.errors).length} entrée(s)</span></a>
+      <a class="card lift card-link" href="#/app/parcours/crmef/simulations"><div style="color:var(--brand-700)">${icon('timer', 22)}</div>
+        <b class="small" style="display:block;margin-top:8px">Simulations</b><span class="xsmall muted">${Object.values(s.sims).filter(x => x.submitted).length} passée(s)</span></a>
+    </div>`, 'parcours');
+});
+
+/* Édition du parcours via ?edit=1 */
+route('/app/parcours/crmef?edit', () => {});
+
+/* =========================================================================
+   DIAGNOSTIC — #/app/parcours/crmef/diagnostic
+   ========================================================================= */
+function buildDiagPlan() {
+  // Respecte autant que possible les poids officiels, sans jamais inventer de question
+  const plan = [];
+  DATA.crmef.epreuves.forEach(e => {
+    ALL_SUBS().filter(s => s.ep === e.id).forEach(sub => {
+      const qs = subQuestions(sub.id);
+      if (qs.length) plan.push({ ep: e.id, sub: sub.id, qid: qs[0].id, weight: sub.weight });
+    });
+  });
+  return plan.sort((a, b) => a.ep.localeCompare(b.ep) || b.weight - a.weight);
+}
+
+route('/app/parcours/crmef/diagnostic', () => {
+  const s = st();
+  if (!s.parcours || !s.parcours.savedAt) return shellApp(`${pagehead('Diagnostic')}${parcoursForm()}`, 'parcours');
+  const d = s.diagnostic;
+
+  if (!d) {
+    const plan = buildDiagPlan();
+    const gaps = ALL_SUBS().filter(x => !subQuestions(x.id).length);
+    return shellApp(`
+      ${pagehead('Diagnostic initial', "Structuré par épreuve et par domaine officiel. Vous pouvez l'interrompre et le reprendre : vos réponses sont conservées.")}
+      <div class="grid g3" style="margin-bottom:22px">
+        ${DATA.crmef.epreuves.map(e => {
+          const n = plan.filter(x => x.ep === e.id).length;
+          return `<div class="card card-pad-sm"><b class="small">${esc(e.name)}</b>
+            <div class="v mono" style="font-size:1.6rem;font-weight:800">${n}</div>
+            <span class="xsmall muted">question(s) de diagnostic</span></div>`;
+        }).join('')}
+      </div>
+      ${gaps.length ? `<div class="disclaimer" style="margin-bottom:20px"><span>${icon('flag', 17)}</span><div>
+        <b>${gaps.length} sous-domaine(s) officiel(s) ne peuvent pas être évalués</b> faute de question disponible : ${gaps.map(g => esc(g.name)).join(', ')}. Ils apparaîtront comme « non évalués » dans votre carte de compétences, jamais comme acquis.</div></div>` : ''}
+      <div class="card card-flat" style="margin-bottom:20px">
+        <b class="small">Ce que ce diagnostic ne fera pas</b>
+        <p class="small dim" style="margin:6px 0 0">Aucune probabilité de réussite, aucun seuil d'admission, aucun classement, aucun nombre de questions présenté comme officiel. Le descriptif ne communique aucune de ces informations.</p>
+      </div>
+      <button class="btn btn-primary btn-lg" onclick="startDiag2()">${icon('target', 19)} Commencer le diagnostic</button>`, 'parcours');
+  }
+
+  if (d.done) return diagReport();
+  return loopScreen({
+    mode: 'diagnostic', session: 'diag',
+    qid: d.plan[d.i].qid, index: d.i + 1, total: d.plan.length,
+    title: 'Diagnostic initial',
+    onNext: 'diagNext2()', onQuit: "navigate('#/app/parcours/crmef')"
+  });
+});
+
+function startDiag2() {
+  const s = st();
+  s.diagnostic = { started: nowTs(), plan: buildDiagPlan(), i: 0, done: false };
+  storeSave(); S.loop = null; render();
+}
+function diagNext2() {
+  const s = st();
+  if (s.diagnostic.i + 1 >= s.diagnostic.plan.length) { s.diagnostic.done = true; s.diagnostic.finished = nowTs(); }
+  else s.diagnostic.i++;
+  storeSave(); S.loop = null; render();
+}
+
+function diagReport() {
+  const s = st();
+  const byEp = DATA.crmef.epreuves.map(e => {
+    const subs = ALL_SUBS().filter(x => x.ep === e.id);
+    return { e, subs: subs.map(sub => ({ sub, m: masteryOfSub(sub.id) })) };
+  });
+  return shellApp(`
+    ${pagehead('Carte de compétences', "Établie sur vos réponses et votre niveau de certitude. Un sous-domaine sans preuve suffisante n'est jamais déclaré acquis.",
+      `<button class="btn btn-ghost btn-sm" onclick="restartDiag()">${icon('refresh', 16)} Refaire</button>`)}
+    <div class="disclaimer info" style="margin-bottom:22px"><span>${icon('bulb', 17)}</span><div>
+      <b>Lecture.</b> « Consolidée » exige plusieurs réussites espacées dans le temps et une question miroir réussie. Une bonne réponse isolée, même sûre, laisse le sous-domaine « en cours d'acquisition ».</div></div>
+    ${byEp.map(({ e, subs }) => `
+      <div class="zone">
+        <div class="zhead"><span class="zic" style="background:var(--series-${e.serie});color:#fff">${e.coef}</span>
+          <div><b>${esc(e.name)}</b><span>Coefficient ${e.coef} · ${subs.filter(x => x.m.state !== 'non_evaluee').length} sous-domaine(s) évalué(s) sur ${subs.length}</span></div></div>
+        <div class="col" style="gap:0">
+          ${subs.map(({ sub, m }) => `<div class="mastery">
+            <div class="name"><b>${esc(sub.name)}</b><span>${esc(sub.domName)} · ${sub.weight} % de l'épreuve · ${m.seen || 0} réponse(s)</span></div>
+            <div class="gauge">${masteryPill(m.state)}
+              <div class="xsmall muted" style="margin-top:5px">${m.seen ? `preuve ${m.evidence} · ${m.correct}/${m.seen} juste(s)` : thinWarning(sub.id) && subQuestions(sub.id).length ? 'jamais répondu' : 'aucune question disponible'}</div></div>
+            <div style="width:auto">${subQuestions(sub.id).length ? `<a class="btn btn-sm btn-quiet" href="#/app/parcours/crmef/apprendre/${sub.id}">Travailler</a>` : badge('Sans contenu', 'crit')}</div>
+          </div>`).join('')}
+        </div>
+      </div>`).join('')}
+    <div class="row row-wrap mt24"><a class="btn btn-primary" href="#/app/parcours/crmef">Voir ma prochaine mission</a>
+      <a class="btn btn-ghost" href="#/app/parcours/crmef/entrainement">S'entraîner</a></div>`, 'parcours');
+}
+function restartDiag() {
+  modal(`<h3>Refaire le diagnostic ?</h3><p class="small dim">Vos réponses passées sont conservées comme preuves : elles continueront d'alimenter votre carte de compétences.</p>
+    <div class="row mt16" style="justify-content:flex-end"><button class="btn btn-quiet" onclick="closeModal()">Annuler</button>
+    <button class="btn btn-primary" onclick="closeModal();startDiag2()">Refaire</button></div>`);
+}
+
+/* =========================================================================
+   LA BOUCLE NAJAH — écran unique réutilisé par le diagnostic,
+   l'apprentissage, l'entraînement et les rappels
+   ========================================================================= */
+function loopScreen(o) {
+  const q = DATA.questions.find(x => x.id === o.qid);
+  if (!q) return shellApp(`<div class="empty">${icon('compass', 34)}<p>Question introuvable.</p></div>`, 'parcours');
+  const L = S.loop = S.loop || { step: 'answer', answer: null, cert: null, res: null, mirrorQ: null, mirrorAns: null };
+  const sub = q.sub ? SUB(q.sub) : null;
+
+  /* --- en-tête commun --- */
+  const head = `<div class="exambar">
+    <button class="btn btn-sm btn-quiet exitfocus" onclick="${o.onQuit}">${icon('arrow', 15, 'ic-flip')} Quitter</button>
+    <b class="small">${esc(o.title)}</b>
+    ${sub ? badge(sub.name, 'brand') : ''}
+    <span class="spacer" style="flex:1"></span>
+    <span class="saveind"><span class="dot"></span>Enregistré</span>
+    ${o.total ? `<span class="small muted mono"><bdi>${o.index} / ${o.total}</bdi></span>` : ''}
+  </div>
+  ${o.total ? `<div class="bar bar-thin" style="margin-bottom:18px"><span style="width:${((o.index - 1) / o.total) * 100}%"></span></div>` : ''}`;
+
+  /* --- étape 1 : répondre --- */
+  if (L.step === 'answer') {
+    return shellApp(`${head}
+      ${questionBlock(q, { answer: L.answer, onPick: `loopPick(` })}
+      ${loopMeta(q)}
+      <div class="row-between mt24">
+        <span class="small muted">Choisissez une réponse, puis indiquez votre degré de certitude.</span>
+        <button class="btn btn-primary" ${L.answer ? '' : 'disabled'} onclick="S.loop.step='cert';render()">Continuer</button>
+      </div>`, 'parcours');
+  }
+
+  /* --- étape 2 : certitude --- */
+  if (L.step === 'cert') {
+    return shellApp(`${head}
+      ${questionBlock(q, { answer: L.answer, onPick: `loopPick(` })}
+      <div class="card" style="margin-top:18px;border-color:var(--brand-600)">
+        <b>À quel point êtes-vous sûr de votre réponse ?</b>
+        <p class="small dim" style="margin:6px 0 14px">Cette information distingue une connaissance solide d'une bonne réponse obtenue par élimination. Elle change la suite du parcours.</p>
+        <div class="row row-wrap" style="gap:10px">
+          ${CERTITUDES.map(c => `<button class="btn ${L.cert === c.id ? 'btn-primary' : 'btn-ghost'}" onclick="loopCert('${c.id}','${o.mode}','${o.session}')">${icon(c.icon, 17)} ${c.label}</button>`).join('')}
+        </div>
+      </div>`, 'parcours');
+  }
+
+  /* --- étape 3 : correction complète --- */
+  if (L.step === 'reveal') {
+    const r = L.res || {};
+    const conf = r.confusion;
+    const lect = r.lecture || {};
+    const remed = sub ? `#/app/parcours/crmef/apprendre/${sub.id}` : null;
+    return shellApp(`${head}
+      <div class="row row-wrap" style="gap:8px;margin-bottom:14px">
+        <span class="badge badge-${lect.kind === 'crit' ? 'crit' : lect.kind === 'good' ? 'good' : 'warn'}">${esc(lect.label || '')}</span>
+        ${editBadge(q)}
+        ${q.prudence ? badge('Rattachement prudent', 'terra') : ''}
+      </div>
+      ${questionBlock(q, { answer: L.answer, reveal: true })}
+
+      ${conf ? `<div class="card" style="margin-top:18px;border-inline-start:3px solid var(--sem-trap)">
+        <div class="row" style="gap:9px;margin-bottom:8px"><span style="color:var(--sem-trap)">${icon('bulb', 18)}</span>
+          <b>Confusion probable</b>${badge(conf.formule, 'terra')}</div>
+        <p class="small dim" style="margin:0">${md(conf.hypothese || "Aucune confusion type n'est documentée pour cette question.")}</p>
+        <div class="row row-wrap mt16" style="gap:8px">
+          <button class="btn btn-sm btn-ghost" onclick="toast('Merci — votre confirmation affinera les prochaines recommandations')">C'est bien mon erreur</button>
+          <button class="btn btn-sm btn-quiet" onclick="toast('Noté — cette hypothèse ne sera pas retenue')">Ce n'est pas ça</button>
+        </div>
+      </div>` : ''}
+
+      ${loopMeta(q, true)}
+
+      ${remed ? `<div class="reco" style="margin-top:18px">
+        <div class="icon">${icon('route', 20)}</div>
+        <div style="flex:1"><h4>Remédiation courte</h4>
+          <p class="small dim" style="margin:0">Reprendre le point ${esc(sub.name)} — quelques minutes, ciblées sur la cause de l'erreur plutôt que sur le thème entier.</p>
+          <div class="row row-wrap mt16" style="gap:8px">
+            <a class="btn btn-sm btn-primary" href="${remed}">Suivre la remédiation</a>
+            <button class="btn btn-sm btn-quiet" onclick="markRemed('${sub.id}')">Marquer comme faite</button></div>
+        </div></div>` : ''}
+
+      <div class="row-between mt24">
+        ${r.mirror ? `<span class="small muted">Une question miroir vérifie le transfert dans un autre contexte.</span>
+          <button class="btn btn-primary" onclick="loopMirror('${r.mirror.id}')">${icon('refresh', 17)} Question miroir</button>`
+        : `<span class="small muted">Réponse juste et assurée : aucune vérification immédiate n'est nécessaire.</span>
+          <button class="btn btn-primary" onclick="${o.onNext}">Continuer</button>`}
+      </div>`, 'parcours');
+  }
+
+  /* --- étape 4 : question miroir --- */
+  if (L.step === 'mirror') {
+    const mq = L.mirrorQ;
+    return shellApp(`${head}
+      <div class="card card-flat" style="margin-bottom:14px"><b class="small">${icon('refresh', 15)} Question miroir</b>
+        <p class="small dim" style="margin:5px 0 0">Même sous-domaine, question différente${mq.cog !== q.cog ? `, autre niveau cognitif (${esc(mq.cog)})` : ''}. On vérifie un transfert, pas une mémorisation.</p></div>
+      ${questionBlock(mq, { answer: L.mirrorAns, reveal: !!L.mirrorDone, onPick: `loopMirrorPick(` })}
+      <div class="row-between mt24">
+        <span class="small muted">${L.mirrorDone ? "Une réussite au miroir ne clôt pas la fragilité : un rappel différé est programmé." : ''}</span>
+        ${L.mirrorDone
+          ? `<button class="btn btn-primary" onclick="${o.onNext}">Continuer</button>`
+          : `<button class="btn btn-primary" ${L.mirrorAns ? '' : 'disabled'} onclick="loopMirrorValidate('${q.id}','${q.sub}')">Valider</button>`}
+      </div>`, 'parcours');
+  }
+
+  return shellApp('', 'parcours');
+}
+
+/* Métadonnées officielles d'une question */
+function loopMeta(q, full) {
+  const sub = q.sub ? SUB(q.sub) : null;
+  const src = DATA.crmef.sources.find(s => s.id === q.srcId);
+  return `<div class="card card-flat card-pad-sm" style="margin-top:14px">
+    <div class="row row-wrap xsmall" style="gap:8px 20px">
+      ${sub ? `<span><b>Épreuve :</b> ${esc(sub.epName)}</span><span><b>Domaine :</b> ${esc(sub.domName)}</span><span><b>Sous-domaine :</b> ${esc(sub.name)} (${sub.weight} %)</span>` :
+        `<span>${badge('Hors descriptif 2025', 'terra')} contenu complémentaire</span>`}
+      <span><b>Niveau cognitif :</b> ${esc(q.cog)}</span>
+      <span><b>Difficulté :</b> ${q.diff}/4</span>
+      ${full && src ? `<span><b>Source :</b> ${esc(src.ref)} — ${esc(src.version)}</span>` : ''}
+      <span>${editBadge(q)}</span>
+    </div>
+    ${full && q.auditNote ? `<div class="xsmall muted" style="margin-top:8px"><b>Note d'audit :</b> ${esc(q.auditNote)}</div>` : ''}
+  </div>`;
+}
+
+/* --- actions de la boucle --- */
+function loopPick(k) { if (S.loop.step === 'reveal' || S.loop.step === 'mirror') return; S.loop.answer = k; render(); }
+function loopCert(c, mode, session) {
+  const L = S.loop; L.cert = c;
+  const qid = currentLoopQid();
+  L.res = submitAnswer({ qid, answer: L.answer, certitude: c, mode, session });
+  L.step = 'reveal'; render();
+}
+function currentLoopQid() {
+  const s = st();
+  if (S.loopQid) return S.loopQid;
+  if (s.diagnostic && !s.diagnostic.done) return s.diagnostic.plan[s.diagnostic.i].qid;
+  return null;
+}
+function loopMirror(mid) { S.loop.mirrorQ = DATA.questions.find(q => q.id === mid); S.loop.step = 'mirror'; S.loop.mirrorAns = null; render(); }
+function loopMirrorPick(k) { if (S.loop.mirrorDone) return; S.loop.mirrorAns = k; render(); }
+function loopMirrorValidate(originQid, sub) {
+  const L = S.loop;
+  const ok = L.mirrorAns === L.mirrorQ.correct;
+  recordMirror(originQid, L.mirrorQ.id, ok, sub);
+  scheduleRecall(originQid, sub, !ok);
+  L.mirrorDone = true; render();
+}
+function markRemed(subId) {
+  const s = st(); s.remediations[subId] = { status: 'faite', ts: nowTs() }; storeSave();
+  toast('Remédiation enregistrée');
+}
+
+/* =========================================================================
+   NAJAH.ma — Parcours CRMEF (2/2)
+   Apprentissage · entraînement · carnet d'erreurs · simulations · rapport
+   ========================================================================= */
+
+/* =========================================================================
+   APPRENDRE UN SOUS-DOMAINE — #/app/parcours/crmef/apprendre/:id
+   ========================================================================= */
+route('/app/parcours/crmef/apprendre/:id', r => {
+  const subId = r.parts[4];
+  const sub = SUB(subId);
+  if (!sub) return notFound();
+  const qs = subQuestions(subId);
+  const m = masteryOfSub(subId);
+  const s = st();
+
+  if (S.loopQid && qs.some(q => q.id === S.loopQid)) {
+    return loopScreen({
+      mode: 'apprentissage', session: 'apprendre-' + subId,
+      qid: S.loopQid, title: 'Apprendre — ' + sub.name,
+      onNext: `S.loopQid=null;S.loop=null;render()`,
+      onQuit: `S.loopQid=null;S.loop=null;navigate('#/app/parcours/crmef')`
+    });
+  }
+
+  const done = s.attempts.filter(a => a.sub === subId).map(a => a.qid);
+  return shellApp(`
+    ${pagehead(sub.name, `${sub.epName} · ${sub.domName} · ${sub.weight} % de l'épreuve`)}
+    <div class="grid" style="grid-template-columns:1.5fr 1fr;gap:20px">
+      <div>
+        <div class="zone">
+          <div class="zhead"><span class="zic">${icon('layers', 17)}</span>
+            <div><b>Questions disponibles</b><span>${qs.length} question(s) rattachée(s) à ce sous-domaine officiel</span></div></div>
+          ${qs.length ? `<div class="col" style="gap:9px">
+            ${qs.map(q => `<div class="card card-pad-sm row-between">
+              <div style="flex:1;min-width:0">
+                <div class="row row-wrap" style="gap:6px;margin-bottom:5px">${editBadge(q)}${badge(q.cog)}${diffDots(q.diff)}
+                  ${done.includes(q.id) ? badge('Déjà traitée', 'good') : ''}</div>
+                <div class="small">${esc(q.stem.slice(0, 96))}${q.stem.length > 96 ? '…' : ''}</div>
+              </div>
+              <button class="btn btn-sm btn-primary" onclick="S.loopQid='${q.id}';S.loop=null;render()">${done.includes(q.id) ? 'Refaire' : 'Traiter'}</button>
+            </div>`).join('')}</div>`
+          : `<div class="empty"><div class="e-ico">${icon('file', 30)}</div>
+              <p class="small">Aucune question n'est encore rattachée à ce sous-domaine officiel.</p>
+              <p class="xsmall muted">Il apparaîtra comme « non évalué » tant qu'un expert n'aura pas produit et validé son contenu.</p></div>`}
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h3 style="font-size:.95rem">État de maîtrise</h3>
+          <div class="mt16">${masteryPill(m.state)}</div>
+          <table class="table mt16">
+            <tr><td class="muted small">Réponses</td><td class="num strong">${m.seen || 0}</td></tr>
+            <tr><td class="muted small">Justes</td><td class="num strong">${m.correct || 0}</td></tr>
+            <tr><td class="muted small">Poids de preuve</td><td class="num strong">${m.evidence || 0}</td></tr>
+            <tr><td class="muted small">Réussites espacées</td><td class="num strong">${m.spaced || 0}</td></tr>
+            <tr><td class="muted small">Miroir réussi</td><td class="num strong">${m.mirrorOk || 0}</td></tr>
+            <tr><td class="muted small">Erreurs sûres</td><td class="num strong" style="color:${m.sureWrong ? 'var(--critical)' : 'inherit'}">${m.sureWrong || 0}</td></tr>
+          </table>
+          <p class="xsmall muted mt16">« Consolidée » exige au moins deux réussites espacées d'un jour et une question miroir réussie. Une bonne réponse isolée ne suffit jamais.</p>
+        </div>
+        ${s.remediations[subId] ? `<div class="card card-flat mt16"><b class="small">${icon('check', 15)} Remédiation effectuée</b>
+          <div class="xsmall muted">${new Date(s.remediations[subId].ts).toLocaleDateString('fr-FR')}</div></div>` : ''}
+      </div>
+    </div>`, 'parcours');
+});
+
+/* =========================================================================
+   ENTRAÎNEMENT — #/app/parcours/crmef/entrainement
+   ========================================================================= */
+function trainPool(mode, arg) {
+  const s = st();
+  switch (mode) {
+    case 'rappels': return dueRecalls().map(r => recallQuestion(r)).filter(Boolean);
+    case 'erreurs': return Object.keys(s.errors).map(id => DATA.questions.find(q => q.id === id)).filter(Boolean);
+    case 'fragiles': {
+      const weak = ALL_SUBS().filter(x => ['fragile', 'en_cours'].includes(masteryOfSub(x.id).state)).map(x => x.id);
+      return DATA.questions.filter(q => weak.includes(q.sub));
+    }
+    case 'ep': return epQuestions(arg);
+    case 'dom': return DATA.questions.filter(q => q.sub && SUB(q.sub) && SUB(q.sub).dom === arg);
+    case 'sub': return subQuestions(arg);
+    default: return DATA.crmef.epreuves.flatMap(e => epQuestions(e.id));
+  }
+}
+
+route('/app/parcours/crmef/entrainement', r => {
+  const s = st();
+  const mode = r.q.get('mode') || (r.q.get('ep') ? 'ep' : 'mixte');
+  const arg = r.q.get('ep') || r.q.get('dom') || r.q.get('sub');
+  const pool = trainPool(mode, arg);
+
+  if (S.loopQid) {
+    return loopScreen({
+      mode: 'entrainement', session: 'train-' + mode,
+      qid: S.loopQid, title: 'Entraînement',
+      onNext: `trainNext(${JSON.stringify(pool.map(q => q.id))})`,
+      onQuit: `S.loopQid=null;S.loop=null;navigate('#/app/parcours/crmef/entrainement')`
+    });
+  }
+
+  const due = dueRecalls();
+  const modes = [
+    ['mixte', 'Série mixte', 'Toutes épreuves confondues', trainPool('mixte').length],
+    ['rappels', 'Rappels à échéance', 'Questions dont la vérification différée est due', due.length],
+    ['erreurs', "Carnet d'erreurs", 'Uniquement ce que vous avez raté', Object.keys(s.errors).length],
+    ['fragiles', 'Compétences fragiles', "Sous-domaines fragiles ou en cours d'acquisition", trainPool('fragiles').length]
+  ];
+
+  return shellApp(`
+    ${pagehead('Entraînement', "Chaque activité indique son épreuve, son domaine officiel, son niveau cognitif, sa source et son statut éditorial.")}
+    <div class="grid g2" style="margin-bottom:22px">
+      ${modes.map(([k, t, d, n]) => `<div class="card ${mode === k ? '' : 'card-flat'}" style="${mode === k ? 'border-color:var(--brand-600)' : ''}">
+        <div class="row-between"><b class="small">${t}</b><b class="mono">${n}</b></div>
+        <div class="xsmall muted" style="margin-top:4px">${d}</div>
+        <button class="btn btn-sm ${mode === k ? 'btn-primary' : 'btn-ghost'} mt16" ${n ? '' : 'disabled'}
+          onclick="navigate('#/app/parcours/crmef/entrainement?mode=${k}')">${n ? 'Choisir' : 'Rien à traiter'}</button>
+      </div>`).join('')}
+    </div>
+
+    <h3 style="font-size:1rem;margin-bottom:10px">Par épreuve et par domaine officiel</h3>
+    <div class="col" style="gap:12px;margin-bottom:22px">
+      ${DATA.crmef.epreuves.map(e => `<div class="zone">
+        <div class="zhead"><span class="zic" style="background:var(--series-${e.serie});color:#fff">${e.coef}</span>
+          <div><b>${esc(e.name)}</b><span>${epQuestions(e.id).length} question(s) disponibles</span></div>
+          <span class="spacer" style="flex:1"></span>
+          <a class="btn btn-sm btn-ghost" href="#/app/parcours/crmef/entrainement?ep=${e.id}">Toute l'épreuve</a></div>
+        <div class="row row-wrap" style="gap:7px">
+          ${e.domains.flatMap(d => d.sub).map(sb => {
+            const n = subQuestions(sb.id).length;
+            return `<a class="chip ${n ? '' : 'muted'}" ${n ? `href="#/app/parcours/crmef/entrainement?mode=sub&sub=${sb.id}"` : 'style="opacity:.45;pointer-events:none"'}>
+              ${esc(sb.name)} <span style="opacity:.7;margin-inline-start:5px">${n}</span></a>`;
+          }).join('')}
+        </div>
+      </div>`).join('')}
+    </div>
+
+    ${pool.length ? `<div class="card">
+      <div class="row-between"><div><b>Série prête — ${pool.length} question(s)</b>
+        <div class="xsmall muted">Mode : ${esc(mode)}${arg ? ' · ' + esc(arg) : ''}</div></div>
+        <button class="btn btn-primary" onclick="S.loopQid='${pool[0].id}';S.loop=null;render()">${icon('play', 17)} Démarrer</button></div>
+    </div>` : `<div class="empty"><div class="e-ico">${icon('check', 30)}</div><p class="small">Rien à traiter dans ce mode pour l'instant.</p></div>`}`, 'parcours');
+});
+
+function trainNext(ids) {
+  const cur = ids.indexOf(S.loopQid);
+  const nxt = ids[cur + 1];
+  S.loop = null;
+  if (nxt) { S.loopQid = nxt; render(); }
+  else { S.loopQid = null; toast('Série terminée'); navigate('#/app/parcours/crmef'); }
+}
+
+/* =========================================================================
+   CARNET D'ERREURS — #/app/parcours/crmef/erreurs
+   ========================================================================= */
+route('/app/parcours/crmef/erreurs', r => {
+  const f = { ep: r.q.get('ep') || null, remed: r.q.get('remed') || null, due: r.q.get('due') === '1' };
+  const list = errorList(f).sort((a, b) => b.ts - a.ts);
+  const dueIds = dueRecalls().map(x => x.qid);
+  const s = st();
+
+  return shellApp(`
+    ${pagehead("Carnet d'erreurs", "Chaque entrée conserve votre réponse, la réponse attendue, la confusion probable, la source, la remédiation et l'état du rappel différé.")}
+    <div class="row row-wrap" style="gap:8px;margin-bottom:18px">
+      <a class="chip ${!f.ep && !f.due ? 'on' : ''}" href="#/app/parcours/crmef/erreurs">Toutes (${Object.keys(s.errors).length})</a>
+      ${DATA.crmef.epreuves.map(e => `<a class="chip ${f.ep === e.id ? 'on' : ''}" href="#/app/parcours/crmef/erreurs?ep=${e.id}">${esc(e.name)} (${errorList({ ep: e.id }).length})</a>`).join('')}
+      <a class="chip ${f.due ? 'on' : ''}" href="#/app/parcours/crmef/erreurs?due=1">Rappel à effectuer (${dueIds.length})</a>
+    </div>
+
+    ${list.length ? `<div class="col" style="gap:14px">${list.map(e => {
+      const q = DATA.questions.find(x => x.id === e.qid);
+      const sub = e.sub ? SUB(e.sub) : null;
+      const rec = s.recalls.find(x => x.qid === e.qid);
+      const isDue = dueIds.includes(e.qid);
+      return `<div class="card">
+        <div class="row-between" style="margin-bottom:10px">
+          <div class="row row-wrap" style="gap:6px">
+            ${sub ? badge(sub.epName, 'brand') : badge('Hors descriptif', 'terra')}
+            ${sub ? badge(sub.name) : ''}
+            ${badge(readCertitude(false, e.certitude).label, e.lecture === 'fausse_croyance' ? 'crit' : 'warn')}
+          </div>
+          <span class="xsmall muted">${new Date(e.ts).toLocaleDateString('fr-FR')}${e.count > 1 ? ` · ${e.count} fois` : ''}</span>
+        </div>
+        <div class="small strong" style="margin-bottom:10px">${esc(q ? q.stem : e.qid)}</div>
+        <div class="grid g2" style="gap:10px">
+          <div class="card card-flat card-pad-sm"><div class="xsmall muted">Votre réponse</div>
+            <b class="small" style="color:var(--critical)">${e.answer} — ${esc(q ? (q.choices.find(c => c.k === e.answer) || {}).t || '' : '')}</b></div>
+          <div class="card card-flat card-pad-sm"><div class="xsmall muted">Réponse attendue</div>
+            <b class="small" style="color:var(--good-ink)">${e.expected} — ${esc(q ? (q.choices.find(c => c.k === e.expected) || {}).t || '' : '')}</b></div>
+        </div>
+        ${e.confusion ? `<div class="rat-trap" style="margin-top:12px"><span>${icon('bulb', 16)}</span>
+          <div><b>Confusion probable.</b> ${md(e.confusion)}</div></div>` : ''}
+        <div class="row row-wrap mt16" style="gap:8px 18px">
+          <span class="xsmall"><b>Remédiation :</b> ${esc(e.remediation)}</span>
+          <span class="xsmall"><b>Miroir :</b> ${esc(e.mirror || 'non tentée')}</span>
+          <span class="xsmall"><b>Rappel :</b> ${isDue ? '<b style="color:var(--sem-remedy)">à effectuer</b>' : rec ? 'prévu le ' + new Date(rec.due).toLocaleDateString('fr-FR') : '—'}</span>
+        </div>
+        <div class="row row-wrap mt16" style="gap:8px">
+          <button class="btn btn-sm btn-primary" onclick="S.loopQid='${e.qid}';S.loop=null;navigate('#/app/parcours/crmef/entrainement?mode=erreurs')">Retravailler</button>
+          ${sub ? `<a class="btn btn-sm btn-ghost" href="#/app/parcours/crmef/apprendre/${sub.id}">Voir le sous-domaine</a>` : ''}
+        </div>
+      </div>`;
+    }).join('')}</div>`
+    : `<div class="empty"><div class="e-ico">${icon('bookmark', 32)}</div><h3>Carnet vide</h3>
+        <p class="small">Les questions ratées y sont ajoutées automatiquement, avec la confusion probable et le rappel différé.</p></div>`}`, 'parcours');
+});
+
+/* =========================================================================
+   SIMULATIONS — #/app/parcours/crmef/simulations
+   ========================================================================= */
+route('/app/parcours/crmef/simulations', () => {
+  const s = st();
+  return shellApp(`
+    ${pagehead('Simulations par épreuve', "Trois familles distinctes. Les trois épreuves ne sont jamais mélangées dans une même simulation.")}
+    <div class="disclaimer" style="margin-bottom:22px"><span>${icon('flag', 17)}</span><div>
+      <b>Ce ne sont pas des reproductions officielles.</b> Le descriptif ne communique ni le nombre de questions, ni le barème, ni les règles de navigation, ni le seuil d'admission. Seuls la durée, le coefficient, la langue et les poids des domaines sont officiels et repris ici.</div></div>
+    <div class="col" style="gap:16px">
+      ${DATA.crmef.epreuves.map(e => {
+        const c = epCoverage(e.id);
+        const past = s.sims[e.id];
+        const partial = c.weightPct < 100;
+        return `<div class="card">
+          <div class="row-between" style="margin-bottom:12px">
+            <div class="row" style="gap:11px"><span style="width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--series-${e.serie});color:#fff;font-weight:800">${e.coef}</span>
+              <div><h3 style="font-size:1.02rem">Simulation — ${esc(e.name)}</h3>
+                <div class="xsmall muted">Coefficient ${e.coef} · ${e.minutes / 60} h · ${esc(e.format)} · ${esc(e.langue)}</div></div></div>
+            ${partial ? badge('Couverture partielle', 'warn') : badge('Couverture complète', 'good')}
+          </div>
+          <div class="grid g4" style="gap:10px;margin-bottom:14px">
+            <div class="stat card-pad-sm"><div class="k">Durée officielle</div><div class="v mono" style="font-size:1.25rem">${e.minutes / 60} h</div></div>
+            <div class="stat card-pad-sm"><div class="k">Coefficient</div><div class="v mono" style="font-size:1.25rem">${e.coef}</div></div>
+            <div class="stat card-pad-sm"><div class="k">Questions disponibles</div><div class="v mono" style="font-size:1.25rem">${c.questions}</div></div>
+            <div class="stat card-pad-sm"><div class="k">Nombre officiel</div><div class="v" style="font-size:.82rem;line-height:1.3;padding-top:8px;color:var(--ink-3)">${NCLABEL}</div></div>
+          </div>
+          ${partial ? `<div class="card card-flat card-pad-sm" style="border-inline-start:3px solid var(--warn)">
+            <b class="xsmall">Simulation d'entraînement — couverture partielle du programme officiel</b>
+            <div class="xsmall muted" style="margin-top:4px">${c.covered} sous-domaines sur ${c.subs} disposent de contenu, soit ${c.weightPct} % du poids officiel. Les domaines absents ne seront pas évalués.</div></div>` : ''}
+          <div class="mt16">${coverageBar(c)}</div>
+          <div class="row row-wrap mt16" style="gap:8px">
+            <button class="btn btn-primary" ${c.questions ? '' : 'disabled'} onclick="startSim('${e.id}')">${icon('timer', 17)} ${past && past.submitted ? 'Repasser' : 'Démarrer'}</button>
+            ${past && past.submitted ? `<a class="btn btn-ghost" href="#/app/parcours/crmef/rapport/${e.id}">Voir le rapport</a>` : ''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`, 'parcours');
+});
+
+/* ---------------- Passation d'une simulation ---------------- */
+function startSim(epId) {
+  const s = st();
+  const ids = epQuestions(epId).map(q => q.id);
+  const e = EP(epId);
+  s.sims[epId] = { key: 'sim-' + epId + '-' + nowTs(), ids, i: 0, answers: {}, certitudes: {},
+    left: e.minutes * 60, started: nowTs(), submitted: false };
+  storeSave(); S.simRun = epId; startSimTimer(); navigate('#/app/parcours/crmef/simulation/' + epId);
+}
+let SIM_TIMER = null;
+function startSimTimer() {
+  clearInterval(SIM_TIMER);
+  SIM_TIMER = setInterval(() => {
+    const s = st(); const sim = S.simRun && s.sims[S.simRun];
+    if (!sim || sim.submitted) { clearInterval(SIM_TIMER); return; }
+    sim.left--;
+    const el = document.getElementById('simtimer');
+    if (el) { const t = el.querySelector('.tv'); if (t) t.textContent = mmss(sim.left); el.className = 'timer' + (sim.left < 300 ? ' low' : ''); }
+    if (sim.left % 10 === 0) storeSave();
+    if (sim.left <= 0) { clearInterval(SIM_TIMER); submitSim(S.simRun, true); }
+  }, 1000);
+}
+
+route('/app/parcours/crmef/simulation/:ep', r => {
+  const epId = r.parts[4];
+  const e = EP(epId);
+  if (!e) return notFound();
+  const s = st();
+  const sim = s.sims[epId];
+  if (!sim) { return shellApp(`${pagehead('Simulation')}<div class="empty"><p>Aucune simulation en cours pour cette épreuve.</p>
+    <a class="btn btn-primary mt16" href="#/app/parcours/crmef/simulations">Retour aux simulations</a></div>`, 'parcours'); }
+  if (sim.submitted) return simReport(epId);
+  S.simRun = epId;
+  if (!SIM_TIMER) startSimTimer();
+
+  const q = DATA.questions.find(x => x.id === sim.ids[sim.i]);
+  const answered = Object.keys(sim.answers).length;
+  const c = epCoverage(epId);
+
+  return shellApp(`
+    <div class="exambar">
+      <button class="btn btn-sm btn-quiet exitfocus" onclick="quitSim()">${icon('arrow', 15, 'ic-flip')} Quitter</button>
+      <b class="small">${esc(e.name)}</b>
+      <span id="simtimer" class="timer ${sim.left < 300 ? 'low' : ''}">${icon('timer', 16)}<span class="tv">${mmss(sim.left)}</span></span>
+      <span class="saveind"><span class="dot"></span>Enregistré</span>
+      <span class="spacer" style="flex:1"></span>
+      ${c.weightPct < 100 ? badge('Couverture partielle', 'warn') : ''}
+      <span class="small muted mono"><bdi>${answered} / ${sim.ids.length}</bdi></span>
+      <button class="btn btn-sm btn-primary" onclick="confirmSubmitSim('${epId}')">Soumettre</button>
+    </div>
+    <div class="grid" style="grid-template-columns:1fr 200px;gap:20px">
+      <div>
+        ${questionBlock(q, { answer: sim.answers[q.id], onPick: `simPick('${epId}','${q.id}',`, index: sim.i + 1, total: sim.ids.length })}
+        <div class="card card-flat card-pad-sm mt16">
+          <b class="xsmall">Certitude</b>
+          <div class="row row-wrap mt8" style="gap:8px">
+            ${CERTITUDES.map(ct => `<button class="btn btn-sm ${sim.certitudes[q.id] === ct.id ? 'btn-primary' : 'btn-ghost'}"
+              onclick="simCert('${epId}','${q.id}','${ct.id}')">${ct.label}</button>`).join('')}
+          </div>
+        </div>
+        <div class="row-between mt24">
+          <button class="btn btn-ghost" ${sim.i === 0 ? 'disabled' : ''} onclick="simNav('${epId}',-1)">Précédent</button>
+          <button class="btn btn-primary" ${sim.i + 1 >= sim.ids.length ? 'disabled' : ''} onclick="simNav('${epId}',1)">Suivant</button>
+        </div>
+      </div>
+      <div><div class="card card-pad-sm" style="position:sticky;top:132px">
+        <h3 style="font-size:.86rem;margin-bottom:10px">Navigation</h3>
+        <div class="qnav">${sim.ids.map((id, i) => `<button class="${sim.answers[id] ? 'answered' : ''} ${i === sim.i ? 'cur' : ''}"
+          onclick="simGo('${epId}',${i})">${i + 1}</button>`).join('')}</div>
+        <div class="divider" style="margin:12px 0"></div>
+        <div class="xsmall muted">Règles de navigation officielles : ${NCLABEL.toLowerCase()}.</div>
+      </div></div>
+    </div>`, 'parcours');
+});
+
+function simPick(ep, qid, k) { const s = st(); s.sims[ep].answers[qid] = k; storeSave(); render(); }
+function simCert(ep, qid, c) { const s = st(); s.sims[ep].certitudes[qid] = c; storeSave(); render(); }
+function simNav(ep, d) { const s = st(); s.sims[ep].i = clamp(s.sims[ep].i + d, 0, s.sims[ep].ids.length - 1); storeSave(); render(); }
+function simGo(ep, i) { const s = st(); s.sims[ep].i = i; storeSave(); render(); }
+function quitSim() { S.simRun = null; clearInterval(SIM_TIMER); SIM_TIMER = null; navigate('#/app/parcours/crmef'); }
+function confirmSubmitSim(ep) {
+  const s = st(); const sim = s.sims[ep];
+  const left = sim.ids.length - Object.keys(sim.answers).length;
+  modal(`<h3>Soumettre la simulation ?</h3>
+    <p class="small dim">${left ? `<b>${left} question(s) sans réponse</b> — elles seront comptées comme non répondues.` : 'Toutes les questions ont une réponse.'}</p>
+    <div class="row mt16" style="justify-content:flex-end"><button class="btn btn-quiet" onclick="closeModal()">Continuer</button>
+    <button class="btn btn-primary" onclick="closeModal();submitSim('${ep}')">Soumettre</button></div>`);
+}
+function submitSim(ep, auto) {
+  const s = st(); const sim = s.sims[ep];
+  if (!sim || sim.submitted) return;                 // idempotence : une seule soumission
+  clearInterval(SIM_TIMER); SIM_TIMER = null;
+  sim.submitted = nowTs();
+  sim.duration = Math.round((sim.submitted - sim.started) / 1000);
+  // Les réponses de simulation alimentent la progression, sans doublon
+  sim.ids.forEach(qid => {
+    if (sim.answers[qid] === undefined) return;
+    submitAnswer({ qid, answer: sim.answers[qid], certitude: sim.certitudes[qid] || 'hesitant', mode: 'simulation', session: sim.key });
+  });
+  storeSave(); S.simRun = null;
+  if (auto) toast('Temps écoulé — simulation soumise');
+  navigate('#/app/parcours/crmef/rapport/' + ep);
+}
+
+/* =========================================================================
+   RAPPORT — #/app/parcours/crmef/rapport/:tentative
+   ========================================================================= */
+route('/app/parcours/crmef/rapport/:id', r => simReport(r.parts[4]));
+
+function simReport(epId) {
+  const e = EP(epId);
+  const s = st();
+  const sim = s.sims[epId];
+  if (!e || !sim || !sim.submitted) return notFound();
+  const c = epCoverage(epId);
+
+  const rows = sim.ids.map(qid => {
+    const q = DATA.questions.find(x => x.id === qid);
+    const a = sim.answers[qid];
+    return { q, a, answered: a !== undefined, correct: a === q.correct, cert: sim.certitudes[qid] || null };
+  });
+  const right = rows.filter(x => x.correct).length;
+  const wrong = rows.filter(x => x.answered && !x.correct).length;
+  const none = rows.filter(x => !x.answered).length;
+
+  const byDom = e.domains.map(d => {
+    const subIds = d.sub.map(x => x.id);
+    const rs = rows.filter(x => subIds.includes(x.q.sub));
+    return { d, n: rs.length, ok: rs.filter(x => x.correct).length,
+      pct: rs.length ? Math.round(rs.filter(x => x.correct).length / rs.length * 100) : null };
+  });
+  const evaluated = [...new Set(rows.map(x => x.q.sub))];
+  const notCovered = ALL_SUBS().filter(x => x.ep === epId && !evaluated.includes(x.id));
+  const weak = ALL_SUBS().filter(x => x.ep === epId && ['fragile', 'en_cours'].includes(masteryOfSub(x.id).state));
+  const sureWrong = rows.filter(x => x.answered && !x.correct && x.cert === 'sur');
+
+  return shellApp(`
+    ${pagehead(`Rapport — ${e.name}`, `Simulation soumise le ${new Date(sim.submitted).toLocaleDateString('fr-FR')} · durée ${Math.round(sim.duration / 60)} min sur ${e.minutes} min autorisées`)}
+
+    ${c.weightPct < 100 ? `<div class="disclaimer" style="margin-bottom:20px"><span>${icon('flag', 17)}</span><div>
+      <b>Simulation d'entraînement — couverture partielle du programme officiel.</b> ${c.covered} sous-domaines sur ${c.subs} disposaient de contenu, soit ${c.weightPct} % du poids officiel. Ce rapport ne mesure pas ce qui n'a pas été évalué.</div></div>` : ''}
+
+    <div class="grid g4" style="margin-bottom:22px">
+      <div class="stat"><div class="k">Réponses justes</div><div class="v mono">${right}</div><div class="s">sur ${rows.length} posées</div></div>
+      <div class="stat"><div class="k">Incorrectes</div><div class="v mono">${wrong}</div></div>
+      <div class="stat"><div class="k">Non répondues</div><div class="v mono">${none}</div></div>
+      <div class="stat"><div class="k">Erreurs sûres</div><div class="v mono" style="color:${sureWrong.length ? 'var(--critical)' : 'inherit'}">${sureWrong.length}</div><div class="s">fausses croyances</div></div>
+    </div>
+
+    <div class="disclaimer info" style="margin-bottom:22px"><span>${icon('bulb', 17)}</span><div>
+      <b>Aucun score sur 20, aucun seuil, aucune probabilité.</b> Le descriptif ne communique ni barème ni seuil d'admission. Ce rapport mesure votre couverture et vos fragilités, pas une note.</div></div>
+
+    <div class="grid g2" style="margin-bottom:22px">
+      <div class="viz"><h3>Résultat par domaine officiel</h3><div class="vsub">Poids officiels rappelés</div>
+        ${barsChart(byDom.filter(x => x.pct !== null).map(x => ({ label: x.d.name, value: x.pct, color: `var(--series-${e.serie})`, tip: `${x.ok}/${x.n} · poids officiel ${x.d.weight} %` })), { labelW: 200, unit: ' %' })}
+        <div class="col mt16" style="gap:5px">${byDom.map(x => `<div class="row-between xsmall">
+          <span class="muted">${esc(x.d.name)} — poids ${x.d.weight} %</span>
+          <b>${x.pct === null ? 'non évalué' : x.ok + '/' + x.n}</b></div>`).join('')}</div>
+      </div>
+      <div class="card"><h3 style="font-size:1rem">Couverture de cette simulation</h3>
+        <div class="mt16">${coverageBar(c)}</div>
+        <div class="divider"></div>
+        <b class="small">Sous-domaines évalués</b>
+        <div class="row row-wrap mt8" style="gap:6px">${evaluated.map(id => badge(SUB(id) ? SUB(id).name : id, 'good')).join('')}</div>
+        ${notCovered.length ? `<b class="small" style="display:block;margin-top:14px">Non couverts par cette simulation</b>
+          <div class="row row-wrap mt8" style="gap:6px">${notCovered.map(x => badge(x.name, 'outline')).join('')}</div>` : ''}
+      </div>
+    </div>
+
+    ${weak.length ? `<h3 style="font-size:1rem;margin-bottom:10px">Fragilités détectées et remédiations</h3>
+      <div class="col" style="gap:10px;margin-bottom:22px">${weak.slice(0, 5).map(x => {
+        const m = masteryOfSub(x.id);
+        return `<div class="reco"><div class="icon">${icon('route', 19)}</div>
+          <div style="flex:1"><h4>${esc(x.name)}</h4>
+            <p class="small dim" style="margin:0">${masteryLabel(m.state).label} · ${m.correct}/${m.seen} juste(s) · ce sous-domaine pèse ${x.weight} % de l'épreuve.</p>
+            <div class="row mt16"><a class="btn btn-sm btn-primary" href="#/app/parcours/crmef/apprendre/${x.id}">Remédier</a></div></div></div>`;
+      }).join('')}</div>` : ''}
+
+    <h3 style="font-size:1rem;margin-bottom:10px">Détail question par question</h3>
+    <div class="card" style="padding:0;overflow-x:auto"><table class="table">
+      <thead><tr><th>#</th><th>Sous-domaine officiel</th><th>Niveau</th><th class="num">Votre réponse</th><th class="num">Attendue</th><th class="num">Certitude</th><th></th></tr></thead>
+      <tbody>${rows.map((x, i) => `<tr>
+        <td class="mono small">${i + 1}</td>
+        <td class="small">${esc(x.q.sub && SUB(x.q.sub) ? SUB(x.q.sub).name : '—')}</td>
+        <td class="small muted">${esc(x.q.cog)}</td>
+        <td class="num"><span class="badge ${x.correct ? 'badge-good' : x.answered ? 'badge-crit' : 'badge-outline'}">${x.a || '—'}</span></td>
+        <td class="num"><span class="badge badge-good">${x.q.correct}</span></td>
+        <td class="num small muted">${x.cert ? esc(certOf(x.cert).label) : '—'}</td>
+        <td class="num"><button class="btn btn-sm btn-quiet" onclick="showQuestion('${x.q.id}')">Voir</button></td></tr>`).join('')}</tbody>
+    </table></div>
+
+    <div class="row row-wrap mt24"><a class="btn btn-primary" href="#/app/parcours/crmef">Retour au parcours</a>
+      <a class="btn btn-ghost" href="#/app/parcours/crmef/simulations">Autres simulations</a></div>`, 'parcours');
+}
 
 
 /* ---------------- Démarrage ---------------- */
