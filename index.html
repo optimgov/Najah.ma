@@ -2202,7 +2202,7 @@ DATA.i18n = {
 /* ------------------------------------------------------------------ */
 DATA.portals = [
   {
-    id: 'education', icon: 'cap', live: true,
+    id: 'education', icon: 'cap', live: true, program: 'crmef',
     name: "Métiers de l'éducation",
     door: "Devenir enseignant, inspecteur ou agrégé",
     examples: 'CRMEF · Inspection · Agrégation',
@@ -2235,36 +2235,40 @@ DATA.portals = [
     ]
   },
   {
-    id: 'postbac', icon: 'stethoscope', live: false,
+    id: 'postbac', icon: 'route', live: true, program: 'le',
     name: 'Concours post-bac',
-    door: 'Médecine, ingénieur, commerce',
-    examples: 'Médecine · ENSA · ENCG · ISCAE',
-    lede: "Préparation aux concours d'accès aux facultés de médecine, aux écoles d'ingénieurs et aux écoles de commerce.",
-    audience: "Pour les bacheliers et les étudiants en classes préparatoires.",
-    families: ['medecine', 'ingenieur', 'commerce'],
+    door: "Licences d'Éducation, médecine, ingénieur, commerce",
+    examples: "Licences d'Éducation · Médecine · ENSA · ENCG · IAV",
+    lede: "Le concours commun des Licences d'Éducation est ouvert : culture éducative, langues et raisonnement, avec chaque erreur expliquée et un suivi par compétence. Les autres concours post-bac arrivent.",
+    audience: "Pour les bacheliers, et particulièrement pour ceux qui envisagent d'enseigner.",
+    families: ['licence-education', 'medecine', 'ingenieur', 'commerce', 'iav'],
     stats: [
-      { k: 'Ouverture prévue', v: '2027' },
-      { k: 'Concours visés', v: '5' },
-      { k: 'Questions en préparation', v: '1 200' },
-      { k: "Sur liste d'attente", v: '340' }
+      { k: 'Questions publiées', v: '640' },
+      { k: 'Compétences suivies', v: '9' },
+      { k: 'Spécialités ouvertes', v: '2' },
+      { k: "Places au concours", v: '≈ 2 000' }
     ],
     free: [
-      { icon: 'calendar', t: 'Calendrier des concours', d: "Dates des concours post-bac déjà annoncées, mises à jour à chaque publication officielle.", cta: 'Voir le calendrier', route: '#/calendrier' },
-      { icon: 'book', t: 'Fiches méthodologiques', d: "Organisation des révisions, gestion du temps en épreuve, choix de filière.", cta: 'Lire les fiches', route: '#/ressources' }
+      { icon: 'target', t: 'Testez votre niveau en 10 questions', d: "Sans compte, sans carte bancaire. Les trois épreuves du concours commun sont représentées, et vous obtenez un résultat par compétence.", cta: 'Commencer le test', route: '#/essai/postbac', primary: true },
+      { icon: 'calendar', t: 'Calendrier du concours commun', d: "Candidatures, épreuve écrite, entretiens. Chaque date porte sa source et sa dernière vérification.", cta: 'Voir le calendrier', route: '#/calendrier' },
+      { icon: 'book', t: 'Fiches méthodologiques', d: "Système éducatif, connecteurs logiques, points de pourcentage : les notions qui reviennent chaque session.", cta: 'Lire les fiches', route: '#/ressources' },
+      { icon: 'file', t: 'Annales et sujets types', d: "Les sujets des sessions passées, avec corrigé et source identifiée.", cta: 'Consulter les annales', route: '#/annales' }
     ],
-    proof: null,
+    proof: 'L011',
     planWords: {
-      free: ['Test de niveau complet', '10 questions par jour', 'Aperçu de votre profil', 'Mini-simulateur', 'Annales sélectionnées'],
-      premium: ['Banque complète de sciences fondamentales', 'Chaque distracteur justifié', 'Séries ciblées', 'Concours blancs chronométrés', "Carnet d'erreurs"],
-      annual: ['Tout le contenu Premium', "Accès garanti jusqu'aux concours", 'Deux mois offerts', 'Priorité sur les nouvelles filières']
+      free: ['Test de niveau complet', '10 questions par jour', 'Aperçu de votre profil de compétences', 'Mini-épreuve blanche', 'Sujets sélectionnés'],
+      premium: ["640 questions du concours commun, chaque distracteur justifié", 'Sujets des sessions passées corrigés', 'Séries ciblées sur vos points faibles', 'Épreuves blanches chronométrées au format réel', "Carnet d'erreurs et suivi par compétence"],
+      annual: ['Tout le contenu Premium', "Accès garanti jusqu'après les entretiens", 'Deux mois offerts', 'Priorité sur les nouvelles spécialités']
     },
     faq: [
-      ["Quand ouvrez-vous cette filière ?", "Nous ouvrons un concours seulement lorsque son contenu atteint notre seuil de qualité éditoriale : chaque question relue deux fois, chaque distracteur justifié, chaque source vérifiée. L'inscription à la liste d'attente vous prévient dès l'ouverture."],
-      ["Puis-je déjà utiliser la plateforme ?", "Le calendrier et les fiches méthodologiques sont accessibles. Les banques de questions post-bac sont en cours de constitution."]
+      ["À quoi mène une Licence d'Éducation ?", "À une licence professionnalisante en trois ans, orientée vers l'enseignement, qui prépare aux concours de recrutement du ministère. La filière ne garantit pas un poste : elle prépare au métier et aux concours qui y donnent accès."],
+      ["Quelles spécialités sont ouvertes sur Najah.ma ?", "L'enseignement primaire polyvalent et l'enseignement secondaire Français. Les autres spécialités ouvrent après validation de leur contenu par des formateurs, comme pour toutes nos filières."],
+      ["Le concours est-il le même dans toutes les universités ?", "Le tronc des épreuves est commun, mais chaque université publie ses modalités et son calendrier propres. Nos fiches signalent ce qui varie ; vérifiez toujours l'annonce de votre université."],
+      ["Et les autres concours post-bac ?", "Médecine, ENSA, ENCG et IAV sont annoncés mais pas encore ouverts. Inscrivez-vous à la liste d'attente depuis leur fiche pour être prévenu."]
     ]
   },
   {
-    id: 'pro', icon: 'columns', live: false,
+    id: 'pro', icon: 'columns', live: false, program: 'crmef',
     name: 'Concours professionnels',
     door: 'Fonction publique, santé, technique',
     examples: 'Administration · ISPITS · Douane',
@@ -2293,6 +2297,312 @@ DATA.portals = [
     ]
   }
 ];
+
+/* ------------------------------------------------------------------ */
+/* PROGRAMME 2 — Concours commun des Licences d'Éducation (post-bac)  */
+/* Référentiel distinct : les épreuves n'ont rien de commun avec le   */
+/* CRMEF. Trois piliers propres, neuf compétences.                    */
+/* ------------------------------------------------------------------ */
+
+/* Les piliers existants sont rattachés au programme CRMEF */
+DATA.pillars.forEach(p => p.prog = 'crmef');
+DATA.competencies.forEach(c => c.prog = 'crmef');
+
+DATA.pillars.push(
+  { id: 'CG', prog: 'le', name: 'Culture éducative et générale', serie: 1, desc: "Système éducatif marocain, métier d'enseignant, actualité éducative." },
+  { id: 'LG', prog: 'le', name: 'Langues et communication', serie: 2, desc: "Compréhension de l'écrit, correction de la langue, expression argumentée." },
+  { id: 'RL', prog: 'le', name: 'Raisonnement logique et numérique', serie: 3, desc: "Logique, calcul appliqué, organisation et lecture de l'information." }
+);
+
+DATA.competencies.push(
+  { id: 'CG1', prog: 'le', pillar: 'CG', name: 'Système éducatif marocain et réformes', short: 'Système éducatif' },
+  { id: 'CG2', prog: 'le', pillar: 'CG', name: "Métier d'enseignant et éthique professionnelle", short: "Métier d'enseignant" },
+  { id: 'CG3', prog: 'le', pillar: 'CG', name: 'Culture générale et actualité éducative', short: 'Culture générale' },
+  { id: 'LG1', prog: 'le', pillar: 'LG', name: "Compréhension de l'écrit", short: 'Compréhension' },
+  { id: 'LG2', prog: 'le', pillar: 'LG', name: 'Correction de la langue', short: 'Langue' },
+  { id: 'LG3', prog: 'le', pillar: 'LG', name: 'Expression et argumentation', short: 'Argumentation' },
+  { id: 'RL1', prog: 'le', pillar: 'RL', name: 'Raisonnement logique', short: 'Logique' },
+  { id: 'RL2', prog: 'le', pillar: 'RL', name: 'Raisonnement numérique', short: 'Numérique' },
+  { id: 'RL3', prog: 'le', pillar: 'RL', name: "Organisation de l'information", short: 'Information' }
+);
+
+/* Sélecteurs par programme */
+DATA.programOf = compId => (DATA.competencies.find(c => c.id === compId) || {}).prog || 'crmef';
+
+DATA.questions.forEach(q => q.prog = 'crmef');
+
+DATA.questions.push(
+  {
+    id: 'L001', prog: 'le', comp: 'CG1', cog: 'Restituer', diff: 2, time: 60,
+    stem: "Les Licences d'Éducation ont été créées au sein des universités marocaines afin de répondre à quel objectif principal ?",
+    choices: [
+      { k: 'A', t: "Remplacer les CRMEF dans la formation des enseignants" },
+      { k: 'B', t: "Professionnaliser la formation des futurs enseignants dès le premier cycle universitaire" },
+      { k: 'C', t: "Réserver l'enseignement aux titulaires d'un master" },
+      { k: 'D', t: "Former exclusivement des inspecteurs pédagogiques" }
+    ],
+    correct: 'B',
+    rationales: {
+      A: "Les CRMEF n'ont pas été supprimés. Les deux dispositifs coexistent : la Licence d'Éducation professionnalise en amont, le CRMEF assure la formation qualifiante après le concours de recrutement.",
+      B: "Exact. La filière introduit une professionnalisation précoce : disciplines d'enseignement, sciences de l'éducation et stages en établissement dès le cycle licence.",
+      C: "Le master n'est pas exigé pour enseigner au primaire ou au collège. La licence reste le diplôme de référence pour l'accès aux concours de recrutement.",
+      D: "L'inspection est un corps distinct, accessible par un concours propre après plusieurs années d'exercice. Aucune licence n'y donne accès directement."
+    },
+    trap: "A est le distracteur dominant : la coexistence des deux dispositifs est mal connue, et beaucoup de candidats supposent qu'un dispositif nouveau en remplace un ancien.",
+    source: { ref: "Cahier des normes pédagogiques nationales — Licence d'Éducation", loc: 'Objectifs de la filière', date: 'Référentiel LE, module 1' },
+    stats: { seen: 1840, correct: 0.57, distractors: { A: 0.29, B: 0.57, C: 0.08, D: 0.06 } }
+  },
+  {
+    id: 'L002', prog: 'le', comp: 'CG1', cog: 'Comprendre', diff: 2, time: 70,
+    stem: "Dans le système éducatif marocain, l'enseignement obligatoire couvre quelles tranches d'âge ?",
+    choices: [
+      { k: 'A', t: 'De 6 à 12 ans' }, { k: 'B', t: 'De 4 à 15 ans' },
+      { k: 'C', t: 'De 6 à 18 ans' }, { k: 'D', t: 'De 3 à 16 ans' }
+    ],
+    correct: 'B',
+    rationales: {
+      A: "Cette tranche correspond au seul cycle primaire. L'obligation scolaire ne s'y limite pas depuis l'intégration du préscolaire et du collégial.",
+      B: "Exact. L'obligation couvre le préscolaire à partir de 4 ans et se poursuit jusqu'à la fin du cycle collégial, soit environ 15 ans.",
+      C: "Le cycle qualifiant n'est pas obligatoire : il est ouvert mais relève de l'orientation, pas de l'obligation scolaire.",
+      D: "L'âge d'entrée au préscolaire retenu par la loi-cadre est 4 ans, non 3. La confusion vient des pratiques de certaines structures privées."
+    },
+    trap: "La généralisation du préscolaire est récente : beaucoup de candidats répondent encore avec le périmètre antérieur, limité au primaire et au collège.",
+    source: { ref: 'Loi-cadre 51.17', loc: 'Article relatif à la scolarité obligatoire', date: 'Référentiel LE, module 1' },
+    stats: { seen: 2110, correct: 0.49, distractors: { A: 0.18, B: 0.49, C: 0.11, D: 0.22 } }
+  },
+  {
+    id: 'L003', prog: 'le', comp: 'CG2', cog: 'Analyser', diff: 3, time: 90,
+    stem: "Un élève vous confie une information personnelle grave concernant sa situation familiale. Quelle conduite professionnelle est la plus appropriée ?",
+    choices: [
+      { k: 'A', t: "En parler en salle des professeurs pour recueillir des avis" },
+      { k: 'B', t: "Garder le secret absolu, quoi qu'il arrive" },
+      { k: 'C', t: "Signaler la situation aux personnes habilitées de l'établissement, en limitant la diffusion au strict nécessaire" },
+      { k: 'D', t: "Contacter directement la famille pour vérifier" }
+    ],
+    correct: 'C',
+    rationales: {
+      A: "La salle des professeurs n'est pas un cadre confidentiel. Diffuser l'information à des collègues non concernés expose l'élève sans lui apporter de protection.",
+      B: "Le secret n'est pas absolu lorsque l'intégrité d'un mineur est en jeu. Le taire reviendrait à laisser l'élève sans protection, ce que le devoir professionnel n'autorise pas.",
+      C: "Exact. La règle est double : transmettre à qui de droit — direction, assistante sociale, cellule d'écoute — et ne diffuser qu'au strict nécessaire.",
+      D: "Contacter la famille sans précaution peut exposer l'élève à des représailles, surtout si la situation la met en cause. Ce n'est pas au professeur d'enquêter."
+    },
+    trap: "B et D traduisent deux réflexes opposés et également fautifs : le silence protecteur et l'initiative individuelle. La réponse professionnelle passe par la voie institutionnelle.",
+    source: { ref: 'Guide de déontologie professionnelle des personnels enseignants', loc: "Obligation de signalement", date: 'Référentiel LE, module 2' },
+    stats: { seen: 1620, correct: 0.71, distractors: { A: 0.05, B: 0.14, C: 0.71, D: 0.10 } }
+  },
+  {
+    id: 'L004', prog: 'le', comp: 'CG2', cog: 'Comprendre', diff: 2, time: 75,
+    stem: "Parmi ces motivations exprimées lors de l'entretien oral, laquelle correspond le mieux aux attendus du jury ?",
+    choices: [
+      { k: 'A', t: "« C'est un métier stable, avec des vacances et une retraite garantie. »" },
+      { k: 'B', t: "« Je n'ai pas été accepté dans la filière que je visais initialement. »" },
+      { k: 'C', t: "« Je veux contribuer à la réussite scolaire d'élèves de milieux où l'école reste la principale chance. »" },
+      { k: 'D', t: "« J'aime ma discipline et je souhaite continuer à l'étudier. »" }
+    ],
+    correct: 'C',
+    rationales: {
+      A: "La sécurité de l'emploi est une motivation légitime mais purement personnelle. Elle ne dit rien de votre rapport aux élèves ni de votre compréhension du métier.",
+      B: "Présenter la filière comme un choix par défaut décrédibilise la candidature. Même si c'est le cas, ce n'est pas ce qui se raconte à un jury.",
+      C: "Exact. La motivation attendue articule un engagement pour la réussite des élèves et une conscience du rôle social de l'école — ce que le référentiel du métier place au premier plan.",
+      D: "Aimer sa discipline est nécessaire mais insuffisant : enseigner, c'est la transmettre à des élèves qui ne l'aiment pas encore. Cette réponse confond chercheur et enseignant."
+    },
+    trap: "D est le distracteur le plus choisi par les bons élèves : ils projettent leur propre rapport au savoir sans percevoir que le métier est d'abord une relation.",
+    source: { ref: 'Référentiel des compétences professionnelles', loc: "Engagement dans le métier", date: 'Référentiel LE, module 2' },
+    stats: { seen: 1490, correct: 0.66, distractors: { A: 0.06, B: 0.02, C: 0.66, D: 0.26 } }
+  },
+  {
+    id: 'L005', prog: 'le', comp: 'CG3', cog: 'Restituer', diff: 2, time: 60,
+    stem: "Quelle instance est chargée d'évaluer les politiques publiques d'éducation au Maroc et d'émettre des avis sur les réformes ?",
+    choices: [
+      { k: 'A', t: "Le Conseil supérieur de l'éducation, de la formation et de la recherche scientifique" },
+      { k: 'B', t: "Le ministère de l'Éducation nationale" },
+      { k: 'C', t: "Les académies régionales" },
+      { k: 'D', t: "Le Conseil économique, social et environnemental" }
+    ],
+    correct: 'A',
+    rationales: {
+      A: "Exact. Le CSEFRS est une institution consultative constitutionnelle chargée de l'évaluation du système et de la production d'avis sur les politiques éducatives.",
+      B: "Le ministère conçoit et met en œuvre la politique éducative. Il est l'objet de l'évaluation, non son auteur indépendant.",
+      C: "Les académies déclinent la politique nationale à l'échelle régionale. Leur rôle est opérationnel, pas évaluatif au niveau des politiques publiques.",
+      D: "Le CESE traite des questions économiques et sociales dans leur ensemble. Il peut aborder l'éducation, mais ce n'est pas son mandat spécifique."
+    },
+    trap: "B est choisi par réflexe : on associe spontanément la politique éducative au ministère, alors que l'évaluation indépendante est confiée à une instance distincte.",
+    source: { ref: 'Constitution de 2011 et textes du CSEFRS', loc: 'Missions', date: 'Référentiel LE, module 3' },
+    stats: { seen: 1730, correct: 0.62, distractors: { A: 0.62, B: 0.27, C: 0.05, D: 0.06 } }
+  },
+  {
+    id: 'L006', prog: 'le', comp: 'LG1', cog: 'Analyser', diff: 3, time: 100,
+    ctx: "« L'école ne corrige pas seulement les inégalités : il lui arrive de les redoubler, lorsqu'elle traite de façon identique des élèves que tout distingue. »",
+    stem: "Quelle idée principale ce texte défend-il ?",
+    choices: [
+      { k: 'A', t: "L'école doit traiter tous les élèves de la même manière" },
+      { k: 'B', t: "L'égalité de traitement peut produire de l'inégalité si elle ignore les différences de départ" },
+      { k: 'C', t: "L'école est responsable de toutes les inégalités sociales" },
+      { k: 'D', t: "Les inégalités scolaires sont inévitables" }
+    ],
+    correct: 'B',
+    rationales: {
+      A: "C'est précisément la thèse que le texte critique. Le verbe « redoubler » indique que le traitement identique aggrave l'écart au lieu de le réduire.",
+      B: "Exact. La phrase oppose égalité formelle et équité réelle : traiter identiquement des situations inégales revient à maintenir, voire creuser, l'écart initial.",
+      C: "Le texte dit « il lui arrive de », marqueur d'une occurrence partielle. Il n'attribue pas à l'école la responsabilité de toutes les inégalités sociales.",
+      D: "Aucune fatalité n'est énoncée. Le texte identifie une condition — l'indifférence aux différences — ce qui suppose au contraire qu'un autre traitement est possible."
+    },
+    trap: "En compréhension de l'écrit, la nuance se loge dans les modalisateurs. « Il lui arrive de » n'est pas « elle », et le distracteur C repose entièrement sur cette confusion.",
+    source: { ref: 'Épreuve de compréhension — session 2025', loc: 'Texte 1', date: 'Référentiel LE, module 4' },
+    stats: { seen: 1380, correct: 0.68, distractors: { A: 0.07, B: 0.68, C: 0.19, D: 0.06 } }
+  },
+  {
+    id: 'L007', prog: 'le', comp: 'LG2', cog: 'Appliquer', diff: 2, time: 65,
+    stem: "Quelle phrase est correctement orthographiée ?",
+    choices: [
+      { k: 'A', t: "Les élèves se sont rendus compte de leurs erreurs." },
+      { k: 'B', t: "Les élèves se sont rendu compte de leurs erreurs." },
+      { k: 'C', t: "Les élèves se sont rendues compte de leur erreurs." },
+      { k: 'D', t: "Les élèves ce sont rendu compte de leurs erreurs." }
+    ],
+    correct: 'B',
+    rationales: {
+      A: "Dans la locution « se rendre compte », le pronom « se » est complément d'objet indirect : on rend compte à soi. Le participe reste donc invariable.",
+      B: "Exact. « Compte » est le COD et il est placé après le verbe ; le participe ne s'accorde pas. On écrit toujours « ils se sont rendu compte ».",
+      C: "Double faute : accord fautif du participe, et « leur erreurs » sans marque de pluriel sur le déterminant.",
+      D: "« Ce » est un démonstratif ; il faut ici le pronom réfléchi « se ». Le test : on peut dire « nous nous sommes rendu compte », donc il s'agit bien d'un verbe pronominal."
+    },
+    trap: "A est le distracteur majoritaire : l'automatisme d'accord avec le sujet s'applique alors que la locution figée l'interdit.",
+    source: { ref: 'Grevisse, Le Bon Usage', loc: 'Participe passé des verbes pronominaux', date: 'Référentiel LE, module 4' },
+    stats: { seen: 2260, correct: 0.44, distractors: { A: 0.44, B: 0.44, C: 0.04, D: 0.08 } }
+  },
+  {
+    id: 'L008', prog: 'le', comp: 'LG3', cog: 'Analyser', diff: 3, time: 85,
+    stem: "Dans un texte argumentatif, quel est le rôle d'un connecteur comme « certes… mais » ?",
+    choices: [
+      { k: 'A', t: "Ajouter un argument de même sens" },
+      { k: 'B', t: "Concéder un point à la thèse adverse avant de la réfuter" },
+      { k: 'C', t: "Illustrer par un exemple" },
+      { k: 'D', t: "Conclure le raisonnement" }
+    ],
+    correct: 'B',
+    rationales: {
+      A: "L'addition s'exprime par « de plus », « en outre », « par ailleurs ». « Mais » introduit au contraire une opposition, ce qui exclut cette lecture.",
+      B: "Exact. C'est le mouvement de concession-réfutation : on accorde une part de validité à l'adversaire pour mieux faire porter l'objection qui suit.",
+      C: "L'illustration s'introduit par « ainsi », « par exemple », « en effet ». Aucun de ces marqueurs n'a de valeur concessive.",
+      D: "La conclusion s'annonce par « donc », « en conséquence », « ainsi ». « Certes… mais » ouvre une discussion au lieu de la fermer."
+    },
+    trap: "Beaucoup de candidats identifient l'opposition sans reconnaître la concession : ils lisent « mais » et oublient que « certes » accorde d'abord quelque chose.",
+    source: { ref: "Méthodologie de l'argumentation", loc: 'Connecteurs logiques', date: 'Référentiel LE, module 5' },
+    stats: { seen: 1560, correct: 0.73, distractors: { A: 0.13, B: 0.73, C: 0.08, D: 0.06 } }
+  },
+  {
+    id: 'L009', prog: 'le', comp: 'RL1', cog: 'Analyser', diff: 3, time: 95,
+    ctx: "Tous les élèves de la classe A ont réussi. Certains élèves qui ont réussi habitent la ville.",
+    stem: "Laquelle de ces conclusions est nécessairement vraie ?",
+    choices: [
+      { k: 'A', t: "Certains élèves de la classe A habitent la ville" },
+      { k: 'B', t: "Tous les élèves qui habitent la ville ont réussi" },
+      { k: 'C', t: "Aucune de ces conclusions n'est nécessairement vraie" },
+      { k: 'D', t: "Tous les élèves de la classe A habitent la ville" }
+    ],
+    correct: 'C',
+    rationales: {
+      A: "Les élèves qui ont réussi et habitent la ville peuvent tous appartenir à d'autres classes. Rien ne garantit l'intersection avec la classe A.",
+      B: "La proposition dit que certains élèves ayant réussi habitent la ville, pas que tous les citadins ont réussi. C'est une inversion illégitime du quantificateur.",
+      C: "Exact. Aucune des trois autres propositions ne découle nécessairement des prémisses : chacune ajoute une information absente de l'énoncé.",
+      D: "Rien n'indique le lieu de résidence des élèves de la classe A. La conclusion transforme une information partielle en généralité."
+    },
+    trap: "En logique, « certains » n'autorise jamais à conclure sur un sous-ensemble particulier. La bonne réponse est souvent celle qui refuse de conclure — ce que les candidats hésitent à choisir.",
+    source: { ref: 'Épreuve de raisonnement logique', loc: 'Syllogismes et quantificateurs', date: 'Référentiel LE, module 6' },
+    stats: { seen: 1420, correct: 0.41, distractors: { A: 0.34, B: 0.09, C: 0.41, D: 0.16 } }
+  },
+  {
+    id: 'L010', prog: 'le', comp: 'RL2', cog: 'Appliquer', diff: 2, time: 80,
+    stem: "Une classe compte 40 élèves. 60 % sont des filles. Parmi les filles, un quart pratique un sport en club. Combien de filles pratiquent un sport en club ?",
+    choices: [{ k: 'A', t: '4' }, { k: 'B', t: '6' }, { k: 'C', t: '10' }, { k: 'D', t: '16' }],
+    correct: 'B',
+    rationales: {
+      A: "Ce résultat correspondrait à un quart de 16, c'est-à-dire à un calcul mené sur le nombre de garçons au lieu du nombre de filles.",
+      B: "Exact. 60 % de 40 donne 24 filles ; le quart de 24 vaut 6.",
+      C: "10 correspond au quart de 40, c'est-à-dire à un calcul appliqué à l'effectif total sans passer par la proportion de filles.",
+      D: "16 est le nombre de garçons — 40 % de 40 — et non un résultat du calcul demandé."
+    },
+    trap: "Chaque distracteur correspond à une étape sautée. En raisonnement numérique, il est utile de vérifier à quelle erreur de méthode correspond chaque option proposée.",
+    source: { ref: 'Épreuve de raisonnement numérique', loc: 'Pourcentages et proportions', date: 'Référentiel LE, module 6' },
+    stats: { seen: 1980, correct: 0.79, distractors: { A: 0.06, B: 0.79, C: 0.09, D: 0.06 } }
+  },
+  {
+    id: 'L011', prog: 'le', comp: 'RL2', cog: 'Analyser', diff: 3, time: 100,
+    stem: "Le taux de réussite d'un établissement passe de 50 % à 60 %. De quel pourcentage a-t-il augmenté ?",
+    choices: [
+      { k: 'A', t: '10 %' }, { k: 'B', t: '20 %' },
+      { k: 'C', t: '10 points de pourcentage, soit une hausse de 20 %' }, { k: 'D', t: '60 %' }
+    ],
+    correct: 'C',
+    rationales: {
+      A: "10 est l'écart en points de pourcentage, pas le taux d'augmentation. Confondre les deux est l'erreur la plus fréquente en lecture de statistiques.",
+      B: "Le chiffre est juste mais la formulation seule est incomplète : sans préciser qu'il s'agit d'une hausse relative, l'énoncé reste ambigu.",
+      C: "Exact. L'écart absolu est de 10 points ; rapporté à la valeur de départ, 10 divisé par 50 donne une augmentation relative de 20 %.",
+      D: "60 % est la valeur finale, pas une variation. Confondre niveau et évolution est le troisième piège classique de cette famille de questions."
+    },
+    trap: "Cette question distingue point de pourcentage et pourcentage d'évolution. C'est une compétence de lecture de l'information, très présente dans l'épreuve et rarement travaillée.",
+    source: { ref: 'Lecture de données statistiques', loc: 'Points et pourcentages', date: 'Référentiel LE, module 6' },
+    stats: { seen: 1240, correct: 0.38, distractors: { A: 0.41, B: 0.14, C: 0.38, D: 0.07 } }
+  },
+  {
+    id: 'L012', prog: 'le', comp: 'RL3', cog: 'Comprendre', diff: 2, time: 75,
+    stem: "Un tableau présente les effectifs par niveau et par sexe. Quelle information ne peut PAS être déduite d'un tel tableau seul ?",
+    choices: [
+      { k: 'A', t: "Le nombre total d'élèves" },
+      { k: 'B', t: "La part des filles dans chaque niveau" },
+      { k: 'C', t: "Le taux de réussite des élèves" },
+      { k: 'D', t: "Le niveau ayant le plus grand effectif" }
+    ],
+    correct: 'C',
+    rationales: {
+      A: "Le total s'obtient par simple somme des effectifs de toutes les cellules du tableau.",
+      B: "La part des filles se calcule en rapportant l'effectif féminin d'un niveau à l'effectif total de ce niveau. Toutes les données nécessaires sont présentes.",
+      C: "Exact. La réussite est une variable absente du tableau. Aucun calcul sur des effectifs ne permet de produire une information qui n'a pas été collectée.",
+      D: "Il suffit de comparer les totaux par ligne ou par colonne selon la structure du tableau."
+    },
+    trap: "L'exercice teste une compétence essentielle : savoir ce qu'une source ne dit pas. Beaucoup de candidats cherchent à calculer plutôt qu'à vérifier la disponibilité de la donnée.",
+    source: { ref: "Organisation et lecture de l'information", loc: 'Tableaux à double entrée', date: 'Référentiel LE, module 6' },
+    stats: { seen: 1310, correct: 0.75, distractors: { A: 0.05, B: 0.08, C: 0.75, D: 0.12 } }
+  }
+);
+
+/* ------------------------------------------------------------------ */
+/* Familles ajoutées — filière post-bac                               */
+/* ------------------------------------------------------------------ */
+DATA.families.splice(DATA.families.findIndex(f => f.id === 'medecine'), 0, {
+  id: 'licence-education', group: 'postbac', live: true, prog: 'le',
+  name: "Licences d'Éducation — concours commun post-bac",
+  short: "Licences d'Éducation",
+  tagline: "Devenir enseignant en commençant dès le baccalauréat",
+  desc: "Concours commun d'accès aux Licences d'Éducation des universités marocaines. Trois épreuves : culture éducative et générale, langues et communication, raisonnement logique et numérique. Puis un entretien oral.",
+  places: "Environ 12 000 candidats pour un peu plus de 2 000 places",
+  icon: 'route',
+  specialties: [
+    { id: 'le-primaire', name: 'Enseignement primaire — polyvalent', live: true, candidates: '≈ 5 200 candidats/session', items: 340 },
+    { id: 'le-secondaire-fr', name: 'Enseignement secondaire — Français', live: true, candidates: '≈ 1 900 candidats/session', items: 296 },
+    { id: 'le-secondaire-math', name: 'Enseignement secondaire — Mathématiques', live: false },
+    { id: 'le-secondaire-ang', name: 'Enseignement secondaire — Anglais', live: false },
+    { id: 'le-secondaire-pc', name: 'Enseignement secondaire — Physique-Chimie', live: false },
+    { id: 'le-secondaire-svt', name: 'Enseignement secondaire — SVT', live: false }
+  ]
+});
+
+DATA.families.push({
+  id: 'iav', group: 'postbac', live: false,
+  name: 'Agronomie et vétérinaire — IAV Hassan II', short: 'IAV', icon: 'layers',
+  tagline: "Institut agronomique et vétérinaire Hassan II",
+  desc: "Concours d'accès aux filières d'ingénieur agronome, de médecine vétérinaire et de topographie.",
+  specialties: [{ id: 'iav-agro', name: 'Ingénieur agronome', live: false }, { id: 'iav-veto', name: 'Médecine vétérinaire', live: false }]
+});
+
+/* Le calendrier accueille les échéances du concours commun */
+DATA.calendar.push(
+  { exam: "Licences d'Éducation", label: 'Ouverture des candidatures en ligne', date: '2026-06-22', status: 'à venir' },
+  { exam: "Licences d'Éducation", label: 'Clôture des candidatures', date: '2026-07-10', status: 'à venir' },
+  { exam: "Licences d'Éducation", label: 'Épreuve écrite du concours commun', date: '2026-09-05', status: 'à venir' },
+  { exam: "Licences d'Éducation", label: 'Entretiens oraux', date: '2026-09-19', status: 'à venir' }
+);
 
 /* =========================================================================
    NAJAH.ma — Noyau : couche services, état, routeur, primitives d'interface
@@ -2380,6 +2690,9 @@ const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<b
 
 const comp = id => DATA.competencies.find(c => c.id === id) || { id, name: id, short: id, pillar: 'SE' };
 const pillarOf = id => DATA.pillars.find(p => p.id === comp(id).pillar) || DATA.pillars[0];
+/* Chaque concours a son propre référentiel : ne jamais mélanger les piliers de deux programmes */
+const progPillars = prog => DATA.pillars.filter(p => p.prog === (prog || 'crmef'));
+const progQuestions = prog => DATA.questions.filter(q => (q.prog || 'crmef') === (prog || 'crmef'));
 const serieVar = id => `var(--series-${pillarOf(id).serie})`;
 const masteryOf = id => DATA.profile.mastery.find(m => m.comp === id) || { score: 0, trend: 0, evidence: 0, answers: 0 };
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -2853,7 +3166,8 @@ route('/', () => shellPublic(`
     </div>
     <div class="socialbar rise mt24">
       <div>${icon('users', 17)} <b>2 400</b> candidats inscrits</div>
-      <div>${icon('file', 17)} <b>800</b> questions publiées</div>
+      <div>${icon('cap', 17)} <b>2</b> concours ouverts</div>
+      <div>${icon('file', 17)} <b>1 440</b> questions publiées</div>
       <div>${icon('shield', 17)} <b>100 %</b> des distracteurs justifiés</div>
       <div>${icon('mobile', 17)} <b>Mobile</b> d'abord</div>
     </div>
@@ -3030,6 +3344,7 @@ route('/p/:id', r => {
     </section>
 
     ${p.proof ? `<section class="section">
+      <div class="snum"><i>03</i><span></span></div>
       <div class="grid" style="grid-template-columns:.95fr 1.05fr;gap:36px;align-items:center">
         <div>
           <h2>Une correction qui sert à quelque chose</h2>
@@ -3041,6 +3356,7 @@ route('/p/:id', r => {
       </div></section>` : ''}
 
     ${p.live ? `<section class="section" id="tarifs">
+      <div class="snum"><i>04</i><span></span></div>
       <div class="shead center"><h2>Passer au niveau supérieur</h2>
         <div class="ssub" style="margin-inline:auto">Le gratuit vous montre où vous en êtes. Le premium vous donne de quoi progresser : la banque complète, les corrections intégrales et les examens blancs.</div></div>
       <div class="grid g3 mt24">
@@ -3077,7 +3393,7 @@ route('/p/:id', r => {
     </section>`}
 
     <section class="section" style="padding-bottom:20px">
-      <div class="shead"><div class="snum"><i>05</i><span></span></div><h2>Questions fréquentes</h2></div>
+      <div class="shead"><div class="snum"><i>${p.proof ? '05' : '03'}</i><span></span></div><h2>Questions fréquentes</h2></div>
       <div class="grid g2">
         ${p.faq.map(([q, a]) => `<details class="card card-pad-sm">
           <summary style="cursor:pointer;font-weight:650;font-size:.94rem">${esc(q)}</summary>
@@ -3089,12 +3405,24 @@ route('/p/:id', r => {
 
 /* ---------------- Essai gratuit sans compte ---------------- */
 function startEssai(pid) {
-  // Couverture des trois piliers : le résultat doit être lisible par pilier
-  const byPillar = { SE: [], DI: [], SP: [] };
-  DATA.questions.forEach(q => byPillar[comp(q.comp).pillar].push(q.id));
-  const take = (arr, n) => arr.filter((_, i) => i % Math.max(1, Math.floor(arr.length / n)) === 0).slice(0, n);
-  const ids = [...take(byPillar.SE, 4), ...take(byPillar.DI, 3), ...take(byPillar.SP, 3)];
-  S.essai = { pid, ids, i: 0, answers: {}, done: false };
+  // Le test couvre les trois piliers du programme visé, jamais ceux d'un autre concours
+  const p = portal(pid);
+  const pillars = progPillars(p.program);
+  const pool = progQuestions(p.program);
+  const quota = [4, 3, 3];
+  const take = (arr, n) => {
+    if (arr.length <= n) return arr;
+    const step = Math.max(1, Math.floor(arr.length / n));
+    return arr.filter((_, i) => i % step === 0).slice(0, n);
+  };
+  let ids = [];
+  pillars.forEach((pl, i) => {
+    const inPillar = pool.filter(q => comp(q.comp).pillar === pl.id).map(q => q.id);
+    ids = ids.concat(take(inPillar, quota[i] || 3));
+  });
+  // Complément si un pilier est trop peu fourni : on garde 10 questions
+  pool.forEach(q => { if (ids.length < 10 && !ids.includes(q.id)) ids.push(q.id); });
+  S.essai = { pid, ids: ids.slice(0, 10), i: 0, answers: {}, done: false };
   navigate('#/essai/' + pid);
 }
 
@@ -3109,6 +3437,10 @@ route('/essai/:id', r => {
       <div class="crumb"><a href="#/">Accueil</a> › <a href="#/p/${p.id}">${esc(p.name)}</a> › Test de niveau</div>
       <h1 style="font-size:clamp(1.7rem,3.4vw,2.4rem)">Test de niveau — ${esc(p.name)}</h1>
       <p class="lede">Dix questions issues de la banque réelle, réparties sur les trois piliers de l'épreuve. Aucun compte, aucune carte bancaire.</p>
+      <div class="row row-wrap mt16" style="gap:8px">
+        ${progPillars(p.program).map(pl => `<span class="dtag" style="background:var(--surface-3);padding:5px 11px;border-radius:9px;font-size:.82rem">
+          <i style="display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--series-${pl.serie});margin-inline-end:7px"></i>${esc(pl.name)}</span>`).join('')}
+      </div>
       <div class="grid g3 mt24">
         ${[['timer', '4 minutes', 'Dix questions, sans chronomètre contraignant'],
            ['chart', 'Résultat par compétence', 'Pas une note, une carte de vos points forts et faibles'],
@@ -3188,7 +3520,7 @@ function essaiResult(p) {
       <h3 style="font-size:1rem">Vos compétences sur ce test</h3>
       <div class="vsub small muted" style="margin-bottom:14px">Classées de la plus fragile à la plus solide</div>
       ${barsChart(rows.map(x => ({ label: comp(x.c).short, value: x.pct, color: `var(--series-${pillarOf(x.c).serie})`, tip: `${x.pct} % sur ${x.n} question(s)` })), { labelW: 190, unit: ' %' })}
-      <div class="legend">${DATA.pillars.map(pl => `<span><i style="background:var(--series-${pl.serie})"></i>${esc(pl.name)}</span>`).join('')}</div>
+      <div class="legend">${progPillars(p.program).map(pl => `<span><i style="background:var(--series-${pl.serie})"></i>${esc(pl.name)}</span>`).join('')}</div>
     </div>
 
     <div class="reco mt24">
@@ -3307,7 +3639,7 @@ route('/concours/:fam/:spec', r => {
         <h2 style="font-size:1.3rem">Ce qui est évalué</h2>
         <p class="small dim">L'épreuve écrite repose sur trois piliers. Notre couverture suit exactement cette structure.</p>
         <div class="col mt16" style="gap:12px">
-          ${DATA.pillars.map(p => {
+          ${progPillars(f.prog).map(p => {
             const cs = DATA.competencies.filter(c => c.pillar === p.id);
             return `<div class="card">
               <div class="row" style="gap:10px;margin-bottom:6px">
@@ -3346,7 +3678,7 @@ route('/concours/:fam/:spec', r => {
             <tr><td class="muted small">Questions</td><td class="num strong">${s.items}</td></tr>
             <tr><td class="muted small">Annales</td><td class="num strong">${ann.length}</td></tr>
             <tr><td class="muted small">Simulateurs</td><td class="num strong">2</td></tr>
-            <tr><td class="muted small">Compétences suivies</td><td class="num strong">14</td></tr>
+            <tr><td class="muted small">Compétences suivies</td><td class="num strong">${DATA.competencies.filter(c => c.prog === (f.prog || 'crmef')).length}</td></tr>
             <tr><td class="muted small">Candidats/session</td><td class="num strong">${esc((s.candidates || '').replace('≈ ', '').replace(' candidats/session', ''))}</td></tr>
           </table>
           <a class="btn btn-primary btn-block mt16" href="#/app/onboarding">Diagnostic gratuit</a>

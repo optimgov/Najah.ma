@@ -85,7 +85,7 @@ route('/concours/:fam/:spec', r => {
         <h2 style="font-size:1.3rem">Ce qui est évalué</h2>
         <p class="small dim">L'épreuve écrite repose sur trois piliers. Notre couverture suit exactement cette structure.</p>
         <div class="col mt16" style="gap:12px">
-          ${DATA.pillars.map(p => {
+          ${progPillars(f.prog).map(p => {
             const cs = DATA.competencies.filter(c => c.pillar === p.id);
             return `<div class="card">
               <div class="row" style="gap:10px;margin-bottom:6px">
@@ -124,7 +124,7 @@ route('/concours/:fam/:spec', r => {
             <tr><td class="muted small">Questions</td><td class="num strong">${s.items}</td></tr>
             <tr><td class="muted small">Annales</td><td class="num strong">${ann.length}</td></tr>
             <tr><td class="muted small">Simulateurs</td><td class="num strong">2</td></tr>
-            <tr><td class="muted small">Compétences suivies</td><td class="num strong">14</td></tr>
+            <tr><td class="muted small">Compétences suivies</td><td class="num strong">${DATA.competencies.filter(c => c.prog === (f.prog || 'crmef')).length}</td></tr>
             <tr><td class="muted small">Candidats/session</td><td class="num strong">${esc((s.candidates || '').replace('≈ ', '').replace(' candidats/session', ''))}</td></tr>
           </table>
           <a class="btn btn-primary btn-block mt16" href="#/app/onboarding">Diagnostic gratuit</a>

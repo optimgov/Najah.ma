@@ -1,6 +1,6 @@
 # Najah.ma — Prototype frontend
 
-**Version 4 · 4 août 2026 · Aucune installation requise**
+**Version 5 · 5 août 2026 · Aucune installation requise**
 
 ---
 
@@ -23,8 +23,19 @@ L'accueil ne cherche plus à convaincre : il oriente. Une phrase, une question �
 | Porte | Contenu |
 |---|---|
 | **Métiers de l'éducation** | Ouverte. CRMEF, Inspection, Agrégation. |
-| **Concours post-bac** | Annoncée. Médecine, ENSA, ENCG, ISCAE. Liste d'attente. |
+| **Concours post-bac** | **Ouverte.** Licences d'Éducation actives ; Médecine, ENSA, ENCG, IAV annoncées. |
 | **Concours professionnels** | Annoncée. Administration, ISPITS. Liste d'attente. |
+
+### Deux programmes, deux référentiels
+
+Le concours commun des Licences d'Éducation n'a rien de commun avec le CRMEF : ni les épreuves, ni les compétences. Il dispose donc de son propre référentiel, et les deux ne se mélangent jamais.
+
+| Programme | Piliers | Compétences | Questions |
+|---|---|---|---|
+| CRMEF | Sciences de l'éducation · Didactique · Spécialité | 14 | 26 |
+| Licences d'Éducation | Culture éducative · Langues et communication · Raisonnement logique et numérique | 9 | 12 |
+
+Le test de niveau, la page de spécialité et les graphiques s'adaptent automatiquement au programme du concours consulté.
 
 Chaque porte est un mini-site autonome : accroche du segment, concours de la filière, contenu gratuit immédiatement actionnable, exemple de correction, tarifs contextualisés et FAQ. Les prix sont les mêmes partout ; seuls les avantages sont réécrits avec le vocabulaire du segment.
 

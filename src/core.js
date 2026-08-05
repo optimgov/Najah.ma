@@ -84,6 +84,9 @@ const md = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<b
 
 const comp = id => DATA.competencies.find(c => c.id === id) || { id, name: id, short: id, pillar: 'SE' };
 const pillarOf = id => DATA.pillars.find(p => p.id === comp(id).pillar) || DATA.pillars[0];
+/* Chaque concours a son propre référentiel : ne jamais mélanger les piliers de deux programmes */
+const progPillars = prog => DATA.pillars.filter(p => p.prog === (prog || 'crmef'));
+const progQuestions = prog => DATA.questions.filter(q => (q.prog || 'crmef') === (prog || 'crmef'));
 const serieVar = id => `var(--series-${pillarOf(id).serie})`;
 const masteryOf = id => DATA.profile.mastery.find(m => m.comp === id) || { score: 0, trend: 0, evidence: 0, answers: 0 };
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));

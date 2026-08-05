@@ -1,7 +1,7 @@
 # Najah.ma — Prototype frontend
 
-Portail d'orientation, contenu gratuit par filière, test de niveau sans compte, espace candidat complet.
-Trois univers visuels : acquisition, apprentissage, examen.
+Portail d'orientation à trois portes, deux concours ouverts (CRMEF et Licences d'Éducation),
+test de niveau sans compte, espace candidat complet, trois univers visuels.
 
 **Démo :** https://optimgov.github.io/Najah.ma/
 
@@ -20,7 +20,7 @@ cp dist/najah-prototype.html index.html
 ```
 
 Sources dans `src/` :
-`styles.css` (base) · `tokens.css` (jetons et univers) · `motion.css` (mouvement) ·
-`icons.js` · `data.js` · `core.js` · `views_home.js` · `views_public.js` · `views_app_a.js` · `views_app_b.js`
+`styles.css` · `tokens.css` · `motion.css` · `icons.js` · `data.js` · `core.js` ·
+`views_home.js` · `views_public.js` · `views_app_a.js` · `views_app_b.js`
 
 Contenu simulé, aucune donnée réelle de candidat.

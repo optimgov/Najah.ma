@@ -47,7 +47,8 @@ route('/', () => shellPublic(`
     </div>
     <div class="socialbar rise mt24">
       <div>${icon('users', 17)} <b>2 400</b> candidats inscrits</div>
-      <div>${icon('file', 17)} <b>800</b> questions publiées</div>
+      <div>${icon('cap', 17)} <b>2</b> concours ouverts</div>
+      <div>${icon('file', 17)} <b>1 440</b> questions publiées</div>
       <div>${icon('shield', 17)} <b>100 %</b> des distracteurs justifiés</div>
       <div>${icon('mobile', 17)} <b>Mobile</b> d'abord</div>
     </div>
@@ -224,6 +225,7 @@ route('/p/:id', r => {
     </section>
 
     ${p.proof ? `<section class="section">
+      <div class="snum"><i>03</i><span></span></div>
       <div class="grid" style="grid-template-columns:.95fr 1.05fr;gap:36px;align-items:center">
         <div>
           <h2>Une correction qui sert à quelque chose</h2>
@@ -235,6 +237,7 @@ route('/p/:id', r => {
       </div></section>` : ''}
 
     ${p.live ? `<section class="section" id="tarifs">
+      <div class="snum"><i>04</i><span></span></div>
       <div class="shead center"><h2>Passer au niveau supérieur</h2>
         <div class="ssub" style="margin-inline:auto">Le gratuit vous montre où vous en êtes. Le premium vous donne de quoi progresser : la banque complète, les corrections intégrales et les examens blancs.</div></div>
       <div class="grid g3 mt24">
@@ -271,7 +274,7 @@ route('/p/:id', r => {
     </section>`}
 
     <section class="section" style="padding-bottom:20px">
-      <div class="shead"><div class="snum"><i>05</i><span></span></div><h2>Questions fréquentes</h2></div>
+      <div class="shead"><div class="snum"><i>${p.proof ? '05' : '03'}</i><span></span></div><h2>Questions fréquentes</h2></div>
       <div class="grid g2">
         ${p.faq.map(([q, a]) => `<details class="card card-pad-sm">
           <summary style="cursor:pointer;font-weight:650;font-size:.94rem">${esc(q)}</summary>
@@ -283,12 +286,24 @@ route('/p/:id', r => {
 
 /* ---------------- Essai gratuit sans compte ---------------- */
 function startEssai(pid) {
-  // Couverture des trois piliers : le résultat doit être lisible par pilier
-  const byPillar = { SE: [], DI: [], SP: [] };
-  DATA.questions.forEach(q => byPillar[comp(q.comp).pillar].push(q.id));
-  const take = (arr, n) => arr.filter((_, i) => i % Math.max(1, Math.floor(arr.length / n)) === 0).slice(0, n);
-  const ids = [...take(byPillar.SE, 4), ...take(byPillar.DI, 3), ...take(byPillar.SP, 3)];
-  S.essai = { pid, ids, i: 0, answers: {}, done: false };
+  // Le test couvre les trois piliers du programme visé, jamais ceux d'un autre concours
+  const p = portal(pid);
+  const pillars = progPillars(p.program);
+  const pool = progQuestions(p.program);
+  const quota = [4, 3, 3];
+  const take = (arr, n) => {
+    if (arr.length <= n) return arr;
+    const step = Math.max(1, Math.floor(arr.length / n));
+    return arr.filter((_, i) => i % step === 0).slice(0, n);
+  };
+  let ids = [];
+  pillars.forEach((pl, i) => {
+    const inPillar = pool.filter(q => comp(q.comp).pillar === pl.id).map(q => q.id);
+    ids = ids.concat(take(inPillar, quota[i] || 3));
+  });
+  // Complément si un pilier est trop peu fourni : on garde 10 questions
+  pool.forEach(q => { if (ids.length < 10 && !ids.includes(q.id)) ids.push(q.id); });
+  S.essai = { pid, ids: ids.slice(0, 10), i: 0, answers: {}, done: false };
   navigate('#/essai/' + pid);
 }
 
@@ -303,6 +318,10 @@ route('/essai/:id', r => {
       <div class="crumb"><a href="#/">Accueil</a> › <a href="#/p/${p.id}">${esc(p.name)}</a> › Test de niveau</div>
       <h1 style="font-size:clamp(1.7rem,3.4vw,2.4rem)">Test de niveau — ${esc(p.name)}</h1>
       <p class="lede">Dix questions issues de la banque réelle, réparties sur les trois piliers de l'épreuve. Aucun compte, aucune carte bancaire.</p>
+      <div class="row row-wrap mt16" style="gap:8px">
+        ${progPillars(p.program).map(pl => `<span class="dtag" style="background:var(--surface-3);padding:5px 11px;border-radius:9px;font-size:.82rem">
+          <i style="display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--series-${pl.serie});margin-inline-end:7px"></i>${esc(pl.name)}</span>`).join('')}
+      </div>
       <div class="grid g3 mt24">
         ${[['timer', '4 minutes', 'Dix questions, sans chronomètre contraignant'],
            ['chart', 'Résultat par compétence', 'Pas une note, une carte de vos points forts et faibles'],
@@ -382,7 +401,7 @@ function essaiResult(p) {
       <h3 style="font-size:1rem">Vos compétences sur ce test</h3>
       <div class="vsub small muted" style="margin-bottom:14px">Classées de la plus fragile à la plus solide</div>
       ${barsChart(rows.map(x => ({ label: comp(x.c).short, value: x.pct, color: `var(--series-${pillarOf(x.c).serie})`, tip: `${x.pct} % sur ${x.n} question(s)` })), { labelW: 190, unit: ' %' })}
-      <div class="legend">${DATA.pillars.map(pl => `<span><i style="background:var(--series-${pl.serie})"></i>${esc(pl.name)}</span>`).join('')}</div>
+      <div class="legend">${progPillars(p.program).map(pl => `<span><i style="background:var(--series-${pl.serie})"></i>${esc(pl.name)}</span>`).join('')}</div>
     </div>
 
     <div class="reco mt24">
