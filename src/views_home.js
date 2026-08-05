@@ -201,13 +201,15 @@ route('/p/:id', r => {
           ? `<a class="card card-hover card-link" href="#/concours/${f.id}">
               <div class="row-between"><span style="color:var(--brand-700)">${icon(f.icon, 26)}</span>${badge('Ouvert', 'good')}</div>
               <h3 style="margin-top:11px">${esc(f.short)}</h3>
-              <p class="small dim" style="margin:5px 0 10px">${esc(f.tagline)}</p>
+              ${f.entry ? `<div class="dtag" style="display:inline-block;margin:7px 0 0">${esc(f.entry)}</div>` : ''}
+              <p class="small dim" style="margin:7px 0 10px">${esc(f.tagline)}</p>
               <div class="xsmall muted">${f.specialties.filter(s => s.live).length} spécialité(s) ouverte(s) sur ${f.specialties.length}</div>
               <div class="dgo" style="margin-top:12px">Découvrir <span class="arw">→</span></div></a>`
           : `<div class="card card-flat" style="opacity:.68">
               <div class="row-between"><span style="color:var(--brand-700)">${icon(f.icon, 26)}</span>${badge('Bientôt', 'outline')}</div>
               <h3 style="margin-top:11px">${esc(f.short)}</h3>
-              <p class="small dim" style="margin:5px 0 0">${esc(f.tagline)}</p></div>`).join('')}
+              ${f.entry ? `<div class="dtag" style="display:inline-block;margin:7px 0 0">${esc(f.entry)}</div>` : ''}
+              <p class="small dim" style="margin:7px 0 0">${esc(f.tagline)}</p></div>`).join('')}
       </div>
     </section>
 
@@ -284,12 +286,29 @@ route('/p/:id', r => {
   </div>`, 'home');
 });
 
-/* ---------------- Essai gratuit sans compte ---------------- */
-function startEssai(pid) {
-  // Le test couvre les trois piliers du programme visé, jamais ceux d'un autre concours
-  const p = portal(pid);
-  const pillars = progPillars(p.program);
-  const pool = progQuestions(p.program);
+/* ---------------- Essai gratuit sans compte ----------------
+   Le test est rattaché à un CONCOURS, pas à une filière : une porte peut
+   contenir plusieurs concours ouverts aux référentiels différents.
+   L'identifiant accepté est celui d'un concours ou celui d'une porte
+   (auquel cas on retient le premier concours ouvert de la porte).
+   ------------------------------------------------------------ */
+function essaiFamily(id) {
+  const direct = DATA.families.find(x => x.id === id && x.live);
+  if (direct) return direct;
+  const p = portal(id);
+  if (!p) return null;
+  return DATA.families.find(x => p.families.includes(x.id) && x.live) || null;
+}
+function portalOfFamily(f) { return DATA.portals.find(p => p.families.includes(f.id)); }
+function liveSiblings(f) {
+  const p = portalOfFamily(f);
+  return p ? DATA.families.filter(x => p.families.includes(x.id) && x.live) : [f];
+}
+
+function startEssai(fid) {
+  const f = DATA.families.find(x => x.id === fid);
+  const pillars = progPillars(f.prog);
+  const pool = progQuestions(f.prog);
   const quota = [4, 3, 3];
   const take = (arr, n) => {
     if (arr.length <= n) return arr;
@@ -301,51 +320,62 @@ function startEssai(pid) {
     const inPillar = pool.filter(q => comp(q.comp).pillar === pl.id).map(q => q.id);
     ids = ids.concat(take(inPillar, quota[i] || 3));
   });
-  // Complément si un pilier est trop peu fourni : on garde 10 questions
   pool.forEach(q => { if (ids.length < 10 && !ids.includes(q.id)) ids.push(q.id); });
-  S.essai = { pid, ids: ids.slice(0, 10), i: 0, answers: {}, done: false };
-  navigate('#/essai/' + pid);
+  S.essai = { fid, ids: ids.slice(0, 10), i: 0, answers: {}, done: false };
+  navigate('#/essai/' + fid);
 }
 
 route('/essai/:id', r => {
-  const p = portal(r.parts[1]);
-  if (!p) return notFound();
-  if (!p.live) return notFound();
+  const f = essaiFamily(r.parts[1]);
+  if (!f) return notFound();
+  const p = portalOfFamily(f);
+  const sibs = liveSiblings(f);
   const e = S.essai;
 
-  if (!e || e.pid !== p.id) {
+  if (!e || e.fid !== f.id) {
     return shellPublic(`<div class="wrap-narrow" style="padding:46px 20px 0">
       <div class="crumb"><a href="#/">Accueil</a> › <a href="#/p/${p.id}">${esc(p.name)}</a> › Test de niveau</div>
-      <h1 style="font-size:clamp(1.7rem,3.4vw,2.4rem)">Test de niveau — ${esc(p.name)}</h1>
+      <h1 style="font-size:clamp(1.7rem,3.4vw,2.4rem)">Test de niveau — ${esc(f.short)}</h1>
       <p class="lede">Dix questions issues de la banque réelle, réparties sur les trois piliers de l'épreuve. Aucun compte, aucune carte bancaire.</p>
+
+      ${sibs.length > 1 ? `<div class="card card-flat mt16">
+        <b class="small">Quel concours préparez-vous ?</b>
+        <p class="xsmall muted" style="margin:5px 0 11px">Les épreuves diffèrent entièrement d'un concours à l'autre : le test s'adapte à celui que vous choisissez.</p>
+        <div class="row row-wrap" style="gap:8px">
+          ${sibs.map(x => `<a class="chip ${x.id === f.id ? 'on' : ''}" href="#/essai/${x.id}">${esc(x.short)}
+            <span style="opacity:.72;font-size:.82em;margin-inline-start:5px">${esc(x.entry || '')}</span></a>`).join('')}
+        </div></div>` : ''}
+
       <div class="row row-wrap mt16" style="gap:8px">
-        ${progPillars(p.program).map(pl => `<span class="dtag" style="background:var(--surface-3);padding:5px 11px;border-radius:9px;font-size:.82rem">
+        ${progPillars(f.prog).map(pl => `<span style="background:var(--surface-3);padding:5px 11px;border-radius:9px;font-size:.82rem">
           <i style="display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--series-${pl.serie});margin-inline-end:7px"></i>${esc(pl.name)}</span>`).join('')}
       </div>
+
       <div class="grid g3 mt24">
         ${[['timer', '4 minutes', 'Dix questions, sans chronomètre contraignant'],
            ['chart', 'Résultat par compétence', 'Pas une note, une carte de vos points forts et faibles'],
            ['lock', 'Rien à installer', 'Vous pouvez arrêter et reprendre à tout moment']
-        ].map(([i, t, d]) => `<div class="card card-pad-sm"><div style="font-size:1.3rem">${i}</div>
+        ].map(([i, t, d]) => `<div class="card card-pad-sm"><div style="color:var(--brand-700)">${icon(i, 22)}</div>
           <b class="small" style="display:block;margin-top:7px">${t}</b><span class="xsmall muted">${d}</span></div>`).join('')}
       </div>
+
       <div class="card card-flat mt24">
         <b class="small">Ce que nous ne faisons pas</b>
         <p class="small dim" style="margin:6px 0 0">Nous ne vous donnerons pas de probabilité de réussite au concours. Dix questions ne permettent pas de la calculer honnêtement, et une prédiction mal calibrée décourage ou rassure à tort.</p>
       </div>
-      <div class="row row-wrap mt24"><button class="btn btn-primary btn-lg" onclick="startEssai('${p.id}')">Commencer le test</button>
+      <div class="row row-wrap mt24"><button class="btn btn-primary btn-lg" onclick="startEssai('${f.id}')">${icon('target', 19)} Commencer le test</button>
         <a class="btn btn-quiet" href="#/p/${p.id}">Retour</a></div>
     </div>`, 'home');
   }
 
-  if (e.done) return essaiResult(p);
+  if (e.done) return essaiResult(f);
 
   const q = DATA.questions.find(x => x.id === e.ids[e.i]);
   const ans = e.answers[q.id];
   return shellPublic(`
     <div class="essai-top"><div class="wrap-narrow">
       <div class="row-between" style="margin-bottom:9px">
-        <b class="small">Test de niveau — ${esc(p.name)}</b>
+        <b class="small">Test de niveau — ${esc(f.short)}</b>
         <span class="small muted mono">Question ${e.i + 1} / ${e.ids.length}</span>
       </div>
       <div class="bar bar-thin"><span style="width:${(e.i / e.ids.length) * 100}%"></span></div>
@@ -367,8 +397,9 @@ function essaiNext() {
   render();
 }
 
-function essaiResult(p) {
+function essaiResult(f) {
   const e = S.essai;
+  const p = portalOfFamily(f);
   const ok = e.ids.filter(id => e.answers[id] === DATA.questions.find(q => q.id === id).correct);
   const score = Math.round((ok.length / e.ids.length) * 100);
   const byC = {};
@@ -401,7 +432,7 @@ function essaiResult(p) {
       <h3 style="font-size:1rem">Vos compétences sur ce test</h3>
       <div class="vsub small muted" style="margin-bottom:14px">Classées de la plus fragile à la plus solide</div>
       ${barsChart(rows.map(x => ({ label: comp(x.c).short, value: x.pct, color: `var(--series-${pillarOf(x.c).serie})`, tip: `${x.pct} % sur ${x.n} question(s)` })), { labelW: 190, unit: ' %' })}
-      <div class="legend">${progPillars(p.program).map(pl => `<span><i style="background:var(--series-${pl.serie})"></i>${esc(pl.name)}</span>`).join('')}</div>
+      <div class="legend">${progPillars(f.prog).map(pl => `<span><i style="background:var(--series-${pl.serie})"></i>${esc(pl.name)}</span>`).join('')}</div>
     </div>
 
     <div class="reco mt24">

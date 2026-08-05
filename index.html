@@ -1192,6 +1192,7 @@ const DATA = {};
 DATA.families = [
   {
     id: 'crmef', group: 'education', live: true,
+    entry: 'Après la licence',
     name: "CRMEF — Cycle de préparation à l'agrégation et à l'enseignement",
     short: 'CRMEF',
     tagline: "Centres régionaux des métiers de l'éducation et de la formation",
@@ -1209,6 +1210,7 @@ DATA.families = [
   },
   {
     id: 'inspection', group: 'education', live: false,
+    entry: 'Enseignant en poste',
     name: "Inspection de l'enseignement", short: 'Inspection', icon: 'compass',
     tagline: 'Concours de recrutement des inspecteurs pédagogiques',
     desc: "Accès au cycle de formation des inspecteurs. Épreuves d'expertise pédagogique, d'encadrement et de législation scolaire.",
@@ -1216,6 +1218,7 @@ DATA.families = [
   },
   {
     id: 'agregation', group: 'education', live: false,
+    entry: 'Après la licence ou en poste',
     name: "Agrégation", short: 'Agrégation', icon: 'book',
     tagline: 'Concours national d\'agrégation',
     desc: "Concours de haut niveau disciplinaire ouvrant l'accès aux classes préparatoires et au qualifiant.",
@@ -2204,19 +2207,19 @@ DATA.portals = [
   {
     id: 'education', icon: 'cap', live: true, program: 'crmef',
     name: "Métiers de l'éducation",
-    door: "Devenir enseignant, inspecteur ou agrégé",
-    examples: 'CRMEF · Inspection · Agrégation',
-    lede: "Préparez le concours d'accès aux CRMEF avec des corrections qui expliquent chacune de vos erreurs, un suivi par compétence et des examens blancs conformes au format réel.",
-    audience: "Pour les licenciés et les enseignants qui préparent un concours de l'Éducation nationale.",
-    families: ['crmef', 'inspection', 'agregation'],
+    door: "Du baccalauréat au concours d'inspection",
+    examples: "Licences d'Éducation · CRMEF · Inspection · Agrégation",
+    lede: "Deux concours ouverts : les Licences d'Éducation juste après le bac, et le CRMEF après la licence. Des corrections qui expliquent chacune de vos erreurs, un suivi par compétence et des épreuves blanches au format réel.",
+    audience: "Pour les bacheliers, les licenciés et les enseignants en poste qui visent un concours de l'Éducation nationale.",
+    families: ['licence-education', 'crmef', 'inspection', 'agregation'],
     stats: [
-      { k: 'Questions publiées', v: '800' },
-      { k: 'Annales corrigées', v: '8' },
-      { k: 'Compétences suivies', v: '14' },
-      { k: 'Spécialités ouvertes', v: '2' }
+      { k: 'Concours ouverts', v: '2' },
+      { k: 'Questions publiées', v: '1 440' },
+      { k: 'Compétences suivies', v: '23' },
+      { k: 'Spécialités ouvertes', v: '4' }
     ],
     free: [
-      { icon: 'target', t: 'Testez votre niveau en 10 questions', d: "Sans compte, sans carte bancaire. Vous obtenez un résultat par compétence, pas seulement un score.", cta: 'Commencer le test', route: '#/essai/education', primary: true },
+      { icon: 'target', t: 'Testez votre niveau en 10 questions', d: "Sans compte, sans carte bancaire. Choisissez votre concours — Licence d'Éducation ou CRMEF — et obtenez un résultat par compétence, pas seulement un score.", cta: 'Commencer le test', route: '#/essai/education', primary: true },
       { icon: 'file', t: 'Annales corrigées', d: "Les sujets des sessions passées, avec corrigé, source identifiée et année.", cta: 'Consulter les annales', route: '#/annales' },
       { icon: 'book', t: 'Fiches et méthodes', d: "Législation, didactique, méthodologie de l'oral. Rédigées par des formateurs, sourcées.", cta: 'Lire les fiches', route: '#/ressources' },
       { icon: 'calendar', t: 'Calendrier des concours', d: "Dates d'inscription, épreuves et résultats, avec la source de chaque annonce.", cta: 'Voir le calendrier', route: '#/calendrier' }
@@ -2235,13 +2238,13 @@ DATA.portals = [
     ]
   },
   {
-    id: 'postbac', icon: 'route', live: true, program: 'le',
+    id: 'postbac', icon: 'stethoscope', live: false, program: 'crmef',
     name: 'Concours post-bac',
-    door: "Licences d'Éducation, médecine, ingénieur, commerce",
-    examples: "Licences d'Éducation · Médecine · ENSA · ENCG · IAV",
-    lede: "Le concours commun des Licences d'Éducation est ouvert : culture éducative, langues et raisonnement, avec chaque erreur expliquée et un suivi par compétence. Les autres concours post-bac arrivent.",
-    audience: "Pour les bacheliers, et particulièrement pour ceux qui envisagent d'enseigner.",
-    families: ['licence-education', 'medecine', 'ingenieur', 'commerce', 'iav'],
+    door: 'Médecine, ingénieur, commerce, agronomie',
+    examples: 'Médecine · ENSA · ENCG · ISCAE · IAV',
+    lede: "Préparation aux concours d'accès aux facultés de médecine, aux écoles d'ingénieurs, de commerce et à l'agronomie.",
+    audience: "Pour les bacheliers et les étudiants en classes préparatoires. Vous visez l'enseignement ? Les Licences d'Éducation se trouvent dans la filière Métiers de l'éducation.",
+    families: ['medecine', 'ingenieur', 'commerce', 'iav'],
     stats: [
       { k: 'Questions publiées', v: '640' },
       { k: 'Compétences suivies', v: '9' },
@@ -2256,15 +2259,14 @@ DATA.portals = [
     ],
     proof: 'L011',
     planWords: {
-      free: ['Test de niveau complet', '10 questions par jour', 'Aperçu de votre profil de compétences', 'Mini-épreuve blanche', 'Sujets sélectionnés'],
-      premium: ["640 questions du concours commun, chaque distracteur justifié", 'Sujets des sessions passées corrigés', 'Séries ciblées sur vos points faibles', 'Épreuves blanches chronométrées au format réel', "Carnet d'erreurs et suivi par compétence"],
-      annual: ['Tout le contenu Premium', "Accès garanti jusqu'après les entretiens", 'Deux mois offerts', 'Priorité sur les nouvelles spécialités']
+      free: ['Test de niveau complet', '10 questions par jour', 'Aperçu de votre profil', 'Mini-simulateur', 'Annales sélectionnées'],
+      premium: ['Banque complète de sciences fondamentales', 'Chaque distracteur justifié', 'Séries ciblées', 'Concours blancs chronométrés', "Carnet d'erreurs"],
+      annual: ['Tout le contenu Premium', "Accès garanti jusqu'aux concours", 'Deux mois offerts', 'Priorité sur les nouvelles filières']
     },
     faq: [
-      ["À quoi mène une Licence d'Éducation ?", "À une licence professionnalisante en trois ans, orientée vers l'enseignement, qui prépare aux concours de recrutement du ministère. La filière ne garantit pas un poste : elle prépare au métier et aux concours qui y donnent accès."],
-      ["Quelles spécialités sont ouvertes sur Najah.ma ?", "L'enseignement primaire polyvalent et l'enseignement secondaire Français. Les autres spécialités ouvrent après validation de leur contenu par des formateurs, comme pour toutes nos filières."],
-      ["Le concours est-il le même dans toutes les universités ?", "Le tronc des épreuves est commun, mais chaque université publie ses modalités et son calendrier propres. Nos fiches signalent ce qui varie ; vérifiez toujours l'annonce de votre université."],
-      ["Et les autres concours post-bac ?", "Médecine, ENSA, ENCG et IAV sont annoncés mais pas encore ouverts. Inscrivez-vous à la liste d'attente depuis leur fiche pour être prévenu."]
+      ["Quand ouvrez-vous cette filière ?", "Nous ouvrons un concours seulement lorsque son contenu atteint notre seuil de qualité éditoriale : chaque question relue deux fois, chaque distracteur justifié, chaque source vérifiée. L'inscription à la liste d'attente vous prévient dès l'ouverture."],
+      ["Je veux devenir enseignant, dois-je attendre ?", "Non. Le concours commun des Licences d'Éducation, accessible juste après le bac, est déjà ouvert dans la filière Métiers de l'éducation."],
+      ["Puis-je déjà utiliser la plateforme ?", "Le calendrier et les fiches méthodologiques sont accessibles. Les banques de questions post-bac sont en cours de constitution."]
     ]
   },
   {
@@ -2570,8 +2572,8 @@ DATA.questions.push(
 /* ------------------------------------------------------------------ */
 /* Familles ajoutées — filière post-bac                               */
 /* ------------------------------------------------------------------ */
-DATA.families.splice(DATA.families.findIndex(f => f.id === 'medecine'), 0, {
-  id: 'licence-education', group: 'postbac', live: true, prog: 'le',
+DATA.families.splice(DATA.families.findIndex(f => f.id === 'crmef'), 0, {
+  id: 'licence-education', group: 'education', live: true, prog: 'le', entry: 'Après le baccalauréat',
   name: "Licences d'Éducation — concours commun post-bac",
   short: "Licences d'Éducation",
   tagline: "Devenir enseignant en commençant dès le baccalauréat",
@@ -3320,13 +3322,15 @@ route('/p/:id', r => {
           ? `<a class="card card-hover card-link" href="#/concours/${f.id}">
               <div class="row-between"><span style="color:var(--brand-700)">${icon(f.icon, 26)}</span>${badge('Ouvert', 'good')}</div>
               <h3 style="margin-top:11px">${esc(f.short)}</h3>
-              <p class="small dim" style="margin:5px 0 10px">${esc(f.tagline)}</p>
+              ${f.entry ? `<div class="dtag" style="display:inline-block;margin:7px 0 0">${esc(f.entry)}</div>` : ''}
+              <p class="small dim" style="margin:7px 0 10px">${esc(f.tagline)}</p>
               <div class="xsmall muted">${f.specialties.filter(s => s.live).length} spécialité(s) ouverte(s) sur ${f.specialties.length}</div>
               <div class="dgo" style="margin-top:12px">Découvrir <span class="arw">→</span></div></a>`
           : `<div class="card card-flat" style="opacity:.68">
               <div class="row-between"><span style="color:var(--brand-700)">${icon(f.icon, 26)}</span>${badge('Bientôt', 'outline')}</div>
               <h3 style="margin-top:11px">${esc(f.short)}</h3>
-              <p class="small dim" style="margin:5px 0 0">${esc(f.tagline)}</p></div>`).join('')}
+              ${f.entry ? `<div class="dtag" style="display:inline-block;margin:7px 0 0">${esc(f.entry)}</div>` : ''}
+              <p class="small dim" style="margin:7px 0 0">${esc(f.tagline)}</p></div>`).join('')}
       </div>
     </section>
 
@@ -3403,12 +3407,29 @@ route('/p/:id', r => {
   </div>`, 'home');
 });
 
-/* ---------------- Essai gratuit sans compte ---------------- */
-function startEssai(pid) {
-  // Le test couvre les trois piliers du programme visé, jamais ceux d'un autre concours
-  const p = portal(pid);
-  const pillars = progPillars(p.program);
-  const pool = progQuestions(p.program);
+/* ---------------- Essai gratuit sans compte ----------------
+   Le test est rattaché à un CONCOURS, pas à une filière : une porte peut
+   contenir plusieurs concours ouverts aux référentiels différents.
+   L'identifiant accepté est celui d'un concours ou celui d'une porte
+   (auquel cas on retient le premier concours ouvert de la porte).
+   ------------------------------------------------------------ */
+function essaiFamily(id) {
+  const direct = DATA.families.find(x => x.id === id && x.live);
+  if (direct) return direct;
+  const p = portal(id);
+  if (!p) return null;
+  return DATA.families.find(x => p.families.includes(x.id) && x.live) || null;
+}
+function portalOfFamily(f) { return DATA.portals.find(p => p.families.includes(f.id)); }
+function liveSiblings(f) {
+  const p = portalOfFamily(f);
+  return p ? DATA.families.filter(x => p.families.includes(x.id) && x.live) : [f];
+}
+
+function startEssai(fid) {
+  const f = DATA.families.find(x => x.id === fid);
+  const pillars = progPillars(f.prog);
+  const pool = progQuestions(f.prog);
   const quota = [4, 3, 3];
   const take = (arr, n) => {
     if (arr.length <= n) return arr;
@@ -3420,51 +3441,62 @@ function startEssai(pid) {
     const inPillar = pool.filter(q => comp(q.comp).pillar === pl.id).map(q => q.id);
     ids = ids.concat(take(inPillar, quota[i] || 3));
   });
-  // Complément si un pilier est trop peu fourni : on garde 10 questions
   pool.forEach(q => { if (ids.length < 10 && !ids.includes(q.id)) ids.push(q.id); });
-  S.essai = { pid, ids: ids.slice(0, 10), i: 0, answers: {}, done: false };
-  navigate('#/essai/' + pid);
+  S.essai = { fid, ids: ids.slice(0, 10), i: 0, answers: {}, done: false };
+  navigate('#/essai/' + fid);
 }
 
 route('/essai/:id', r => {
-  const p = portal(r.parts[1]);
-  if (!p) return notFound();
-  if (!p.live) return notFound();
+  const f = essaiFamily(r.parts[1]);
+  if (!f) return notFound();
+  const p = portalOfFamily(f);
+  const sibs = liveSiblings(f);
   const e = S.essai;
 
-  if (!e || e.pid !== p.id) {
+  if (!e || e.fid !== f.id) {
     return shellPublic(`<div class="wrap-narrow" style="padding:46px 20px 0">
       <div class="crumb"><a href="#/">Accueil</a> › <a href="#/p/${p.id}">${esc(p.name)}</a> › Test de niveau</div>
-      <h1 style="font-size:clamp(1.7rem,3.4vw,2.4rem)">Test de niveau — ${esc(p.name)}</h1>
+      <h1 style="font-size:clamp(1.7rem,3.4vw,2.4rem)">Test de niveau — ${esc(f.short)}</h1>
       <p class="lede">Dix questions issues de la banque réelle, réparties sur les trois piliers de l'épreuve. Aucun compte, aucune carte bancaire.</p>
+
+      ${sibs.length > 1 ? `<div class="card card-flat mt16">
+        <b class="small">Quel concours préparez-vous ?</b>
+        <p class="xsmall muted" style="margin:5px 0 11px">Les épreuves diffèrent entièrement d'un concours à l'autre : le test s'adapte à celui que vous choisissez.</p>
+        <div class="row row-wrap" style="gap:8px">
+          ${sibs.map(x => `<a class="chip ${x.id === f.id ? 'on' : ''}" href="#/essai/${x.id}">${esc(x.short)}
+            <span style="opacity:.72;font-size:.82em;margin-inline-start:5px">${esc(x.entry || '')}</span></a>`).join('')}
+        </div></div>` : ''}
+
       <div class="row row-wrap mt16" style="gap:8px">
-        ${progPillars(p.program).map(pl => `<span class="dtag" style="background:var(--surface-3);padding:5px 11px;border-radius:9px;font-size:.82rem">
+        ${progPillars(f.prog).map(pl => `<span style="background:var(--surface-3);padding:5px 11px;border-radius:9px;font-size:.82rem">
           <i style="display:inline-block;width:9px;height:9px;border-radius:3px;background:var(--series-${pl.serie});margin-inline-end:7px"></i>${esc(pl.name)}</span>`).join('')}
       </div>
+
       <div class="grid g3 mt24">
         ${[['timer', '4 minutes', 'Dix questions, sans chronomètre contraignant'],
            ['chart', 'Résultat par compétence', 'Pas une note, une carte de vos points forts et faibles'],
            ['lock', 'Rien à installer', 'Vous pouvez arrêter et reprendre à tout moment']
-        ].map(([i, t, d]) => `<div class="card card-pad-sm"><div style="font-size:1.3rem">${i}</div>
+        ].map(([i, t, d]) => `<div class="card card-pad-sm"><div style="color:var(--brand-700)">${icon(i, 22)}</div>
           <b class="small" style="display:block;margin-top:7px">${t}</b><span class="xsmall muted">${d}</span></div>`).join('')}
       </div>
+
       <div class="card card-flat mt24">
         <b class="small">Ce que nous ne faisons pas</b>
         <p class="small dim" style="margin:6px 0 0">Nous ne vous donnerons pas de probabilité de réussite au concours. Dix questions ne permettent pas de la calculer honnêtement, et une prédiction mal calibrée décourage ou rassure à tort.</p>
       </div>
-      <div class="row row-wrap mt24"><button class="btn btn-primary btn-lg" onclick="startEssai('${p.id}')">Commencer le test</button>
+      <div class="row row-wrap mt24"><button class="btn btn-primary btn-lg" onclick="startEssai('${f.id}')">${icon('target', 19)} Commencer le test</button>
         <a class="btn btn-quiet" href="#/p/${p.id}">Retour</a></div>
     </div>`, 'home');
   }
 
-  if (e.done) return essaiResult(p);
+  if (e.done) return essaiResult(f);
 
   const q = DATA.questions.find(x => x.id === e.ids[e.i]);
   const ans = e.answers[q.id];
   return shellPublic(`
     <div class="essai-top"><div class="wrap-narrow">
       <div class="row-between" style="margin-bottom:9px">
-        <b class="small">Test de niveau — ${esc(p.name)}</b>
+        <b class="small">Test de niveau — ${esc(f.short)}</b>
         <span class="small muted mono">Question ${e.i + 1} / ${e.ids.length}</span>
       </div>
       <div class="bar bar-thin"><span style="width:${(e.i / e.ids.length) * 100}%"></span></div>
@@ -3486,8 +3518,9 @@ function essaiNext() {
   render();
 }
 
-function essaiResult(p) {
+function essaiResult(f) {
   const e = S.essai;
+  const p = portalOfFamily(f);
   const ok = e.ids.filter(id => e.answers[id] === DATA.questions.find(q => q.id === id).correct);
   const score = Math.round((ok.length / e.ids.length) * 100);
   const byC = {};
@@ -3520,7 +3553,7 @@ function essaiResult(p) {
       <h3 style="font-size:1rem">Vos compétences sur ce test</h3>
       <div class="vsub small muted" style="margin-bottom:14px">Classées de la plus fragile à la plus solide</div>
       ${barsChart(rows.map(x => ({ label: comp(x.c).short, value: x.pct, color: `var(--series-${pillarOf(x.c).serie})`, tip: `${x.pct} % sur ${x.n} question(s)` })), { labelW: 190, unit: ' %' })}
-      <div class="legend">${progPillars(p.program).map(pl => `<span><i style="background:var(--series-${pl.serie})"></i>${esc(pl.name)}</span>`).join('')}</div>
+      <div class="legend">${progPillars(f.prog).map(pl => `<span><i style="background:var(--series-${pl.serie})"></i>${esc(pl.name)}</span>`).join('')}</div>
     </div>
 
     <div class="reco mt24">

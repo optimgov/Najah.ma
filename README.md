@@ -1,7 +1,7 @@
 # Najah.ma — Prototype frontend
 
-Portail d'orientation à trois portes, deux concours ouverts (CRMEF et Licences d'Éducation),
-test de niveau sans compte, espace candidat complet, trois univers visuels.
+Portail à trois portes. Deux concours ouverts dans la filière Métiers de l'éducation :
+Licences d'Éducation (après le bac) et CRMEF (après la licence).
 
 **Démo :** https://optimgov.github.io/Najah.ma/
 
@@ -15,12 +15,12 @@ git add -A && git commit -m "Mise à jour" && git push origin main
 
 ## Reconstruire après modification des sources
 ```bash
-node build.js
-cp dist/najah-prototype.html index.html
+node build.js && cp dist/najah-prototype.html index.html
 ```
 
-Sources dans `src/` :
-`styles.css` · `tokens.css` · `motion.css` · `icons.js` · `data.js` · `core.js` ·
-`views_home.js` · `views_public.js` · `views_app_a.js` · `views_app_b.js`
+## Contenu
+- `src/` — sources séparées : `styles.css` · `tokens.css` · `motion.css` · `icons.js` · `data.js` · `core.js` · `views_*.js`
+- `docs/PROMPT_EXPERTS_LICENCE_EDUCATION.md` — prompt de production pour les experts pédagogiques
+- `docs/NAJAH_INVENTAIRE_FONCTIONNALITES.md` — inventaire fonctionnel
 
 Contenu simulé, aucune donnée réelle de candidat.

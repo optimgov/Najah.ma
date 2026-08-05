@@ -12,6 +12,7 @@ const DATA = {};
 DATA.families = [
   {
     id: 'crmef', group: 'education', live: true,
+    entry: 'Après la licence',
     name: "CRMEF — Cycle de préparation à l'agrégation et à l'enseignement",
     short: 'CRMEF',
     tagline: "Centres régionaux des métiers de l'éducation et de la formation",
@@ -29,6 +30,7 @@ DATA.families = [
   },
   {
     id: 'inspection', group: 'education', live: false,
+    entry: 'Enseignant en poste',
     name: "Inspection de l'enseignement", short: 'Inspection', icon: 'compass',
     tagline: 'Concours de recrutement des inspecteurs pédagogiques',
     desc: "Accès au cycle de formation des inspecteurs. Épreuves d'expertise pédagogique, d'encadrement et de législation scolaire.",
@@ -36,6 +38,7 @@ DATA.families = [
   },
   {
     id: 'agregation', group: 'education', live: false,
+    entry: 'Après la licence ou en poste',
     name: "Agrégation", short: 'Agrégation', icon: 'book',
     tagline: 'Concours national d\'agrégation',
     desc: "Concours de haut niveau disciplinaire ouvrant l'accès aux classes préparatoires et au qualifiant.",
@@ -1024,19 +1027,19 @@ DATA.portals = [
   {
     id: 'education', icon: 'cap', live: true, program: 'crmef',
     name: "Métiers de l'éducation",
-    door: "Devenir enseignant, inspecteur ou agrégé",
-    examples: 'CRMEF · Inspection · Agrégation',
-    lede: "Préparez le concours d'accès aux CRMEF avec des corrections qui expliquent chacune de vos erreurs, un suivi par compétence et des examens blancs conformes au format réel.",
-    audience: "Pour les licenciés et les enseignants qui préparent un concours de l'Éducation nationale.",
-    families: ['crmef', 'inspection', 'agregation'],
+    door: "Du baccalauréat au concours d'inspection",
+    examples: "Licences d'Éducation · CRMEF · Inspection · Agrégation",
+    lede: "Deux concours ouverts : les Licences d'Éducation juste après le bac, et le CRMEF après la licence. Des corrections qui expliquent chacune de vos erreurs, un suivi par compétence et des épreuves blanches au format réel.",
+    audience: "Pour les bacheliers, les licenciés et les enseignants en poste qui visent un concours de l'Éducation nationale.",
+    families: ['licence-education', 'crmef', 'inspection', 'agregation'],
     stats: [
-      { k: 'Questions publiées', v: '800' },
-      { k: 'Annales corrigées', v: '8' },
-      { k: 'Compétences suivies', v: '14' },
-      { k: 'Spécialités ouvertes', v: '2' }
+      { k: 'Concours ouverts', v: '2' },
+      { k: 'Questions publiées', v: '1 440' },
+      { k: 'Compétences suivies', v: '23' },
+      { k: 'Spécialités ouvertes', v: '4' }
     ],
     free: [
-      { icon: 'target', t: 'Testez votre niveau en 10 questions', d: "Sans compte, sans carte bancaire. Vous obtenez un résultat par compétence, pas seulement un score.", cta: 'Commencer le test', route: '#/essai/education', primary: true },
+      { icon: 'target', t: 'Testez votre niveau en 10 questions', d: "Sans compte, sans carte bancaire. Choisissez votre concours — Licence d'Éducation ou CRMEF — et obtenez un résultat par compétence, pas seulement un score.", cta: 'Commencer le test', route: '#/essai/education', primary: true },
       { icon: 'file', t: 'Annales corrigées', d: "Les sujets des sessions passées, avec corrigé, source identifiée et année.", cta: 'Consulter les annales', route: '#/annales' },
       { icon: 'book', t: 'Fiches et méthodes', d: "Législation, didactique, méthodologie de l'oral. Rédigées par des formateurs, sourcées.", cta: 'Lire les fiches', route: '#/ressources' },
       { icon: 'calendar', t: 'Calendrier des concours', d: "Dates d'inscription, épreuves et résultats, avec la source de chaque annonce.", cta: 'Voir le calendrier', route: '#/calendrier' }
@@ -1055,13 +1058,13 @@ DATA.portals = [
     ]
   },
   {
-    id: 'postbac', icon: 'route', live: true, program: 'le',
+    id: 'postbac', icon: 'stethoscope', live: false, program: 'crmef',
     name: 'Concours post-bac',
-    door: "Licences d'Éducation, médecine, ingénieur, commerce",
-    examples: "Licences d'Éducation · Médecine · ENSA · ENCG · IAV",
-    lede: "Le concours commun des Licences d'Éducation est ouvert : culture éducative, langues et raisonnement, avec chaque erreur expliquée et un suivi par compétence. Les autres concours post-bac arrivent.",
-    audience: "Pour les bacheliers, et particulièrement pour ceux qui envisagent d'enseigner.",
-    families: ['licence-education', 'medecine', 'ingenieur', 'commerce', 'iav'],
+    door: 'Médecine, ingénieur, commerce, agronomie',
+    examples: 'Médecine · ENSA · ENCG · ISCAE · IAV',
+    lede: "Préparation aux concours d'accès aux facultés de médecine, aux écoles d'ingénieurs, de commerce et à l'agronomie.",
+    audience: "Pour les bacheliers et les étudiants en classes préparatoires. Vous visez l'enseignement ? Les Licences d'Éducation se trouvent dans la filière Métiers de l'éducation.",
+    families: ['medecine', 'ingenieur', 'commerce', 'iav'],
     stats: [
       { k: 'Questions publiées', v: '640' },
       { k: 'Compétences suivies', v: '9' },
@@ -1076,15 +1079,14 @@ DATA.portals = [
     ],
     proof: 'L011',
     planWords: {
-      free: ['Test de niveau complet', '10 questions par jour', 'Aperçu de votre profil de compétences', 'Mini-épreuve blanche', 'Sujets sélectionnés'],
-      premium: ["640 questions du concours commun, chaque distracteur justifié", 'Sujets des sessions passées corrigés', 'Séries ciblées sur vos points faibles', 'Épreuves blanches chronométrées au format réel', "Carnet d'erreurs et suivi par compétence"],
-      annual: ['Tout le contenu Premium', "Accès garanti jusqu'après les entretiens", 'Deux mois offerts', 'Priorité sur les nouvelles spécialités']
+      free: ['Test de niveau complet', '10 questions par jour', 'Aperçu de votre profil', 'Mini-simulateur', 'Annales sélectionnées'],
+      premium: ['Banque complète de sciences fondamentales', 'Chaque distracteur justifié', 'Séries ciblées', 'Concours blancs chronométrés', "Carnet d'erreurs"],
+      annual: ['Tout le contenu Premium', "Accès garanti jusqu'aux concours", 'Deux mois offerts', 'Priorité sur les nouvelles filières']
     },
     faq: [
-      ["À quoi mène une Licence d'Éducation ?", "À une licence professionnalisante en trois ans, orientée vers l'enseignement, qui prépare aux concours de recrutement du ministère. La filière ne garantit pas un poste : elle prépare au métier et aux concours qui y donnent accès."],
-      ["Quelles spécialités sont ouvertes sur Najah.ma ?", "L'enseignement primaire polyvalent et l'enseignement secondaire Français. Les autres spécialités ouvrent après validation de leur contenu par des formateurs, comme pour toutes nos filières."],
-      ["Le concours est-il le même dans toutes les universités ?", "Le tronc des épreuves est commun, mais chaque université publie ses modalités et son calendrier propres. Nos fiches signalent ce qui varie ; vérifiez toujours l'annonce de votre université."],
-      ["Et les autres concours post-bac ?", "Médecine, ENSA, ENCG et IAV sont annoncés mais pas encore ouverts. Inscrivez-vous à la liste d'attente depuis leur fiche pour être prévenu."]
+      ["Quand ouvrez-vous cette filière ?", "Nous ouvrons un concours seulement lorsque son contenu atteint notre seuil de qualité éditoriale : chaque question relue deux fois, chaque distracteur justifié, chaque source vérifiée. L'inscription à la liste d'attente vous prévient dès l'ouverture."],
+      ["Je veux devenir enseignant, dois-je attendre ?", "Non. Le concours commun des Licences d'Éducation, accessible juste après le bac, est déjà ouvert dans la filière Métiers de l'éducation."],
+      ["Puis-je déjà utiliser la plateforme ?", "Le calendrier et les fiches méthodologiques sont accessibles. Les banques de questions post-bac sont en cours de constitution."]
     ]
   },
   {
@@ -1390,8 +1392,8 @@ DATA.questions.push(
 /* ------------------------------------------------------------------ */
 /* Familles ajoutées — filière post-bac                               */
 /* ------------------------------------------------------------------ */
-DATA.families.splice(DATA.families.findIndex(f => f.id === 'medecine'), 0, {
-  id: 'licence-education', group: 'postbac', live: true, prog: 'le',
+DATA.families.splice(DATA.families.findIndex(f => f.id === 'crmef'), 0, {
+  id: 'licence-education', group: 'education', live: true, prog: 'le', entry: 'Après le baccalauréat',
   name: "Licences d'Éducation — concours commun post-bac",
   short: "Licences d'Éducation",
   tagline: "Devenir enseignant en commençant dès le baccalauréat",
