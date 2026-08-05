@@ -357,7 +357,12 @@ html[dir="rtl"] .qstem .ctx { border-radius: var(--r-sm) 0 0 var(--r-sm); }
 .rat-key.ok { background: var(--good); color: #fff; }
 .rat-key.no { background: var(--surface-3); color: var(--ink-2); border: 1px solid var(--line-strong); }
 .rat-item p { margin: 0; font-size: .93rem; color: var(--ink-2); line-height: 1.65; }
-.rat-trap { margin-top: 9px; display: flex; gap: 9px; align-items: flex-start; background: var(--warn-bg); border-radius: var(--r-sm); padding: 9px 12px; font-size: .87rem; color: var(--ink); }
+.rat-trap { margin-top: 11px; display: flex; gap: 10px; align-items: flex-start;
+  background: var(--sem-trap-wash); border-inline-start: 3px solid var(--sem-trap);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0; padding: 11px 14px; font-size: .87rem; color: var(--ink); }
+html[dir="rtl"] .rat-trap { border-radius: var(--r-sm) 0 0 var(--r-sm); }
+.rat-trap > span:first-child { color: var(--sem-trap); }
+.rat-trap b { color: var(--sem-trap); }
 .rat-source { margin-top: 14px; padding: 12px 14px; background: var(--surface-3); border-radius: var(--r); font-size: .84rem; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 6px 18px; }
 .rat-source b { color: var(--ink); font-weight: 650; }
 
@@ -396,7 +401,10 @@ html[dir="rtl"] .qstem .ctx { border-radius: var(--r-sm) 0 0 var(--r-sm); }
 
 /* ---- Recommandation ---- */
 .reco { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 17px 19px; background: var(--surface-2); display: flex; gap: 15px; align-items: flex-start; }
-.reco .icon { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; background: var(--brand-100); font-size: 1.1rem; flex: none; }
+.reco { border-inline-start: 3px solid var(--sem-remedy); }
+html[dir="rtl"] .reco { border-radius: var(--r-lg) 0 0 var(--r-lg); }
+.reco .icon { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center;
+  background: var(--sem-remedy-wash); color: var(--sem-remedy); flex: none; }
 .reco h4 { margin: 0 0 4px; font-size: 1rem; }
 .reco .why { margin-top: 11px; border-block-start: 1px dashed var(--line); padding-top: 11px; font-size: .87rem; color: var(--ink-2); }
 .reco .why b { color: var(--ink); }
@@ -444,9 +452,14 @@ html[dir="rtl"] .qstem .ctx { border-radius: var(--r-sm) 0 0 var(--r-sm); }
 .cert .meta div b { font-size: .96rem; font-variant-numeric: tabular-nums; }
 .qrbox { width: 92px; height: 92px; background: #fff; border-radius: var(--r); padding: 7px; flex: none; }
 
-.disclaimer { border: 1px solid var(--warn); background: var(--warn-bg); border-radius: var(--r); padding: 13px 16px; font-size: .87rem; display: flex; gap: 11px; align-items: flex-start; }
-.disclaimer b { color: var(--warn-ink); }
-:root[data-theme="dark"] .disclaimer b { color: var(--warn); }
+.disclaimer { border: 1px solid var(--sem-system); background: var(--sem-system-wash); border-radius: var(--r);
+  padding: 13px 16px; font-size: .87rem; display: flex; gap: 11px; align-items: flex-start; }
+.disclaimer b { color: var(--sem-system); }
+.disclaimer > span:first-child { color: var(--sem-system); flex: none; }
+/* Variante pédagogique : information, pas alerte */
+.disclaimer.info { border-color: var(--brand-300); background: var(--brand-50); }
+.disclaimer.info b, .disclaimer.info > span:first-child { color: var(--brand-700); }
+:root[data-theme="dark"] .disclaimer.info b { color: var(--brand-300); }
 
 /* ---- Mur payant ---- */
 .paywall { border: 1.5px dashed var(--brand-300); background: var(--brand-50); border-radius: var(--r-lg); padding: 26px; text-align: center; }
@@ -855,6 +868,225 @@ html.js-anim .rise.seen { opacity: 1; transform: none; }
 .step5 .sico { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center;
   background: var(--brand-100); color: var(--brand-700); margin-bottom: 12px; position: relative; }
 :root[data-theme="dark"] .step5 .sico { color: var(--brand-300); }
+
+/* =========================================================================
+   NAJAH.ma — Jetons de conception et univers visuels
+   Source unique des valeurs. Aucune couleur ne doit être écrite en dur ailleurs.
+
+   Trois univers, un par intention :
+     public  — acquisition : éditorial, chaleureux, on doit avoir envie
+     learn   — apprentissage : guidé, lisible, la lecture prime sur la densité
+     exam    — examen : dépouillé, l'interface doit disparaître
+   L'univers est posé par le routeur sur <html data-u="…">.
+   ========================================================================= */
+
+:root {
+  /* ---- Sémantique de couleur : un rôle, pas une teinte ----------------
+     Une couleur ne porte JAMAIS le sens seule. Chaque rôle ci-dessous
+     s'accompagne obligatoirement d'une icône et d'un libellé.
+     Mesuré : terre cuite et rouge critique ne peuvent pas être séparés
+     par la teinte (ΔE maximal atteignable 13,7 pour un seuil de 15).
+     La distinction passe donc par le pictogramme et le mot.
+     ------------------------------------------------------------------ */
+  --sem-correct:      #0ca30c;   /* bonne réponse — icône ✓ + « Correcte » */
+  --sem-wrong:        #d03b3b;   /* réponse fausse du candidat — icône ✕ + « Votre réponse » */
+  --sem-trap:         #b8501f;   /* piège pédagogique — icône drapeau + « Piège fréquent » */
+  --sem-trap-wash:    #fbeade;
+  --sem-remedy:       #b87f0c;   /* remédiation et échéance — 3,10:1 sur ivoire */
+  --sem-remedy-wash:  #fcf3dc;
+  --sem-system:       #a81226;   /* erreur système et portée juridique — icône bouclier */
+  --sem-system-wash:  #fbe7e9;
+  --sem-neutral:      #7d8073;
+
+  /* ---- Rythme d'espacement ---- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 88px;
+
+  /* ---- Densité : réglée par univers ---- */
+  --density: 1;
+  --card-pad: 20px;
+  --section-gap: 60px;
+  --read-width: 68ch;
+}
+
+:root[data-theme="dark"] {
+  --sem-trap-wash:   #3a2115;
+  --sem-remedy-wash: #38290c;
+  --sem-system-wash: #3a1418;
+  --sem-trap:        #e0793f;
+  --sem-remedy:      #d99a16;
+  --sem-system:      #e05c6a;
+}
+
+/* =========================================================================
+   UNIVERS 1 — ACQUISITION PUBLIQUE (E01 à E15)
+   Éditorial et chaleureux. C'est le seul endroit où l'on a le droit
+   de séduire : grands aplats, motif, profondeur, mouvement.
+   ========================================================================= */
+:root[data-u="public"] {
+  --page:      #f7f6f2;
+  --surface:   #fbfaf8;
+  --surface-2: #ffffff;
+  --surface-3: #f1efe9;
+  --section-gap: 60px;
+  --card-pad: 22px;
+}
+
+/* =========================================================================
+   UNIVERS 2 — APPRENTISSAGE (E16 à E27, E31 à E36)
+   Ivoire chaud, moins de bordures, davantage de contraste de surface.
+   La carte encadrée devient l'exception, la bande devient la règle.
+   ========================================================================= */
+:root[data-u="learn"] {
+  --page:      #f7f2e9;   /* ivoire chaud */
+  --surface:   #fbf7f0;
+  --surface-2: #ffffff;
+  --surface-3: #f0e9dc;
+  --line:      #e6ddcc;
+  --line-strong: #d2c6ae;
+  --section-gap: 40px;
+  --card-pad: 22px;
+  --read-width: 74ch;
+}
+:root[data-u="learn"][data-theme="dark"] {
+  --page: #15130f; --surface: #1b1813; --surface-2: #211d17; --surface-3: #2a251d;
+  --line: #332c22; --line-strong: #443b2d;
+}
+
+/* La carte bordée cède la place au contraste de surface */
+:root[data-u="learn"] .card { border-color: transparent; box-shadow: var(--e2); }
+:root[data-u="learn"] .card-flat { background: var(--surface-3); box-shadow: none; }
+:root[data-u="learn"] .qcard { border-color: transparent; box-shadow: var(--e3); }
+:root[data-u="learn"] .stat { border-color: transparent; box-shadow: var(--e1); }
+
+/* Bandes de regroupement : structurer sans encadrer */
+.zone { padding: 22px 24px; border-radius: 20px; background: var(--surface); margin-bottom: 20px; }
+.zone > .zhead { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.zone > .zhead .zic { width: 30px; height: 30px; border-radius: 10px; display: grid; place-items: center;
+  background: var(--brand-100); color: var(--brand-700); flex: none; }
+.zone > .zhead b { font-size: .95rem; }
+.zone > .zhead span { font-size: .8rem; color: var(--ink-3); }
+
+/* Rail d'objectif : rappelle en permanence pourquoi on est là */
+.missionrail { display: flex; align-items: center; gap: 14px; padding: 13px 18px; border-radius: 16px;
+  background: linear-gradient(100deg, var(--brand-100), transparent 70%), var(--surface-2);
+  border: 1px solid var(--line); margin-bottom: 22px; }
+.missionrail .mric { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center;
+  background: var(--brand-700); color: #fff; flex: none; }
+.missionrail b { font-size: .92rem; display: block; }
+.missionrail span { font-size: .8rem; color: var(--ink-2); }
+
+/* =========================================================================
+   UNIVERS 3 — EXAMEN (E28 à E30, E34)
+   Neutre, silencieux, sans profondeur ni motif. L'interface s'efface
+   pour ne laisser que la question, le temps et la progression.
+   ========================================================================= */
+:root[data-u="exam"] {
+  --page:      #eef0f1;
+  --surface:   #f7f8f9;
+  --surface-2: #ffffff;
+  --surface-3: #eceef0;
+  --line:      #dcdfe2;
+  --line-strong: #c3c8cd;
+  --ink:       #15181a;
+  --ink-2:     #454b50;
+  --ink-3:     #767d83;
+  --e1: 0 1px 1px rgba(0,0,0,.04);
+  --e2: 0 1px 2px rgba(0,0,0,.05);
+  --e3: 0 1px 3px rgba(0,0,0,.06);
+  --e4: 0 2px 8px rgba(0,0,0,.08);
+  --card-pad: 26px;
+}
+:root[data-u="exam"][data-theme="dark"] {
+  --page: #0f1113; --surface: #16191c; --surface-2: #1c2023; --surface-3: #23272b;
+  --line: #2a2f34; --line-strong: #3a4046;
+}
+
+/* Aucun ornement en examen */
+:root[data-u="exam"] .zel { display: none !important; }
+:root[data-u="exam"] .card,
+:root[data-u="exam"] .qcard { box-shadow: none; border: 1px solid var(--line); }
+:root[data-u="exam"] .btn-primary { box-shadow: none; }
+:root[data-u="exam"] .badge-brand { background: var(--surface-3); color: var(--ink-2); }
+
+/* La question occupe le champ, plus grande et plus aérée */
+:root[data-u="exam"] .qstem { font-size: 1.16rem; line-height: 1.62; margin-bottom: 22px; }
+:root[data-u="exam"] .choice { padding: 16px 18px; }
+:root[data-u="exam"] .choice .t { font-size: 1.02rem; }
+:root[data-u="exam"] .appmain { max-width: 1120px; padding-top: 20px; }
+
+/* Mode concentration : la navigation latérale disparaît */
+.applayout.focus { grid-template-columns: minmax(0,1fr); background-image: none; }
+.applayout.focus .sidebar { display: none; }
+.exitfocus { display: inline-flex; align-items: center; gap: 7px; }
+
+/* Le chronomètre est le seul élément autorisé à attirer l'œil */
+:root[data-u="exam"] .timer { font-size: 1.15rem; padding: 7px 15px; letter-spacing: .01em; }
+:root[data-u="exam"] .timer.low { animation: none; }
+
+/* =========================================================================
+   NAJAH.ma — Mouvement
+   Une animation doit servir la compréhension. Si elle ne fait que décorer,
+   elle n'a rien à faire ici — et surtout pas pendant une épreuve.
+   ========================================================================= */
+
+:root {
+  --t-instant: 120ms;   /* retour immédiat : survol, sélection */
+  --t-quick:   180ms;   /* changement d'état visible */
+  --t-page:    220ms;   /* entrée d'écran */
+  --t-reveal:  300ms;   /* déploiement d'une correction */
+  --t-meter:   450ms;   /* remplissage d'une barre de maîtrise, une seule fois */
+  --ease:      cubic-bezier(.2, .7, .3, 1);
+  --ease-out:  cubic-bezier(.16, 1, .3, 1);
+}
+
+/* ---- Entrée d'écran : 8 px et un fondu, rien de plus ---- */
+@keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+html.js-anim #root > * { animation: pageIn var(--t-page) var(--ease-out) both; }
+
+/* ---- Déploiement d'une correction ---- */
+@keyframes revealIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+html.js-anim .rationale { animation: revealIn var(--t-reveal) var(--ease-out) both; }
+
+/* ---- Barre de maîtrise : animée une fois, à l'apparition ---- */
+.bar > span { transition: width var(--t-meter) var(--ease); }
+
+/* ---- Micro-validation : sobre, sans confettis ---- */
+@keyframes pulseOnce { 0% { transform: scale(1); } 40% { transform: scale(1.06); } 100% { transform: scale(1); } }
+html.js-anim .validated { animation: pulseOnce var(--t-quick) var(--ease); }
+
+/* ---- Question miroir : glissement latéral court, sens de lecture respecté ---- */
+@keyframes mirrorIn { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+@keyframes mirrorInRtl { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: none; } }
+html.js-anim .mirror-enter { animation: mirrorIn var(--t-quick) var(--ease-out) both; }
+html[dir="rtl"].js-anim .mirror-enter { animation-name: mirrorInRtl; }
+
+/* ---- Durées de base ---- */
+.btn, .chip, .choice, .card-hover, .lift { transition-duration: var(--t-instant); }
+
+/* =========================================================================
+   EXAMEN — aucune animation décorative, transitions sous 150 ms
+   ========================================================================= */
+:root[data-u="exam"] * ,
+:root[data-u="exam"] *::before,
+:root[data-u="exam"] *::after {
+  animation: none !important;
+  transition-duration: var(--t-instant) !important;
+}
+:root[data-u="exam"] .rise { opacity: 1 !important; transform: none !important; }
+
+/* =========================================================================
+   Respect du réglage système
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+  html.js-anim #root > * { animation: none; }
+}
 
 </style>
 </head>
@@ -2392,8 +2624,19 @@ function currentRoute() {
   return { path, parts, q: new URLSearchParams(qs || '') };
 }
 
+/* Univers visuel : déduit de la route et de l'état.
+   public = acquisition · learn = apprentissage · exam = épreuve en cours */
+function universeOf(r) {
+  const p = '/' + r.parts.join('/');
+  if (!p.startsWith('/app')) return 'public';
+  const inExam = (S.exam && !S.exam.submitted) || (S.cert && S.cert.running);
+  return inExam ? 'exam' : 'learn';
+}
+function isFocus() { return (S.exam && !S.exam.submitted) || (S.cert && S.cert.running); }
+
 function render() {
   const r = currentRoute();
+  document.documentElement.dataset.u = universeOf(r);
   const key = '/' + r.parts.join('/');
   let fn = ROUTES[key];
   if (!fn) {
@@ -2442,6 +2685,12 @@ function topbar(active) {
     ['#/ressources', T('nav_ressources'), 'ressources'],
     ['#/calendrier', T('nav_calendrier'), 'calendrier']
   ];
+  // En épreuve, la barre se réduit au strict nécessaire : rien ne doit détourner l'attention.
+  if (isFocus()) return `${demobar()}<header class="topbar"><div class="inner">
+    <span class="logo" dir="ltr"><span class="logo-mark">ن</span> Najah<em>.ma</em></span>
+    <span class="spacer"></span>
+    <span class="small muted">Épreuve en cours</span>
+  </div></header>`;
   return `${demobar()}<header class="topbar"><div class="inner">
     <a class="logo" href="#/" dir="ltr"><span class="logo-mark">ن</span> Najah<em>.ma</em></a>
     <nav class="navlinks">${links.map(([h, t, k]) => `<a href="${h}" class="${active === k ? 'on' : ''}">${esc(t)}</a>`).join('')}</nav>
@@ -2514,9 +2763,10 @@ function sidebar(active) {
 }
 
 function shellApp(html, active) {
-  return topbar() + `<div class="applayout">${sidebar(active)}
+  const focus = isFocus();
+  return topbar() + `<div class="applayout ${focus ? 'focus' : ''}">${focus ? '' : sidebar(active)}
     <main class="appmain">${html}</main></div>
-    <button class="btn btn-primary fab only-mobile" onclick="toggleSidebar()" aria-label="Ouvrir le menu">${icon('menu', 18)} Menu</button>`;
+    ${focus ? '' : `<button class="btn btn-primary fab only-mobile" onclick="toggleSidebar()" aria-label="Ouvrir le menu">${icon('menu', 18)} Menu</button>`}`;
 }
 
 function pagehead(title, sub, right) {
@@ -4014,6 +4264,7 @@ function examRun() {
   const answered = Object.keys(e.answers).length;
   return shellApp(`
     <div class="exambar">
+      <button class="btn btn-sm btn-quiet exitfocus" onclick="confirmQuitExam()">${icon('arrow', 15, 'ic-flip')} Quitter</button>
       <b class="small">${esc(bp.name)}</b>
       <span id="timer" class="timer ${e.left < 300 ? 'low' : ''}">${icon('timer',16)}<span class="tv">${mmss(e.left)}</span></span>
       <span class="saveind ${e.saving ? 'saving' : ''}"><span class="dot"></span>${esc(e.saving ? T('saving') : T('saved'))}</span>
@@ -4052,6 +4303,13 @@ function examRun() {
         </div>
       </div>
     </div>`, 'sim');
+}
+
+function confirmQuitExam() {
+  modal(`<h3>Quitter l'épreuve ?</h3>
+    <p class="small dim">Le chronomètre continue de tourner. Vos réponses sont conservées et vous pourrez reprendre là où vous vous êtes arrêté.</p>
+    <div class="row mt16" style="justify-content:flex-end"><button class="btn btn-quiet" onclick="closeModal()">Rester</button>
+    <button class="btn btn-primary" onclick="closeModal();navigate('#/app')">Quitter</button></div>`);
 }
 
 function examPick(qid, k) {
@@ -4102,7 +4360,7 @@ function examReport() {
       <div class="stat"><div class="k">Marquées</div><div class="v mono">${Object.values(e.flags).filter(Boolean).length}</div><div class="s">à revoir en priorité</div></div>
     </div>
 
-    <div class="disclaimer" style="margin-bottom:24px"><span>${icon('bulb', 17)}</span><div>
+    <div class="disclaimer info" style="margin-bottom:24px"><span>${icon('bulb', 17)}</span><div>
       <b>Ce rapport ne prédit rien.</b> Le seuil indiqué est un repère interne, pas un seuil officiel du concours. Nous n'affichons aucune probabilité de réussite : elle serait mal calibrée tant que nous n'avons pas relié nos résultats à ceux des sessions réelles.</div></div>
 
     <div class="grid" style="grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
@@ -4152,7 +4410,7 @@ route('/app/redaction', () => {
   if (!isPremium()) return shellApp(`${pagehead('Questions ouvertes')}${paywall("L'évaluation des questions rédigées")}`, 'open');
   return shellApp(`
     ${pagehead('Questions ouvertes', "Le QCM vérifie la reconnaissance. La rédaction vérifie la production — c'est ce que l'épreuve réelle demande.")}
-    <div class="disclaimer" style="margin-bottom:22px"><span>${icon('bulb', 17)}</span><div>
+    <div class="disclaimer info" style="margin-bottom:22px"><span>${icon('bulb', 17)}</span><div>
       <b>Correction automatique.</b> Ces copies sont évaluées par un modèle de langage contraint par une grille de critères, pas par un correcteur humain. L'évaluation est indicative : elle vous situe sur des critères explicites, elle ne remplace pas le jugement d'un jury.</div></div>
     <div class="col" style="gap:14px">
       ${DATA.openQuestions.map(o => `<div class="card">

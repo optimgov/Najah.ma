@@ -1,0 +1,154 @@
+/* =========================================================================
+   NAJAH.ma — Jetons de conception et univers visuels
+   Source unique des valeurs. Aucune couleur ne doit être écrite en dur ailleurs.
+
+   Trois univers, un par intention :
+     public  — acquisition : éditorial, chaleureux, on doit avoir envie
+     learn   — apprentissage : guidé, lisible, la lecture prime sur la densité
+     exam    — examen : dépouillé, l'interface doit disparaître
+   L'univers est posé par le routeur sur <html data-u="…">.
+   ========================================================================= */
+
+:root {
+  /* ---- Sémantique de couleur : un rôle, pas une teinte ----------------
+     Une couleur ne porte JAMAIS le sens seule. Chaque rôle ci-dessous
+     s'accompagne obligatoirement d'une icône et d'un libellé.
+     Mesuré : terre cuite et rouge critique ne peuvent pas être séparés
+     par la teinte (ΔE maximal atteignable 13,7 pour un seuil de 15).
+     La distinction passe donc par le pictogramme et le mot.
+     ------------------------------------------------------------------ */
+  --sem-correct:      #0ca30c;   /* bonne réponse — icône ✓ + « Correcte » */
+  --sem-wrong:        #d03b3b;   /* réponse fausse du candidat — icône ✕ + « Votre réponse » */
+  --sem-trap:         #b8501f;   /* piège pédagogique — icône drapeau + « Piège fréquent » */
+  --sem-trap-wash:    #fbeade;
+  --sem-remedy:       #b87f0c;   /* remédiation et échéance — 3,10:1 sur ivoire */
+  --sem-remedy-wash:  #fcf3dc;
+  --sem-system:       #a81226;   /* erreur système et portée juridique — icône bouclier */
+  --sem-system-wash:  #fbe7e9;
+  --sem-neutral:      #7d8073;
+
+  /* ---- Rythme d'espacement ---- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 88px;
+
+  /* ---- Densité : réglée par univers ---- */
+  --density: 1;
+  --card-pad: 20px;
+  --section-gap: 60px;
+  --read-width: 68ch;
+}
+
+:root[data-theme="dark"] {
+  --sem-trap-wash:   #3a2115;
+  --sem-remedy-wash: #38290c;
+  --sem-system-wash: #3a1418;
+  --sem-trap:        #e0793f;
+  --sem-remedy:      #d99a16;
+  --sem-system:      #e05c6a;
+}
+
+/* =========================================================================
+   UNIVERS 1 — ACQUISITION PUBLIQUE (E01 à E15)
+   Éditorial et chaleureux. C'est le seul endroit où l'on a le droit
+   de séduire : grands aplats, motif, profondeur, mouvement.
+   ========================================================================= */
+:root[data-u="public"] {
+  --page:      #f7f6f2;
+  --surface:   #fbfaf8;
+  --surface-2: #ffffff;
+  --surface-3: #f1efe9;
+  --section-gap: 60px;
+  --card-pad: 22px;
+}
+
+/* =========================================================================
+   UNIVERS 2 — APPRENTISSAGE (E16 à E27, E31 à E36)
+   Ivoire chaud, moins de bordures, davantage de contraste de surface.
+   La carte encadrée devient l'exception, la bande devient la règle.
+   ========================================================================= */
+:root[data-u="learn"] {
+  --page:      #f7f2e9;   /* ivoire chaud */
+  --surface:   #fbf7f0;
+  --surface-2: #ffffff;
+  --surface-3: #f0e9dc;
+  --line:      #e6ddcc;
+  --line-strong: #d2c6ae;
+  --section-gap: 40px;
+  --card-pad: 22px;
+  --read-width: 74ch;
+}
+:root[data-u="learn"][data-theme="dark"] {
+  --page: #15130f; --surface: #1b1813; --surface-2: #211d17; --surface-3: #2a251d;
+  --line: #332c22; --line-strong: #443b2d;
+}
+
+/* La carte bordée cède la place au contraste de surface */
+:root[data-u="learn"] .card { border-color: transparent; box-shadow: var(--e2); }
+:root[data-u="learn"] .card-flat { background: var(--surface-3); box-shadow: none; }
+:root[data-u="learn"] .qcard { border-color: transparent; box-shadow: var(--e3); }
+:root[data-u="learn"] .stat { border-color: transparent; box-shadow: var(--e1); }
+
+/* Bandes de regroupement : structurer sans encadrer */
+.zone { padding: 22px 24px; border-radius: 20px; background: var(--surface); margin-bottom: 20px; }
+.zone > .zhead { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.zone > .zhead .zic { width: 30px; height: 30px; border-radius: 10px; display: grid; place-items: center;
+  background: var(--brand-100); color: var(--brand-700); flex: none; }
+.zone > .zhead b { font-size: .95rem; }
+.zone > .zhead span { font-size: .8rem; color: var(--ink-3); }
+
+/* Rail d'objectif : rappelle en permanence pourquoi on est là */
+.missionrail { display: flex; align-items: center; gap: 14px; padding: 13px 18px; border-radius: 16px;
+  background: linear-gradient(100deg, var(--brand-100), transparent 70%), var(--surface-2);
+  border: 1px solid var(--line); margin-bottom: 22px; }
+.missionrail .mric { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center;
+  background: var(--brand-700); color: #fff; flex: none; }
+.missionrail b { font-size: .92rem; display: block; }
+.missionrail span { font-size: .8rem; color: var(--ink-2); }
+
+/* =========================================================================
+   UNIVERS 3 — EXAMEN (E28 à E30, E34)
+   Neutre, silencieux, sans profondeur ni motif. L'interface s'efface
+   pour ne laisser que la question, le temps et la progression.
+   ========================================================================= */
+:root[data-u="exam"] {
+  --page:      #eef0f1;
+  --surface:   #f7f8f9;
+  --surface-2: #ffffff;
+  --surface-3: #eceef0;
+  --line:      #dcdfe2;
+  --line-strong: #c3c8cd;
+  --ink:       #15181a;
+  --ink-2:     #454b50;
+  --ink-3:     #767d83;
+  --e1: 0 1px 1px rgba(0,0,0,.04);
+  --e2: 0 1px 2px rgba(0,0,0,.05);
+  --e3: 0 1px 3px rgba(0,0,0,.06);
+  --e4: 0 2px 8px rgba(0,0,0,.08);
+  --card-pad: 26px;
+}
+:root[data-u="exam"][data-theme="dark"] {
+  --page: #0f1113; --surface: #16191c; --surface-2: #1c2023; --surface-3: #23272b;
+  --line: #2a2f34; --line-strong: #3a4046;
+}
+
+/* Aucun ornement en examen */
+:root[data-u="exam"] .zel { display: none !important; }
+:root[data-u="exam"] .card,
+:root[data-u="exam"] .qcard { box-shadow: none; border: 1px solid var(--line); }
+:root[data-u="exam"] .btn-primary { box-shadow: none; }
+:root[data-u="exam"] .badge-brand { background: var(--surface-3); color: var(--ink-2); }
+
+/* La question occupe le champ, plus grande et plus aérée */
+:root[data-u="exam"] .qstem { font-size: 1.16rem; line-height: 1.62; margin-bottom: 22px; }
+:root[data-u="exam"] .choice { padding: 16px 18px; }
+:root[data-u="exam"] .choice .t { font-size: 1.02rem; }
+:root[data-u="exam"] .appmain { max-width: 1120px; padding-top: 20px; }
+
+/* Mode concentration : la navigation latérale disparaît */
+.applayout.focus { grid-template-columns: minmax(0,1fr); background-image: none; }
+.applayout.focus .sidebar { display: none; }
+.exitfocus { display: inline-flex; align-items: center; gap: 7px; }
+
+/* Le chronomètre est le seul élément autorisé à attirer l'œil */
+:root[data-u="exam"] .timer { font-size: 1.15rem; padding: 7px 15px; letter-spacing: .01em; }
+:root[data-u="exam"] .timer.low { animation: none; }

@@ -1,6 +1,6 @@
 # Najah.ma — Prototype frontend
 
-**Version 3 · 4 août 2026 · Aucune installation requise**
+**Version 4 · 4 août 2026 · Aucune installation requise**
 
 ---
 
@@ -43,6 +43,22 @@ La direction retenue est **éditoriale premium à identité marocaine**, plutôt
 - **La méthode N.A.J.A.H.** rendue visible en cinq étapes, reprise du document fonctionnel.
 - **Preuve sociale** : compteurs, témoignages, marqueurs de crédibilité.
 - **Animations d'apparition** au défilement, désactivées automatiquement si le système demande de réduire les animations. L'état masqué n'est appliqué que si le script confirme pouvoir le lever : sans JavaScript, tout reste visible.
+
+## Ce qui change en version 4 : trois univers visuels
+
+Le défaut de la v3 n'était pas la palette, c'était l'uniformité : le même système appliqué à 36 écrans très différents. L'interface distingue désormais trois intentions.
+
+| Univers | Écrans | Traitement |
+|---|---|---|
+| **Acquisition** | Portail, portes, catalogue, essai | Éditorial et chaleureux. Motif, profondeur, mouvement — c'est le seul endroit où l'on a le droit de séduire. |
+| **Apprentissage** | Espace candidat, entraînement, coach, progression | Ivoire chaud, bordures effacées au profit du contraste de surface. La lecture prime sur la densité. |
+| **Examen** | Simulateur en cours, épreuve certifiante | Neutre et silencieux. Navigation latérale masquée, barre supérieure réduite, aucun ornement, aucune animation. L'interface disparaît. |
+
+L'univers est déduit automatiquement de la route et de l'état : entrer en épreuve bascule toute l'interface.
+
+**Sémantique de couleur.** Un rôle par couleur, jamais porté seul : bonne réponse, réponse fausse, piège pédagogique, action de remédiation, avertissement système. Deux corrections mesurées par rapport à la proposition initiale — le safran a été assombri pour atteindre 3,10:1 sur l'ivoire, et la distinction piège/erreur passe par l'icône et le libellé, la mesure ayant montré qu'aucune teinte de terre cuite ne peut s'éloigner suffisamment du rouge.
+
+**Deux nouveaux fichiers source.** `tokens.css` rassemble toutes les valeurs de conception et les trois univers ; `motion.css` définit les durées autorisées et supprime toute animation en mode examen. Plus aucune couleur n'est écrite en dur ailleurs.
 
 ## La barre de démonstration
 

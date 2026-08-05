@@ -15,6 +15,8 @@ const html = `<!DOCTYPE html>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%230b6b57'/><text x='16' y='23' font-size='18' text-anchor='middle' fill='white' font-family='sans-serif'>%D9%86</text></svg>">
 <style>
 ${p('styles.css')}
+${p('tokens.css')}
+${p('motion.css')}
 </style>
 </head>
 <body>

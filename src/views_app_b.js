@@ -83,6 +83,7 @@ function examRun() {
   const answered = Object.keys(e.answers).length;
   return shellApp(`
     <div class="exambar">
+      <button class="btn btn-sm btn-quiet exitfocus" onclick="confirmQuitExam()">${icon('arrow', 15, 'ic-flip')} Quitter</button>
       <b class="small">${esc(bp.name)}</b>
       <span id="timer" class="timer ${e.left < 300 ? 'low' : ''}">${icon('timer',16)}<span class="tv">${mmss(e.left)}</span></span>
       <span class="saveind ${e.saving ? 'saving' : ''}"><span class="dot"></span>${esc(e.saving ? T('saving') : T('saved'))}</span>
@@ -121,6 +122,13 @@ function examRun() {
         </div>
       </div>
     </div>`, 'sim');
+}
+
+function confirmQuitExam() {
+  modal(`<h3>Quitter l'épreuve ?</h3>
+    <p class="small dim">Le chronomètre continue de tourner. Vos réponses sont conservées et vous pourrez reprendre là où vous vous êtes arrêté.</p>
+    <div class="row mt16" style="justify-content:flex-end"><button class="btn btn-quiet" onclick="closeModal()">Rester</button>
+    <button class="btn btn-primary" onclick="closeModal();navigate('#/app')">Quitter</button></div>`);
 }
 
 function examPick(qid, k) {
@@ -171,7 +179,7 @@ function examReport() {
       <div class="stat"><div class="k">Marquées</div><div class="v mono">${Object.values(e.flags).filter(Boolean).length}</div><div class="s">à revoir en priorité</div></div>
     </div>
 
-    <div class="disclaimer" style="margin-bottom:24px"><span>${icon('bulb', 17)}</span><div>
+    <div class="disclaimer info" style="margin-bottom:24px"><span>${icon('bulb', 17)}</span><div>
       <b>Ce rapport ne prédit rien.</b> Le seuil indiqué est un repère interne, pas un seuil officiel du concours. Nous n'affichons aucune probabilité de réussite : elle serait mal calibrée tant que nous n'avons pas relié nos résultats à ceux des sessions réelles.</div></div>
 
     <div class="grid" style="grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
@@ -221,7 +229,7 @@ route('/app/redaction', () => {
   if (!isPremium()) return shellApp(`${pagehead('Questions ouvertes')}${paywall("L'évaluation des questions rédigées")}`, 'open');
   return shellApp(`
     ${pagehead('Questions ouvertes', "Le QCM vérifie la reconnaissance. La rédaction vérifie la production — c'est ce que l'épreuve réelle demande.")}
-    <div class="disclaimer" style="margin-bottom:22px"><span>${icon('bulb', 17)}</span><div>
+    <div class="disclaimer info" style="margin-bottom:22px"><span>${icon('bulb', 17)}</span><div>
       <b>Correction automatique.</b> Ces copies sont évaluées par un modèle de langage contraint par une grille de critères, pas par un correcteur humain. L'évaluation est indicative : elle vous situe sur des critères explicites, elle ne remplace pas le jugement d'un jury.</div></div>
     <div class="col" style="gap:14px">
       ${DATA.openQuestions.map(o => `<div class="card">

@@ -328,8 +328,19 @@ function currentRoute() {
   return { path, parts, q: new URLSearchParams(qs || '') };
 }
 
+/* Univers visuel : déduit de la route et de l'état.
+   public = acquisition · learn = apprentissage · exam = épreuve en cours */
+function universeOf(r) {
+  const p = '/' + r.parts.join('/');
+  if (!p.startsWith('/app')) return 'public';
+  const inExam = (S.exam && !S.exam.submitted) || (S.cert && S.cert.running);
+  return inExam ? 'exam' : 'learn';
+}
+function isFocus() { return (S.exam && !S.exam.submitted) || (S.cert && S.cert.running); }
+
 function render() {
   const r = currentRoute();
+  document.documentElement.dataset.u = universeOf(r);
   const key = '/' + r.parts.join('/');
   let fn = ROUTES[key];
   if (!fn) {
@@ -378,6 +389,12 @@ function topbar(active) {
     ['#/ressources', T('nav_ressources'), 'ressources'],
     ['#/calendrier', T('nav_calendrier'), 'calendrier']
   ];
+  // En épreuve, la barre se réduit au strict nécessaire : rien ne doit détourner l'attention.
+  if (isFocus()) return `${demobar()}<header class="topbar"><div class="inner">
+    <span class="logo" dir="ltr"><span class="logo-mark">ن</span> Najah<em>.ma</em></span>
+    <span class="spacer"></span>
+    <span class="small muted">Épreuve en cours</span>
+  </div></header>`;
   return `${demobar()}<header class="topbar"><div class="inner">
     <a class="logo" href="#/" dir="ltr"><span class="logo-mark">ن</span> Najah<em>.ma</em></a>
     <nav class="navlinks">${links.map(([h, t, k]) => `<a href="${h}" class="${active === k ? 'on' : ''}">${esc(t)}</a>`).join('')}</nav>
@@ -450,9 +467,10 @@ function sidebar(active) {
 }
 
 function shellApp(html, active) {
-  return topbar() + `<div class="applayout">${sidebar(active)}
+  const focus = isFocus();
+  return topbar() + `<div class="applayout ${focus ? 'focus' : ''}">${focus ? '' : sidebar(active)}
     <main class="appmain">${html}</main></div>
-    <button class="btn btn-primary fab only-mobile" onclick="toggleSidebar()" aria-label="Ouvrir le menu">${icon('menu', 18)} Menu</button>`;
+    ${focus ? '' : `<button class="btn btn-primary fab only-mobile" onclick="toggleSidebar()" aria-label="Ouvrir le menu">${icon('menu', 18)} Menu</button>`}`;
 }
 
 function pagehead(title, sub, right) {
